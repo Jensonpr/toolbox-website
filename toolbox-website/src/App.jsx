@@ -683,7 +683,7 @@ function LandingPage({ setPage }) {
             <span style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em" }}>Founding 500 — Limited spots</span>
           </div>
 
-          <h1 style={{ fontSize: "clamp(2.6rem, 10vw, 5rem)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-0.04em", marginBottom: 20 }}>
+          <h1 style={{ fontSize: "clamp(2.6rem, 10vw, 5rem)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-0.04em", marginBottom: 20, color: "#fff" }}>
             Stop paying full<br />price on site<span style={{ color: "#5ba4cf" }}>.</span>
           </h1>
 
@@ -930,7 +930,7 @@ export default function App() {
   return (
     <>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { overflow-x: hidden; background: #0d1f4e; color: #fff; }
         body { background: #0d1f4e; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
