@@ -162,7 +162,7 @@ function Footer({ setPage }) {
 function LegalPage({ title, setPage, children }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden", position: "relative" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
@@ -295,7 +295,7 @@ function VendorPage({ setPage }) {
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", boxSizing: "border-box" };
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid #f1f5f9", height: 72, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, color: "#0d1f4e", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>
@@ -389,7 +389,7 @@ function ContactPage({ setPage }) {
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box" };
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden", position: "relative" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
@@ -643,7 +643,7 @@ function LandingPage({ setPage }) {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden", position: "relative" }}>
       {showModal && <WaitlistModal onClose={() => setShowModal(false)} />}
 
       {/* Nav */}
@@ -684,7 +684,7 @@ function LandingPage({ setPage }) {
           </div>
 
           <h1 style={{ fontSize: "clamp(2.6rem, 10vw, 5rem)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-0.04em", marginBottom: 20, color: "#fff" }}>
-            Stop paying full<br />price on site<span style={{ color: "#5ba4cf" }}>.</span>
+            Stop paying<br />full price<br />on site<span style={{ color: "#5ba4cf" }}>.</span>
           </h1>
 
           <p style={{ fontSize: "clamp(0.95rem, 3.5vw, 1.15rem)", color: "rgba(255,255,255,0.6)", fontWeight: 500, lineHeight: 1.65, marginBottom: 32, maxWidth: 440, margin: "0 auto 32px" }}>
@@ -772,14 +772,19 @@ function LandingPage({ setPage }) {
 
         {/* Vendors */}
         <div id="vendors" style={{ scrollMarginTop: 80 }}>
-          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <div>
-              <h3 style={{ fontSize: "1.3rem", fontWeight: 900, color: "#0d1f4e" }}>Our Partnered Vendors</h3>
-              <p style={{ fontSize: 13, color: "rgba(13,31,78,0.4)", fontWeight: 700, marginTop: 4 }}>25+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(13,31,78,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em" }}>
-              <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
-              Live Network Updates
+          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px 48px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+              <div>
+                <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 12, marginBottom: 12 }}>Our Network</p>
+                <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 0.9 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
+              </div>
+              <div>
+                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>25+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(13,31,78,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end" }}>
+                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
+                  Live Network Updates
+                </div>
+              </div>
             </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 24, position: "relative" }}>
@@ -852,7 +857,7 @@ function LandingPage({ setPage }) {
               <span style={{ color: "#5ba4cf" }}>Real Tradies. Real Savings.</span>
             </h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
             {TESTIMONIALS.map((t, i) => (
               <div key={i} style={{ background: "#f8fafc", padding: 40, borderRadius: 40,  display: "flex", flexDirection: "column", justifyContent: "space-between", transition: "all 0.3s" }}
                 onMouseOver={e => { e.currentTarget.style.transform = "translateY(-8px)"; e.currentTarget.style.boxShadow = "0 24px 48px rgba(0,0,0,0.08)"; }}
@@ -930,7 +935,7 @@ export default function App() {
   return (
     <>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; } #root { width: 100%; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; } #root { width: 100%; background: #0d1f4e; }
         body { background: #0d1f4e; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
