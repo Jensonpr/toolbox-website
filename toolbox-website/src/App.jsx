@@ -90,7 +90,7 @@ function Footer({ setPage }) {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "32px", marginBottom: "48px" }}>
           <div>
-            <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 40, marginBottom: 24, filter: "brightness(200%)" }} />
+            <img src={LOGO} alt="The ToolBox" style={{ height: 36, marginBottom: 24, filter: "brightness(0) invert(1)" }} />
             <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, lineHeight: 1.7, maxWidth: 280 }}>
               Australia's first discount membership app built exclusively for tradies. Reclaiming value for the legends rebuilding the country.
             </p>
@@ -373,7 +373,7 @@ function VendorPage({ setPage }) {
       </section>
       <footer style={{ background: "#0d1f4e", padding: "40px 0" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 32, filter: "grayscale(1) brightness(200%)", opacity: 0.3 }} />
+          <img src={LOGO} alt="The ToolBox" style={{ height: 32, filter: "brightness(0) invert(1)", opacity: 0.3 }} />
           <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>
             &copy; {new Date().getFullYear()} The ToolBox App Pty Ltd. Built for tradies.
           </p>
@@ -650,7 +650,7 @@ function LandingPage({ setPage }) {
       <nav style={navStyle}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
-            <img src={LOGO} alt="The ToolBox" style={{ height: 40, objectFit: "contain", display: "block" }} />
+            <img src={LOGO} alt="The ToolBox" style={{ height: 36, objectFit: "contain", display: "block", filter: "brightness(0) invert(1)" }} />
             <div className="desktop-nav" style={{ display: "flex", gap: 32, fontSize: 14, fontWeight: 900 }}>
               {[["How it works", "#about"], ["Vendors", "#vendors"], ["Pricing", "#pricing"], ["FAQ", "#faq"]].map(([label, href]) => (
                 <a key={label} href={href} style={{ color: "#fff", textDecoration: "none", transition: "color 0.2s" }}
@@ -744,7 +744,7 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* Mission + Vendors */}
-      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden" }}>
+      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", marginTop: 0, display: "block" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Mission</p>
@@ -848,8 +848,8 @@ function LandingPage({ setPage }) {
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>The word on site</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#fff" }}>
-              Real Tradies<span style={{ color: "#5ba4cf" }}>.</span> Real Savings<span style={{ color: "#5ba4cf" }}>.</span>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#0d1f4e" }}>
+              <span style={{ color: "#5ba4cf" }}>Real Tradies. Real Savings.</span>
             </h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
@@ -874,11 +874,11 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* FAQ */}
-      <section id="faq" style={{ background: "#fff", padding: "96px 0", scrollMarginTop: 80 }}>
+      <section id="faq" style={{ background: "#fff", padding: "96px 0 96px", margin: 0, scrollMarginTop: 80 }}>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#fff" }}>
-              Got questions<span style={{ color: "#5ba4cf" }}>?</span>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#0d1f4e" }}>
+              <span style={{ color: "#5ba4cf" }}>Got questions?</span>
             </h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
