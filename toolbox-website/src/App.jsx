@@ -74,8 +74,7 @@ function Marquee({ items, reverse = false, speed = 80 }) {
             flexShrink: 0,
           }}>
             <img src={v.logo} alt={v.name} referrerPolicy="no-referrer"
-              style={{ height: "64px", width: "auto", objectFit: "contain", mixBlendMode: "multiply",
-                transform: v.scale ? `scale(${v.scale})` : "none" }} />
+              style={{ height: "56px", width: "140px", objectFit: "contain", mixBlendMode: "multiply" }} />
           </div>
         ))}
       </div>
@@ -580,7 +579,7 @@ function WaitlistModal({ onClose }) {
           </div>
         ) : (
           <>
-            <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 12 }}>Founding 500 — Spots filling fast</p>
+            <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 12 }}>Founding 500 - Spots filling fast</p>
             <h3 style={{ fontSize: "1.8rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: 10 }}>
               Lock in your price.<br />Forever.
             </h3>
@@ -668,7 +667,7 @@ function LandingPage({ setPage }) {
         </div>
       </nav>
 
-      {/* Hero — Signup */}
+      {/* Hero - Signup */}
       <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "#0d1f4e" }}>
         <div style={{ position: "absolute", inset: 0 }}>
           <img src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=1920&q=80"
@@ -680,15 +679,15 @@ function LandingPage({ setPage }) {
 
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.25)", borderRadius: 100, padding: "7px 16px", marginBottom: 28 }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#5ba4cf", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
-            <span style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em" }}>Founding 500 — Limited spots</span>
+            <span style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em" }}>Founding 500 - Limited spots</span>
           </div>
 
-          <h1 style={{ fontSize: "clamp(2.6rem, 10vw, 5rem)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-0.04em", marginBottom: 20, color: "#fff" }}>
+          <h1 style={{ fontSize: "clamp(3.5rem, 11vw, 7rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
             Stop paying<br />full price<br />on site<span style={{ color: "#5ba4cf" }}>.</span>
           </h1>
 
           <p style={{ fontSize: "clamp(0.95rem, 3.5vw, 1.15rem)", color: "rgba(255,255,255,0.6)", fontWeight: 500, lineHeight: 1.65, marginBottom: 32, maxWidth: 440, margin: "0 auto 32px" }}>
-            Australia's first discount membership app for tradies. Tools, workwear, supplements and more — $4.99 a month, locked in forever for Founding 500 members.
+            Australia's first discount membership app for tradies. Tools, workwear, supplements and more - $4.99 a month, locked in forever for Founding 500 members.
           </p>
 
           <WaitlistInline />
@@ -744,7 +743,7 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* Mission + Vendors */}
-      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden" }}>
+      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100%" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Mission</p>
@@ -752,7 +751,7 @@ function LandingPage({ setPage }) {
               Built by the trade<span style={{ color: "#5ba4cf" }}>,</span><br /> for the trade<span style={{ color: "#5ba4cf" }}>.</span>
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: "1.1rem", color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.7, maxWidth: 480 }}>
-              <p>The ToolBox wasn't born in a boardroom — it was born on site. We got sick of seeing everyone else get the perks while the ones doing the hard yards got the short end of the stick.</p>
+              <p>The ToolBox wasn't born in a boardroom - it was born on site. We got sick of seeing everyone else get the perks while the ones doing the hard yards got the short end of the stick.</p>
               <p>We built this app to level the playing field.</p>
             </div>
           </div>
@@ -802,7 +801,7 @@ function LandingPage({ setPage }) {
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff" }}>Pick your plan.</h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>Join the waitlist now — Founding 500 members lock in this price forever.</p>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>Join the waitlist now - Founding 500 members lock in this price forever.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 960, margin: "0 auto" }}>
             {[
@@ -892,8 +891,8 @@ function LandingPage({ setPage }) {
               { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
               { q: "Which brands are included?", a: "We have 25+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
               { q: "Can I use it anywhere in Australia?", a: "Currently we are focused on Victoria-based vendors and legends, but we are expanding rapidly to other states very soon. Stay tuned!" },
-              { q: "When is the Android version coming?", a: "We launched on iOS first to get the product right. Android is on the roadmap and will be announced to our waitlist first — another reason to sign up now." },
-              { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings — not token 5% deals. If it's not worth your time, it doesn't make the cut." },
+              { q: "When is the Android version coming?", a: "We launched on iOS first to get the product right. Android is on the roadmap and will be announced to our waitlist first - another reason to sign up now." },
+              { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
             ].map((item, i) => (
               <div key={i} style={{ borderRadius: 24, border: "1px solid #e2e8f0", overflow: "hidden" }}>
                 <button onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ width: "100%", textAlign: "left", padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", background: openFaq === i ? "#f8fafc" : "#fff", border: "none", cursor: "pointer", transition: "background 0.2s" }}>
@@ -935,7 +934,7 @@ export default function App() {
   return (
     <>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; } #root { width: 100%; background: #0d1f4e; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; background: #0d1f4e; }
         body { background: #0d1f4e; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
