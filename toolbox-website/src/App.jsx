@@ -162,7 +162,7 @@ function Footer({ setPage }) {
 function LegalPage({ title, setPage, children }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
@@ -389,7 +389,7 @@ function ContactPage({ setPage }) {
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box" };
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
@@ -643,7 +643,7 @@ function LandingPage({ setPage }) {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden" }}>
       {showModal && <WaitlistModal onClose={() => setShowModal(false)} />}
 
       {/* Nav */}
@@ -744,7 +744,7 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* Mission + Vendors */}
-      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100vw", position: "relative", left: "50%", right: "50%", marginLeft: "-50vw", marginRight: "-50vw" }}>
+      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Mission</p>
@@ -874,7 +874,7 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* FAQ */}
-      <section id="faq" style={{ background: "#fff", padding: "96px 0 96px", margin: 0, scrollMarginTop: 80 }}>
+      <section id="faq" style={{ background: "#fff", padding: "96px 0", scrollMarginTop: 80 }}>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#0d1f4e" }}>
@@ -930,7 +930,7 @@ export default function App() {
   return (
     <>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html { scroll-behavior: smooth; } body { background: #0d1f4e; color: #fff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; } #root { width: 100%; }
         body { background: #0d1f4e; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
