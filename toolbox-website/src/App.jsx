@@ -633,6 +633,15 @@ function LandingPage({ setPage }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll(".scroll-reveal").forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   const navStyle = {
     position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, height: 72,
     background: scrolled ? "rgba(13,31,78,0.95)" : "transparent",
@@ -673,33 +682,24 @@ function LandingPage({ setPage }) {
 
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "140px 32px 80px", position: "relative", zIndex: 10, width: "100%", textAlign: "center" }}>
 
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.25)", borderRadius: 100, padding: "7px 16px", marginBottom: 32 }}>
+          <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.25)", borderRadius: 100, padding: "7px 16px", marginBottom: 32 }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#5ba4cf", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
             <span style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em" }}>Founding 500 - Limited spots</span>
           </div>
 
-          <h1 style={{ fontSize: "clamp(2.6rem, 5vw, 4.5rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
+          <h1 className="anim-fade-up anim-fade-up-2" style={{ fontSize: "clamp(2.6rem, 5vw, 4.5rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
             Stop paying full<br />price on site<span style={{ color: "#5ba4cf" }}>.</span>
           </h1>
 
-          <p style={{ fontSize: "1.15rem", color: "rgba(255,255,255,0.55)", fontWeight: 500, lineHeight: 1.6, marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
+          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "1.15rem", color: "rgba(255,255,255,0.55)", fontWeight: 500, lineHeight: 1.6, marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
             Australia's first discount membership app built exclusively for tradies.
           </p>
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginBottom: 32 }}>
-            <div style={{ display: "flex" }}>
-              {["tradie1","tradie2","tradie3","tradie4"].map((seed, i) => (
-                <div key={seed} style={{ width: 34, height: 34, borderRadius: "50%", border: "2px solid rgba(13,31,78,0.8)", overflow: "hidden", marginLeft: i === 0 ? 0 : -10 }}>
-                  <img src={`https://picsum.photos/seed/${seed}/100/100`} alt="" referrerPolicy="no-referrer" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </div>
-              ))}
-            </div>
-            <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, fontSize: 13 }}>Tradies across Victoria already signed up</p>
+          <div className="anim-fade-up anim-fade-up-4">
+            <WaitlistInline />
           </div>
 
-          <WaitlistInline />
-
-          <div style={{ display: "flex", justifyContent: "center", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="anim-fade-up anim-fade-up-5" style={{ display: "flex", justifyContent: "center", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
             {[["$4.99", "Per Month"], ["25+", "Partner Brands"], ["500", "Founding Spots"]].map(([val, label], i) => (
               <div key={label} style={{ textAlign: "center", flex: 1, borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : "none", padding: "0 16px" }}>
                 <p style={{ fontSize: "2.2rem", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 6, color: "#fff" }}>{val}</p>
@@ -713,7 +713,7 @@ function LandingPage({ setPage }) {
       {/* How it works */}
       <section id="about" style={{ background: "#5ba4cf", padding: "96px 0", position: "relative", overflow: "hidden" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 1 }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Process</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e" }}>How it works.</h2>
           </div>
@@ -931,6 +931,16 @@ export default function App() {
     <>
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; background: #0d1f4e; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .anim-fade-up { opacity: 0; animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
+        .anim-fade-up-1 { animation-delay: 0.1s; }
+        .anim-fade-up-2 { animation-delay: 0.25s; }
+        .anim-fade-up-3 { animation-delay: 0.4s; }
+        .anim-fade-up-4 { animation-delay: 0.55s; }
+        .anim-fade-up-5 { animation-delay: 0.7s; }
+        .scroll-reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
         body { background: #0d1f4e; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
