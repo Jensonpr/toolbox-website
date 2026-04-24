@@ -669,15 +669,11 @@ function LandingPage({ setPage }) {
 
       {/* Hero - Signup */}
       <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "#0d1f4e" }}>
-        <div style={{ position: "absolute", inset: 0 }}>
-          <img src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=1920&q=80"
-            alt="" referrerPolicy="no-referrer" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.12, filter: "grayscale(1)" }} />
-          <div style={{ position: "absolute", inset: 0, background: "#0d1f4e" }} />
-        </div>
+        <div style={{ position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)", width: 800, height: 800, background: "#5ba4cf", borderRadius: "50%", filter: "blur(180px)", opacity: 0.06, pointerEvents: "none" }} />
 
-        <div style={{ maxWidth: 560, margin: "0 auto", padding: "100px 24px 60px", position: "relative", zIndex: 10, width: "100%", textAlign: "center" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto", padding: "140px 32px 80px", position: "relative", zIndex: 10, width: "100%", textAlign: "center" }}>
 
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.25)", borderRadius: 100, padding: "7px 16px", marginBottom: 28 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.25)", borderRadius: 100, padding: "7px 16px", marginBottom: 32 }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#5ba4cf", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
             <span style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em" }}>Founding 500 - Limited spots</span>
           </div>
@@ -686,28 +682,28 @@ function LandingPage({ setPage }) {
             Stop paying full<br />price on site<span style={{ color: "#5ba4cf" }}>.</span>
           </h1>
 
-          <p style={{ fontSize: "clamp(0.95rem, 3.5vw, 1.15rem)", color: "rgba(255,255,255,0.6)", fontWeight: 500, lineHeight: 1.65, marginBottom: 32, maxWidth: 440, margin: "0 auto 32px" }}>
-            Australia's first discount membership app for tradies. Tools, workwear, supplements and more - $4.99 a month, locked in forever for Founding 500 members.
+          <p style={{ fontSize: "1.15rem", color: "rgba(255,255,255,0.55)", fontWeight: 500, lineHeight: 1.6, marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
+            Australia's first discount membership app built exclusively for tradies.
           </p>
 
-          <WaitlistInline />
-
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginTop: 28 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginBottom: 32 }}>
             <div style={{ display: "flex" }}>
               {["tradie1","tradie2","tradie3","tradie4"].map((seed, i) => (
-                <div key={seed} style={{ width: 30, height: 30, borderRadius: "50%", border: "2px solid rgba(13,31,78,0.8)", overflow: "hidden", marginLeft: i === 0 ? 0 : -8 }}>
+                <div key={seed} style={{ width: 34, height: 34, borderRadius: "50%", border: "2px solid rgba(13,31,78,0.8)", overflow: "hidden", marginLeft: i === 0 ? 0 : -10 }}>
                   <img src={`https://picsum.photos/seed/${seed}/100/100`} alt="" referrerPolicy="no-referrer" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
               ))}
             </div>
-            <p style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700, fontSize: 12 }}>Tradies across Victoria already signed up</p>
+            <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, fontSize: 13 }}>Tradies across Victoria already signed up</p>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "center", gap: 32, marginTop: 40, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-            {[["$4.99", "per month"], ["25+", "partner brands"], ["500", "founding spots"]].map(([val, label]) => (
-              <div key={label} style={{ textAlign: "center" }}>
-                <p style={{ fontSize: "1.5rem", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 4 }}>{val}</p>
-                <p style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.12em" }}>{label}</p>
+          <WaitlistInline />
+
+          <div style={{ display: "flex", justifyContent: "center", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+            {[["$4.99", "Per Month"], ["25+", "Partner Brands"], ["500", "Founding Spots"]].map(([val, label], i) => (
+              <div key={label} style={{ textAlign: "center", flex: 1, borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : "none", padding: "0 16px" }}>
+                <p style={{ fontSize: "2.2rem", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 6, color: "#fff" }}>{val}</p>
+                <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{label}</p>
               </div>
             ))}
           </div>
