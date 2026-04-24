@@ -87,7 +87,7 @@ function Marquee({ items, reverse = false, speed = 80 }) {
 function Footer({ setPage }) {
   return (
     <footer style={{ background: "#0d1f4e",  padding: "80px 0 40px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "32px", marginBottom: "48px" }}>
           <div>
             <img src={LOGO} alt="The ToolBox" style={{ height: 36, marginBottom: 24, filter: "brightness(0) invert(1)" }} />
@@ -162,9 +162,9 @@ function Footer({ setPage }) {
 function LegalPage({ title, setPage, children }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
             <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
           </button>
@@ -297,7 +297,7 @@ function VendorPage({ setPage }) {
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid #f1f5f9", height: 72, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, color: "#0d1f4e", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>
             <IcoArrowLeft /> Back to Home
           </button>
@@ -305,7 +305,7 @@ function VendorPage({ setPage }) {
         </div>
       </nav>
       <section style={{ paddingTop: 140, paddingBottom: 80 }}>
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 32px" }}>
+        <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 40, alignItems: "start" }}>
             <div style={{ position: "sticky", top: 140 }}>
               <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Partner with us</p>
@@ -372,7 +372,7 @@ function VendorPage({ setPage }) {
         </div>
       </section>
       <footer style={{ background: "#0d1f4e", padding: "40px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <img src={LOGO} alt="The ToolBox" style={{ height: 32, filter: "brightness(0) invert(1)", opacity: 0.3 }} />
           <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>
             &copy; {new Date().getFullYear()} The ToolBox App Pty Ltd. Built for tradies.
@@ -389,16 +389,16 @@ function ContactPage({ setPage }) {
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box" };
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
             <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
           </button>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>Back to Home</button>
         </div>
       </nav>
-      <main style={{ paddingTop: 140, paddingBottom: 80, maxWidth: 1200, margin: "0 auto", padding: "140px 32px 80px" }}>
+      <main style={{ paddingTop: 140, paddingBottom: 80, maxWidth: 1400, margin: "0 auto", padding: "140px 32px 80px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 48 }}>
           <div>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Get in touch</p>
@@ -643,12 +643,12 @@ function LandingPage({ setPage }) {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
       {showModal && <WaitlistModal onClose={() => setShowModal(false)} />}
 
       {/* Nav */}
       <nav style={navStyle}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
             <img src={LOGO} alt="The ToolBox" style={{ height: 36, objectFit: "contain", display: "block", filter: "brightness(0) invert(1)" }} />
             <div className="desktop-nav" style={{ display: "flex", gap: 32, fontSize: 14, fontWeight: 900 }}>
@@ -717,7 +717,7 @@ function LandingPage({ setPage }) {
 
       {/* How it works */}
       <section id="about" style={{ background: "#5ba4cf", padding: "96px 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 1 }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Process</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e" }}>How it works.</h2>
@@ -744,8 +744,8 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* Mission + Vendors */}
-      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", marginTop: 0, display: "block" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
+      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100vw", position: "relative", left: "50%", right: "50%", marginLeft: "-50vw", marginRight: "-50vw" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Mission</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 0.9, color: "#0d1f4e", marginBottom: 40 }}>
@@ -772,7 +772,7 @@ function LandingPage({ setPage }) {
 
         {/* Vendors */}
         <div id="vendors" style={{ scrollMarginTop: 80 }}>
-          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
               <h3 style={{ fontSize: "1.3rem", fontWeight: 900, color: "#0d1f4e" }}>Our Partnered Vendors</h3>
               <p style={{ fontSize: 13, color: "rgba(13,31,78,0.4)", fontWeight: 700, marginTop: 4 }}>25+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
@@ -793,13 +793,13 @@ function LandingPage({ setPage }) {
 
       {/* Pricing */}
       <section id="pricing" style={{ background: "#0d1f4e", padding: "96px 0", scrollMarginTop: 80 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff" }}>Pick your plan.</h2>
             <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>Join the waitlist now — Founding 500 members lock in this price forever.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 960, margin: "0 auto" }}>
             {[
               { name: "Monthly Pro", price: "$4.99", period: "/ mo", desc: "Cancel Anytime", highlight: false,
                 feats: ["Discounts across 25+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"],
@@ -845,7 +845,7 @@ function LandingPage({ setPage }) {
 
       {/* Testimonials */}
       <section style={{ background: "#fff", padding: "96px 0" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>The word on site</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#0d1f4e" }}>
@@ -930,7 +930,7 @@ export default function App() {
   return (
     <>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html { scroll-behavior: smooth; } body { overflow-x: hidden; background: #0d1f4e; color: #fff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html { scroll-behavior: smooth; } body { background: #0d1f4e; color: #fff; }
         body { background: #0d1f4e; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
