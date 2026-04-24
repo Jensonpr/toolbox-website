@@ -86,7 +86,7 @@ function Marquee({ items, reverse = false, speed = 80 }) {
 // ─── Footer ───────────────────────────────────────────────────────────────────
 function Footer({ setPage }) {
   return (
-    <footer style={{ background: "#0d1f4e", borderTop: "1px solid rgba(255,255,255,0.05)", padding: "80px 0 40px" }}>
+    <footer style={{ background: "#0d1f4e",  padding: "80px 0 40px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "32px", marginBottom: "48px" }}>
           <div>
@@ -135,7 +135,7 @@ function Footer({ setPage }) {
             </div>
           ))}
         </div>
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{  paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>
             &copy; {new Date().getFullYear()} The ToolBox App Pty Ltd. All rights reserved.
           </p>
@@ -650,7 +650,7 @@ function LandingPage({ setPage }) {
       <nav style={navStyle}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
-            <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 40, objectFit: "contain" }} />
+            <img src={LOGO} alt="The ToolBox" style={{ height: 40, objectFit: "contain", display: "block" }} />
             <div className="desktop-nav" style={{ display: "flex", gap: 32, fontSize: 14, fontWeight: 900 }}>
               {[["How it works", "#about"], ["Vendors", "#vendors"], ["Pricing", "#pricing"], ["FAQ", "#faq"]].map(([label, href]) => (
                 <a key={label} href={href} style={{ color: "#fff", textDecoration: "none", transition: "color 0.2s" }}
@@ -844,7 +844,7 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* Testimonials */}
-      <section style={{ background: "#fff", padding: "96px 0", borderTop: "1px solid #f1f5f9" }}>
+      <section style={{ background: "#fff", padding: "96px 0" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>The word on site</p>
@@ -854,7 +854,7 @@ function LandingPage({ setPage }) {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} style={{ background: "#f8fafc", padding: 40, borderRadius: 40, border: "1px solid #f1f5f9", display: "flex", flexDirection: "column", justifyContent: "space-between", transition: "all 0.3s" }}
+              <div key={i} style={{ background: "#f8fafc", padding: 40, borderRadius: 40,  display: "flex", flexDirection: "column", justifyContent: "space-between", transition: "all 0.3s" }}
                 onMouseOver={e => { e.currentTarget.style.transform = "translateY(-8px)"; e.currentTarget.style.boxShadow = "0 24px 48px rgba(0,0,0,0.08)"; }}
                 onMouseOut={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
                 <p style={{ fontSize: "1.1rem", fontWeight: 900, letterSpacing: "-0.02em", color: "#0d1f4e", lineHeight: 1.4, marginBottom: 32 }}>"{t.text}"</p>
