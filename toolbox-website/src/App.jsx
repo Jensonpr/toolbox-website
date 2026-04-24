@@ -29,19 +29,19 @@ const IcoArrowLeft = () => <Icon d="M19 12H5M12 19l-7-7 7-7" />;
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const VENDORS = [
-  { name: "Elite Supplements", logo: "https://drive.google.com/uc?export=view&id=1x9_SCG_xlmfjfUbnWauQL4fzg3z_ka1g" },
-  { name: "Anthem Workwear", logo: "https://drive.google.com/uc?export=view&id=18xeBtUzMbOew0nq-d6TZmwNpGF0v_cwI" },
-  { name: "BSCO", logo: "https://drive.google.com/uc?export=view&id=1VtxGsGAe7qyoptK1J4hDy9n3TviJY8UB" },
-  { name: "BitPocket", logo: "https://drive.google.com/uc?export=view&id=1XAt9WJ6HQkeKa41R74NZkmbOQEhrH_Up" },
-  { name: "Zilly Gear", logo: "https://drive.google.com/uc?export=view&id=1RQvGxKOZOq0ED6wIwXe4xUC4jMy44rj2" },
-  { name: "Hard Hat", logo: "https://drive.google.com/uc?export=view&id=1zf79sPptjXfdtBeCrU1DfImVsr3M5Noa" },
-  { name: "Tradie Frames", logo: "https://drive.google.com/uc?export=view&id=1JnRbwm9ENtFU5nBWWHNcNWnMHhclAp98" },
-  { name: "Nutrition Warehouse", logo: "https://drive.google.com/uc?export=view&id=1Q-zJtuEIDDvGEd13VzMctC_CsMjcbTEq" },
-  { name: "Edge Endurance", logo: "https://drive.google.com/uc?export=view&id=15aLL264SjJ5E6-NmZAoUhrzGxeNQ86zt" },
-  { name: "Recovery Lab", logo: "https://drive.google.com/uc?export=view&id=19v_5zcDkcTY8JxUHgS-BTQgT9D-sEO3I" },
-  { name: "Fitspace", logo: "https://drive.google.com/uc?export=view&id=1zqD7vPZrfpwFM-WX4kTjZ67qsgVE1T7O" },
-  { name: "REPS Fitness", logo: "https://drive.google.com/uc?export=view&id=1iD-15Ej3E-oozKyS4c2YYEOIb9dx1aJO", scale: 1.4 },
-  { name: "Sunday Fairway", logo: "https://drive.google.com/uc?export=view&id=1Mn0cN51V-s20tEpsZaawGp7tufr9TvCT" },
+  { name: "Elite Supplements", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016410/Copy_of_Elite_Supplements_Logo_RGB_-_Elite_Supps_Chapel_St_brjj39.png" },
+  { name: "Anthem Workwear", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016355/Black_logo_1_-_Danna_Campos_mnrq6z.png" },
+  { name: "BSCO", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016354/Untitled_design_6_b9hlh5.png" },
+  { name: "BitPocket", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016411/LOGO_largewhite_-_marc_beattie_vi5kjv.png" },
+  { name: "Zilly Gear", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_9_qvhaav.png" },
+  { name: "Hard Hat", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_8_qgxiky.png" },
+  { name: "Tradie Frames", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_13_uyvpqx.png" },
+  { name: "Nutrition Warehouse", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_12_ej4hui.png" },
+  { name: "Edge Endurance", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_10_qmifzi.png" },
+  { name: "Recovery Lab", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_11_ykhwa4.png" },
+  { name: "Fitspace", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_15_wit0ju.png" },
+  { name: "REPS Fitness", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_17_sf5u7m.png", scale: 1.4 },
+  { name: "Sunday Fairway", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_16_irf3fo.png" },
 ];
 
 const TESTIMONIALS = [
@@ -53,7 +53,7 @@ const TESTIMONIALS = [
   { text: "Every apprentice should have this. Makes the weekly budget go way further.", author: "Luke M.", trade: "Landscaper (TAS)", seed: "tradie6" },
 ];
 
-const LOGO = "https://drive.google.com/uc?export=view&id=1aBLxBL0hXUAtNBrAdHt62SvIwYhXAR3o";
+const LOGO = "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016811/TheToolbox-White_2x_iqjf8y.png";
 
 // ─── Marquee Carousel ─────────────────────────────────────────────────────────
 function Marquee({ items, reverse = false, speed = 80 }) {
@@ -796,7 +796,7 @@ function LandingPage({ setPage }) {
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em" }}>Pick your plan.</h2>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff" }}>Pick your plan.</h2>
             <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>Join the waitlist now — Founding 500 members lock in this price forever.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 900, margin: "0 auto" }}>
@@ -848,7 +848,7 @@ function LandingPage({ setPage }) {
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>The word on site</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#0d1f4e" }}>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#fff" }}>
               Real Tradies<span style={{ color: "#5ba4cf" }}>.</span> Real Savings<span style={{ color: "#5ba4cf" }}>.</span>
             </h2>
           </div>
@@ -874,10 +874,10 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* FAQ */}
-      <section id="faq" style={{ background: "#fff", padding: "96px 0", borderTop: "1px solid #f1f5f9", scrollMarginTop: 80 }}>
+      <section id="faq" style={{ background: "#fff", padding: "96px 0", scrollMarginTop: 80 }}>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#0d1f4e" }}>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#fff" }}>
               Got questions<span style={{ color: "#5ba4cf" }}>?</span>
             </h2>
           </div>
@@ -930,7 +930,7 @@ export default function App() {
   return (
     <>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { overflow-x: hidden; background: #0d1f4e; color: #fff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html { scroll-behavior: smooth; } body { overflow-x: hidden; background: #0d1f4e; color: #fff; }
         body { background: #0d1f4e; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
