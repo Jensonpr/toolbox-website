@@ -161,7 +161,7 @@ function Footer({ setPage }) {
 function LegalPage({ title, setPage, children }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden", position: "relative" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
@@ -388,7 +388,7 @@ function ContactPage({ setPage }) {
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box" };
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden", position: "relative" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
@@ -642,15 +642,15 @@ function LandingPage({ setPage }) {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", maxWidth: "100%", overflowX: "hidden", position: "relative" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
       {showModal && <WaitlistModal onClose={() => setShowModal(false)} />}
 
       {/* Nav */}
       <nav style={navStyle}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
-            <img src={LOGO} alt="The ToolBox" style={{ height: 36, objectFit: "contain", display: "block", filter: "brightness(0) invert(1)" }} />
-            <div className="desktop-nav" style={{ display: "flex", gap: 32, fontSize: 14, fontWeight: 900 }}>
+            <img src={LOGO} alt="The ToolBox" style={{ height: 48, objectFit: "contain", display: "block", filter: "brightness(0) invert(1)" }} />
+            <div className="desktop-nav" style={{ display: "flex", gap: 40, fontSize: 16, fontWeight: 900 }}>
               {[["How it works", "#about"], ["Vendors", "#vendors"], ["Pricing", "#pricing"], ["FAQ", "#faq"]].map(([label, href]) => (
                 <a key={label} href={href} style={{ color: "#fff", textDecoration: "none", transition: "color 0.2s" }}
                   onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>{label}</a>
@@ -659,7 +659,7 @@ function LandingPage({ setPage }) {
                 onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "#5ba4cf"}>Partner with us</button>
             </div>
           </div>
-          <button onClick={() => setShowModal(true)} style={{ background: "#5ba4cf", color: "#fff", padding: "10px 20px", borderRadius: 12, fontWeight: 900, fontSize: 13, border: "none", cursor: "pointer", whiteSpace: "nowrap" }}
+          <button onClick={() => setShowModal(true)} style={{ background: "#5ba4cf", color: "#fff", padding: "14px 28px", borderRadius: 14, fontWeight: 900, fontSize: 15, border: "none", cursor: "pointer", whiteSpace: "nowrap" }}
             onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
             onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}>
             Join Waitlist
@@ -682,8 +682,8 @@ function LandingPage({ setPage }) {
             <span style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em" }}>Founding 500 - Limited spots</span>
           </div>
 
-          <h1 style={{ fontSize: "clamp(3.5rem, 11vw, 7rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
-            Stop paying<br />full price<br />on site<span style={{ color: "#5ba4cf" }}>.</span>
+          <h1 style={{ fontSize: "clamp(2.6rem, 5vw, 4.5rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
+            Stop paying full<br />price on site<span style={{ color: "#5ba4cf" }}>.</span>
           </h1>
 
           <p style={{ fontSize: "clamp(0.95rem, 3.5vw, 1.15rem)", color: "rgba(255,255,255,0.6)", fontWeight: 500, lineHeight: 1.65, marginBottom: 32, maxWidth: 440, margin: "0 auto 32px" }}>
@@ -743,7 +743,7 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* Mission + Vendors */}
-      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100%" }}>
+      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Mission</p>
@@ -775,7 +775,7 @@ function LandingPage({ setPage }) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
               <div>
                 <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 12, marginBottom: 12 }}>Our Network</p>
-                <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 0.9 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
+                <h2 style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#0d1f4e", lineHeight: 1 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
               </div>
               <div>
                 <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>25+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
@@ -848,7 +848,7 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* Testimonials */}
-      <section style={{ background: "#fff", padding: "96px 0" }}>
+      <section style={{ background: "#fff", padding: "96px 0", width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>The word on site</p>
@@ -878,7 +878,7 @@ function LandingPage({ setPage }) {
       </section>
 
       {/* FAQ */}
-      <section id="faq" style={{ background: "#fff", padding: "96px 0", scrollMarginTop: 80 }}>
+      <section id="faq" style={{ background: "#fff", padding: "96px 0", scrollMarginTop: 80, width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#0d1f4e" }}>
