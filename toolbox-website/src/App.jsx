@@ -843,36 +843,6 @@ function LandingPage({ setPage }) {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section style={{ background: "#fff", padding: "96px 0", width: "100%", boxSizing: "border-box" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>The word on site</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#0d1f4e" }}>
-              <span style={{ color: "#5ba4cf" }}>Real Tradies. Real Savings.</span>
-            </h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-            {TESTIMONIALS.map((t, i) => (
-              <div key={i} style={{ background: "#f8fafc", padding: 40, borderRadius: 40,  display: "flex", flexDirection: "column", justifyContent: "space-between", transition: "all 0.3s" }}
-                onMouseOver={e => { e.currentTarget.style.transform = "translateY(-8px)"; e.currentTarget.style.boxShadow = "0 24px 48px rgba(0,0,0,0.08)"; }}
-                onMouseOut={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-                <p style={{ fontSize: "1.1rem", fontWeight: 900, letterSpacing: "-0.02em", color: "#0d1f4e", lineHeight: 1.4, marginBottom: 32 }}>"{t.text}"</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", flexShrink: 0 }}>
-                    <img src={`https://picsum.photos/seed/${t.seed}/100/100`} alt="" referrerPolicy="no-referrer" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  </div>
-                  <div>
-                    <span style={{ display: "block", color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", fontSize: 11, letterSpacing: "0.2em", marginBottom: 2 }}>{t.author}</span>
-                    <span style={{ display: "block", color: "rgba(13,31,78,0.4)", fontWeight: 700, fontSize: 12 }}>{t.trade}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* FAQ */}
       <section id="faq" style={{ background: "#fff", padding: "96px 0", scrollMarginTop: 80, width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
