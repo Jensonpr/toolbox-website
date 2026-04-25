@@ -32,7 +32,6 @@ const VENDORS = [
   { name: "Elite Supplements", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016410/Copy_of_Elite_Supplements_Logo_RGB_-_Elite_Supps_Chapel_St_brjj39.png" },
   { name: "Anthem Workwear", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016355/Black_logo_1_-_Danna_Campos_mnrq6z.png" },
   { name: "BSCO", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016354/Untitled_design_6_b9hlh5.png" },
-  { name: "BitPocket", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016411/LOGO_largewhite_-_marc_beattie_vi5kjv.png" },
   { name: "Zilly Gear", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_9_qvhaav.png" },
   { name: "Hard Hat", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_8_qgxiky.png" },
   { name: "Tradie Frames", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_13_uyvpqx.png" },
