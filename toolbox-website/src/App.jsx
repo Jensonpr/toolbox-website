@@ -753,7 +753,7 @@ function LandingPage({ setPage }) {
           <div style={{ position: "relative" }}>
             <div style={{ position: "absolute", inset: -16, background: "rgba(91,164,207,0.05)", borderRadius: 40, transform: "rotate(-2deg)" }} />
             <div style={{ position: "relative" }}>
-              <img src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&w=800&q=80"
+              <img src="https://res.cloudinary.com/dy4rpazlk/image/upload/v1777098977/IMG_1781_l8ffof.heic"
                 alt="On site" referrerPolicy="no-referrer" style={{ width: "100%", aspectRatio: "1", objectFit: "cover", borderRadius: 40, filter: "grayscale(1)", transition: "filter 0.7s" }}
                 onMouseOver={e => e.target.style.filter = "grayscale(0)"} onMouseOut={e => e.target.style.filter = "grayscale(1)"} />
               <div style={{ position: "absolute", bottom: 24, left: 24, right: 24, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)", padding: 20, borderRadius: 20, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
