@@ -754,8 +754,7 @@ function LandingPage({ setPage }) {
             <div style={{ position: "absolute", inset: -16, background: "rgba(91,164,207,0.05)", borderRadius: 40, transform: "rotate(-2deg)" }} />
             <div style={{ position: "relative" }}>
               <img src="https://res.cloudinary.com/dy4rpazlk/image/upload/f_auto,q_auto/v1777162843/IMG_1781_l8ffof_tp09hu.heic"
-                alt="On site" referrerPolicy="no-referrer" style={{ width: "100%", aspectRatio: "1", objectFit: "cover", borderRadius: 40, filter: "grayscale(1)", transition: "filter 0.7s" }}
-                onMouseOver={e => e.target.style.filter = "grayscale(0)"} onMouseOut={e => e.target.style.filter = "grayscale(1)"} />
+                alt="On site" style={{ width: "100%", maxHeight: 420, aspectRatio: "1", objectFit: "cover", borderRadius: 40 }} />
               <div style={{ position: "absolute", bottom: 24, left: 24, right: 24, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)", padding: 20, borderRadius: 20, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
                 <p style={{ color: "#0d1f4e", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", fontSize: "1.05rem", marginBottom: 4 }}>"Reclaiming value for Australian tradies."</p>
                 <p style={{ color: "#5ba4cf", fontWeight: 700, fontSize: 13 }}>Founded in Melbourne, VIC</p>
