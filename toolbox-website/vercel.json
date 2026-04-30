@@ -1,9 +1,12 @@
 {
-  "redirects": [
+  "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    },
     {
       "source": "/(.*)",
-      "destination": "https://thetoolboxapp.com.au/$1",
-      "permanent": true
+      "destination": "/index.html"
     }
   ]
 }
