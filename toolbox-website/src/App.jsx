@@ -90,7 +90,7 @@ function Footer({ setPage }) {
           <div>
             <img src={LOGO} alt="The ToolBox" style={{ height: 36, marginBottom: 24, filter: "brightness(0) invert(1)" }} />
             <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, lineHeight: 1.7, maxWidth: 280 }}>
-              Australia's first discount membership app built exclusively for tradies. Reclaiming value for the legends rebuilding the country.
+              Australia's first discount membership app built for the tradie lifestyle. Reclaiming value for the legends rebuilding the country.
             </p>
           </div>
           {[
@@ -691,7 +691,7 @@ function LandingPage({ setPage }) {
           </h1>
 
           <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "1.15rem", color: "rgba(255,255,255,0.55)", fontWeight: 500, lineHeight: 1.6, marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
-            Australia's first discount membership app built exclusively for tradies.
+            Australia's first discount membership app built for the tradie lifestyle.
           </p>
 
           <div className="anim-fade-up anim-fade-up-4">
