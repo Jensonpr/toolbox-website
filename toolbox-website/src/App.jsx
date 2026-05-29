@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { BrowserRouter, Routes, Route, useNavigate, useParams } from "react-router-dom";
 
 // ─── Icons (inline SVG to avoid lucide import issues) ───────────────────────
 const Icon = ({ d, size = 24, className = "" }) => (
@@ -54,6 +55,86 @@ const TESTIMONIALS = [
 
 const LOGO = "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016811/TheToolbox-White_2x_iqjf8y.png";
 
+const CATEGORY_COLORS = {
+  "Tradie Tips": "#5ba4cf",
+  "Health & Fitness": "#22c55e",
+  "Vendor Spotlight": "#f4c430",
+};
+
+const BLOG_POSTS = [
+  {
+    id: 1,
+    slug: "5-ways-tradies-save-money-on-gear",
+    title: "5 Ways to Stretch Your Pay on the Tools",
+    category: "Tradie Tips",
+    date: "May 20, 2025",
+    readTime: "4 min read",
+    author: "The ToolBox Team",
+    excerpt: "Being on the tools is expensive. Between boots, workwear, supps, and smoko runs — it adds up fast. Here's how savvy tradies are keeping more cash in their pocket.",
+    content: [
+      { type: "p", text: "Let's be real — being a tradie is expensive. By the time you've kitted yourself out with proper boots, decent workwear, a few supplements to keep you going, and whatever your ute needs this week, the pay cheque doesn't stretch as far as it should." },
+      { type: "p", text: "But there are ways to claw that money back. Here are five things smart tradies are doing to keep more cash in their pocket without cutting corners on quality." },
+      { type: "h2", text: "1. Use a Discount Membership App" },
+      { type: "p", text: "Discount apps built specifically for tradies — like The ToolBox — negotiate bulk discounts with the brands you're already buying from. Instead of paying RRP on workwear, supplements, and tools, members pay 10–30% less just by flashing a digital card. If you spend $100/month on gear, a $4.99 membership that saves you 15% pays for itself in the first transaction." },
+      { type: "h2", text: "2. Buy Consumables in Bulk" },
+      { type: "p", text: "Screws, sandpaper, drill bits, cable ties — consumables are a death by a thousand cuts. Buying in bulk from a trade supplier versus grabbing a small pack from the nearest hardware chain can cut costs by 40–60% over a year. One bulk buy sets you up for months." },
+      { type: "h2", text: "3. Meal Prep for the Work Week" },
+      { type: "p", text: "Smoko and lunch runs might feel small — $15 here, $20 there — but five days a week, 48 weeks a year, that's potentially $4,000 you've handed to the servo or the burger joint. Spending two hours on Sunday prepping meals is one of the highest-value uses of your weekend." },
+      { type: "h2", text: "4. Look After Your Gear" },
+      { type: "p", text: "A good pair of work boots costs $200–$400. Proper care — cleaning, conditioning, waterproofing — can double their lifespan. The same goes for power tools. Regular maintenance and proper storage means fewer replacements and less out of pocket every year." },
+      { type: "h2", text: "5. Compare Before You Buy" },
+      { type: "p", text: "Most tradies buy from the place they already know. Taking 5 minutes to compare online before heading in regularly saves 10–20% on big purchases. Stack that with a discount membership and you're looking at serious savings over the year." },
+      { type: "p", text: "The tradie lifestyle shouldn't mean being the last one to benefit from the industries you literally build. Use every tool at your disposal — including the financial ones." },
+    ],
+  },
+  {
+    id: 2,
+    slug: "fuelling-your-body-on-site",
+    title: "Why What You Eat & Drink on Site Matters More Than You Think",
+    category: "Health & Fitness",
+    date: "May 12, 2025",
+    readTime: "5 min read",
+    author: "The ToolBox Team",
+    excerpt: "Your body is your biggest tool. What you fuel it with on site directly affects how you perform, recover, and feel at the end of a long day.",
+    content: [
+      { type: "p", text: "Most tradies wouldn't show up to site with a power tool running on empty batteries. But plenty of blokes rock up having skipped breakfast, powering through on two coffees and whatever the smoko run brings. Your body isn't any different to that drill — fuel matters." },
+      { type: "h2", text: "The Physical Reality of Trade Work" },
+      { type: "p", text: "Trade work is physically demanding in ways that are easy to underestimate. Electricians are constantly crouching, reaching, and carrying. Carpenters lift, swing, and maintain balance on scaffolding for hours. Plumbers spend half the day in positions that would make a physio wince. The caloric and nutritional demands are high — and most standard dietary advice isn't written for this lifestyle." },
+      { type: "h2", text: "Hydration Is the First Priority" },
+      { type: "p", text: "Before you think about pre-workouts or protein shakes, get your water intake right. Dehydration of just 2% of body weight has been shown to impair physical performance and cognitive function. On a summer site, that's easy to hit before lunch. A water bottle you actually keep filled — ideally with electrolytes on hot days — is the highest ROI investment for on-site performance." },
+      { type: "h2", text: "Protein for Recovery" },
+      { type: "p", text: "Construction and trade work breaks down muscle tissue. Without adequate protein to repair it, you'll feel it in your joints and energy levels within weeks. Aim for 1.6–2.2g of protein per kg of bodyweight if you're doing heavy physical work. A quality protein supplement post-work makes hitting those numbers manageable without eating six chicken breasts a day." },
+      { type: "h2", text: "What About Supps?" },
+      { type: "p", text: "The supplement market is flooded, and a lot of it is overpriced noise. But a few categories are genuinely useful for tradies: creatine for strength and power output, magnesium for muscle recovery and sleep quality, and omega-3s for joint health. These are supported by solid research and make a real difference with consistent use." },
+      { type: "p", text: "The key is buying quality without paying retail markup. Partners like Elite Supplements and Nutrition Warehouse — both in The ToolBox network — carry the brands worth buying at prices that make consistent supplementation practical on a tradie budget." },
+      { type: "h2", text: "The Long Game" },
+      { type: "p", text: "Your body is your career. The blokes still running their own business at 55 didn't get there by grinding themselves into the ground at 35. Eating well, recovering properly, and looking after your physical health isn't soft — it's the smartest business decision you can make." },
+    ],
+  },
+  {
+    id: 3,
+    slug: "anthem-workwear-vendor-spotlight",
+    title: "Vendor Spotlight: Anthem Workwear",
+    category: "Vendor Spotlight",
+    date: "May 5, 2025",
+    readTime: "3 min read",
+    author: "The ToolBox Team",
+    excerpt: "We sat down with the team at Anthem Workwear to find out what makes their gear worth putting on every morning — and why they wanted to partner with The ToolBox.",
+    content: [
+      { type: "p", text: "When we were building the vendor network for The ToolBox, we had one rule: every brand had to offer something genuinely worth wearing, using, or eating. Anthem Workwear cleared that bar without breaking a sweat." },
+      { type: "h2", text: "Who Are Anthem?" },
+      { type: "p", text: "Anthem Workwear is an Australian brand built around the idea that workwear should look good, hold up, and represent the person wearing it. They're not a mass-market brand trying to undercut on price — they're focused on quality construction and design that works on site and off." },
+      { type: "p", text: "Their range covers everything from technical work shirts and pants through to casual gear that doesn't scream \"I just left site.\" For apprentices and tradies who want to look put together without spending a fortune, it hits the mark." },
+      { type: "h2", text: "What ToolBox Members Get" },
+      { type: "p", text: "As a ToolBox member, you get an exclusive discount on Anthem's range — storewide. Whether you're stocking up on work shirts for the week or picking up something for the weekend, the savings add up fast. For members who regularly buy workwear, the Anthem deal alone covers the cost of membership multiple times over." },
+      { type: "h2", text: "Why They Partner with Tradies" },
+      { type: "p", text: "Anthem's customer has always been the tradie. They didn't need convincing that The ToolBox was the right fit — the overlap was obvious. Their gear is designed to be worn by people who work hard, and The ToolBox exists to put value back in the pockets of those same people." },
+      { type: "h2", text: "Find Them in the App" },
+      { type: "p", text: "Once you're a member, Anthem Workwear appears in your partner deals alongside 25+ other brands. Show your digital card in-store to unlock your discount. No voucher codes, no fuss." },
+    ],
+  },
+];
+
 // ─── Marquee Carousel ─────────────────────────────────────────────────────────
 function Marquee({ items, reverse = false, speed = 80 }) {
   const doubled = [...items, ...items, ...items, ...items];
@@ -82,7 +163,8 @@ function Marquee({ items, reverse = false, speed = 80 }) {
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer({ setPage }) {
+function Footer() {
+  const navigate = useNavigate();
   return (
     <footer style={{ background: "#0d1f4e",  padding: "80px 0 40px" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
@@ -95,11 +177,12 @@ function Footer({ setPage }) {
           </div>
           {[
             { title: "Company", links: [
-              { label: "How it works", href: "#about" },
-              { label: "Partner Brands", href: "#vendors" },
-              { label: "Pricing", href: "#pricing" },
+              { label: "How it works", href: "/#about" },
+              { label: "Partner Brands", href: "/#vendors" },
+              { label: "Pricing", href: "/#pricing" },
               { label: "Contact Us", page: "contact" },
-              { label: "FAQ", href: "#faq" },
+              { label: "FAQ", href: "/#faq" },
+              { label: "Blog", page: "blog" },
             ]},
             { title: "Partners", links: [
               { label: "Partner With Us", page: "vendor" },
@@ -117,7 +200,7 @@ function Footer({ setPage }) {
                 {col.links.map(l => (
                   <li key={l.label}>
                     {l.page ? (
-                      <button onClick={() => setPage(l.page)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.3)", fontWeight: 700, fontSize: 14, textDecoration: "none" }}
+                      <button onClick={() => navigate(`/${l.page}`)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.3)", fontWeight: 700, fontSize: 14, textDecoration: "none" }}
                         onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.3)"}>
                         {l.label}
                       </button>
@@ -157,16 +240,17 @@ function Footer({ setPage }) {
 }
 
 // ─── Legal Layout ─────────────────────────────────────────────────────────────
-function LegalPage({ title, setPage, children }) {
+function LegalPage({ title, children }) {
+  const navigate = useNavigate();
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
             <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
           </button>
-          <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}
+          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}
             onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.6)"}>
             Back to Home
           </button>
@@ -179,7 +263,7 @@ function LegalPage({ title, setPage, children }) {
         </h1>
         <div style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500, lineHeight: 1.8 }}>{children}</div>
       </main>
-      <Footer setPage={setPage} />
+      <Footer />
     </div>
   );
 }
@@ -194,9 +278,13 @@ function LegalSection({ title, children }) {
 }
 
 // ─── Pages ────────────────────────────────────────────────────────────────────
-function PrivacyPage({ setPage }) {
+function PrivacyPage() {
+  useEffect(() => {
+    document.title = "Privacy Policy | The ToolBox";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "Read The ToolBox privacy policy — how we collect, use, and protect your personal data.");
+  }, []);
   return (
-    <LegalPage title="Privacy Policy" setPage={setPage}>
+    <LegalPage title="Privacy Policy">
       <LegalSection title="1. Introduction">
         <p>The ToolBox App Pty Ltd ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and website.</p>
       </LegalSection>
@@ -229,9 +317,13 @@ function PrivacyPage({ setPage }) {
   );
 }
 
-function TermsPage({ setPage }) {
+function TermsPage() {
+  useEffect(() => {
+    document.title = "Terms of Service | The ToolBox";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "The ToolBox terms of service — membership, subscription, usage rules, and governing law.");
+  }, []);
   return (
-    <LegalPage title="Terms of Service" setPage={setPage}>
+    <LegalPage title="Terms of Service">
       <LegalSection title="1. Acceptance of Terms">
         <p>By accessing or using The ToolBox application, you agree to be bound by these Terms of Service. If you do not agree, you are prohibited from using the app.</p>
       </LegalSection>
@@ -261,9 +353,13 @@ function TermsPage({ setPage }) {
   );
 }
 
-function RefundsPage({ setPage }) {
+function RefundsPage() {
+  useEffect(() => {
+    document.title = "Refund Policy | The ToolBox";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "The ToolBox refund policy — subscription cancellations, exceptional circumstances, and vendor disputes.");
+  }, []);
   return (
-    <LegalPage title="Refund Policy" setPage={setPage}>
+    <LegalPage title="Refund Policy">
       <LegalSection title="1. Subscription Refunds">
         <p>Due to the immediate access provided to digital discounts and vendor codes, we generally do not offer refunds on membership fees once a subscription period has commenced or the member has accessed the benefits.</p>
       </LegalSection>
@@ -287,16 +383,21 @@ function RefundsPage({ setPage }) {
   );
 }
 
-function VendorPage({ setPage }) {
+function VendorPage() {
+  const navigate = useNavigate();
   const [status, setStatus] = useState("idle");
   useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => {
+    document.title = "Partner With Us | The ToolBox";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "Apply to become a vendor partner on The ToolBox — reach thousands of Australian tradies with exclusive deals.");
+  }, []);
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", boxSizing: "border-box" };
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid #f1f5f9", height: 72, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, color: "#0d1f4e", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>
+          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, color: "#0d1f4e", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>
             <IcoArrowLeft /> Back to Home
           </button>
           <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 32, objectFit: "contain", mixBlendMode: "multiply" }} />
@@ -381,19 +482,24 @@ function VendorPage({ setPage }) {
   );
 }
 
-function ContactPage({ setPage }) {
+function ContactPage() {
+  const navigate = useNavigate();
   const [status, setStatus] = useState("idle");
   useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => {
+    document.title = "Contact Us | The ToolBox";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "Get in touch with The ToolBox team — questions about your membership, partnerships, or anything else.");
+  }, []);
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box" };
   return (
     <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
             <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
           </button>
-          <button onClick={() => setPage("home")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>Back to Home</button>
+          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>Back to Home</button>
         </div>
       </nav>
       <main style={{ paddingTop: 140, paddingBottom: 80, maxWidth: 1400, margin: "0 auto", padding: "140px 32px 80px" }}>
@@ -453,7 +559,7 @@ function ContactPage({ setPage }) {
           </div>
         </div>
       </main>
-      <Footer setPage={setPage} />
+      <Footer />
     </div>
   );
 }
@@ -618,13 +724,167 @@ function WaitlistModal({ onClose }) {
   );
 }
 
+// ─── Blog ─────────────────────────────────────────────────────────────────────
+function BlogPage() {
+  const navigate = useNavigate();
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => {
+    document.title = "Blog | The ToolBox";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "Tradie tips, health & fitness advice, and vendor spotlights from The ToolBox Journal.");
+  }, []);
+  return (
+    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.95)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+            <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
+          </button>
+          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}
+            onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.6)"}>
+            Back to Home
+          </button>
+        </div>
+      </nav>
+
+      <section style={{ background: "#0d1f4e", paddingTop: 140, paddingBottom: 80 }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
+          <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>The ToolBox Journal</p>
+          <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
+            Tips, Trades<br />&amp; the Build Life<span style={{ color: "#5ba4cf" }}>.</span>
+          </h1>
+          <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, fontSize: "1.1rem", maxWidth: 520, lineHeight: 1.6 }}>
+            Practical advice, vendor spotlights, and stories from the tradie community. Written by people who actually get it.
+          </p>
+        </div>
+      </section>
+
+      <section style={{ background: "#fff", padding: "80px 0" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 32 }}>
+            {BLOG_POSTS.map(post => (
+              <article key={post.id} onClick={() => navigate(`/blog/${post.slug}`)}
+                style={{ borderRadius: 32, border: "1px solid #e2e8f0", overflow: "hidden", cursor: "pointer", transition: "all 0.3s", display: "flex", flexDirection: "column" }}
+                onMouseOver={e => { e.currentTarget.style.transform = "translateY(-8px)"; e.currentTarget.style.boxShadow = "0 24px 48px rgba(0,0,0,0.1)"; e.currentTarget.style.borderColor = "#5ba4cf"; }}
+                onMouseOut={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#e2e8f0"; }}>
+                <div style={{ background: "#0d1f4e", height: 200, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+                  <div style={{ position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)", width: 300, height: 300, background: CATEGORY_COLORS[post.category] || "#5ba4cf", borderRadius: "50%", filter: "blur(80px)", opacity: 0.2 }} />
+                  <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "0 24px" }}>
+                    <p style={{ fontSize: 11, fontWeight: 900, color: CATEGORY_COLORS[post.category] || "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 12 }}>{post.category}</p>
+                    <p style={{ fontSize: "1.3rem", fontWeight: 900, color: "#fff", letterSpacing: "-0.03em", fontStyle: "italic", lineHeight: 1.1 }}>{post.title}</p>
+                  </div>
+                </div>
+                <div style={{ padding: 32, flex: 1, display: "flex", flexDirection: "column" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                    <span style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.35)" }}>{post.date}</span>
+                    <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#e2e8f0", flexShrink: 0 }} />
+                    <span style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.35)" }}>{post.readTime}</span>
+                  </div>
+                  <h2 style={{ fontSize: "1.25rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", marginBottom: 12, lineHeight: 1.2 }}>{post.title}</h2>
+                  <p style={{ color: "rgba(13,31,78,0.55)", fontWeight: 600, lineHeight: 1.6, fontSize: 14, flex: 1 }}>{post.excerpt}</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 24, color: "#5ba4cf", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.15em" }}>
+                    Read Article <IcoChevRight />
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
+
+function BlogPostPage() {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const post = BLOG_POSTS.find(p => p.slug === slug);
+  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+  useEffect(() => {
+    if (post) {
+      document.title = `${post.title} | The ToolBox`;
+      document.querySelector('meta[name="description"]')?.setAttribute("content", post.excerpt);
+    }
+  }, [post]);
+  if (!post) { navigate("/blog", { replace: true }); return null; }
+
+  const renderBlock = (block, i) => {
+    const pStyle = { color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.85, fontSize: "1.05rem", marginBottom: 24 };
+    const h2Style = { fontSize: "1.5rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 1, marginBottom: 16, marginTop: 48 };
+    if (block.type === "p") return <p key={i} style={pStyle}>{block.text}</p>;
+    if (block.type === "h2") return <h2 key={i} style={h2Style}>{block.text}</h2>;
+    if (block.type === "ul") return (
+      <ul key={i} style={{ paddingLeft: 24, marginBottom: 24 }}>
+        {block.items.map((item, j) => <li key={j} style={{ ...pStyle, marginBottom: 10 }}>{item}</li>)}
+      </ul>
+    );
+    return null;
+  };
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", borderBottom: "1px solid #f1f5f9", height: 72, display: "flex", alignItems: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <button onClick={() => navigate("/blog")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, color: "#0d1f4e", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>
+            <IcoArrowLeft /> Back to Blog
+          </button>
+          <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 32, objectFit: "contain", mixBlendMode: "multiply" }} />
+        </div>
+      </nav>
+
+      <section style={{ background: "#0d1f4e", paddingTop: 120, paddingBottom: 64 }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
+          <p style={{ fontSize: 11, fontWeight: 900, color: CATEGORY_COLORS[post.category] || "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 20 }}>{post.category}</p>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 28 }}>
+            {post.title}<span style={{ color: "#5ba4cf" }}>.</span>
+          </h1>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>{post.author}</span>
+            <span style={{ width: 4, height: 4, borderRadius: "50%", background: "rgba(255,255,255,0.2)", flexShrink: 0 }} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>{post.date}</span>
+            <span style={{ width: 4, height: 4, borderRadius: "50%", background: "rgba(255,255,255,0.2)", flexShrink: 0 }} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#5ba4cf" }}>{post.readTime}</span>
+          </div>
+        </div>
+      </section>
+
+      <article style={{ maxWidth: 800, margin: "0 auto", padding: "64px 32px" }}>
+        {post.content.map(renderBlock)}
+      </article>
+
+      <section style={{ background: "#0d1f4e", padding: "80px 32px", textAlign: "center" }}>
+        <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Ready to save?</p>
+        <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
+          Join the Waitlist<span style={{ color: "#5ba4cf" }}>.</span>
+        </h2>
+        <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 36, maxWidth: 400, margin: "0 auto 36px" }}>Founding 500 members lock in $4.99/mo for life.</p>
+        <button onClick={() => navigate("/")}
+          style={{ background: "#5ba4cf", color: "#fff", padding: "18px 40px", borderRadius: 16, fontWeight: 900, fontSize: "1rem", fontStyle: "italic", border: "none", cursor: "pointer", transition: "all 0.2s" }}
+          onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
+          onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}>
+          Secure My Spot
+        </button>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
+
 // ─── Landing Page ─────────────────────────────────────────────────────────────
-function LandingPage({ setPage }) {
+function LandingPage() {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    document.title = "The ToolBox — Australia's Tradie Discount App";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "Save money on workwear, supplements, tools & more. Australia's first discount membership app built for tradies. $4.99/mo.");
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -663,7 +923,9 @@ function LandingPage({ setPage }) {
                 <a key={label} href={href} style={{ color: "#fff", textDecoration: "none", transition: "color 0.2s" }}
                   onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>{label}</a>
               ))}
-              <button onClick={() => setPage("vendor")} style={{ background: "none", border: "none", cursor: "pointer", color: "#5ba4cf", fontWeight: 900, fontSize: 14 }}
+              <button onClick={() => navigate("/blog")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", fontWeight: 900, fontSize: 16 }}
+                onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>Blog</button>
+              <button onClick={() => navigate("/vendor")} style={{ background: "none", border: "none", cursor: "pointer", color: "#5ba4cf", fontWeight: 900, fontSize: 14 }}
                 onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "#5ba4cf"}>Partner with us</button>
             </div>
           </div>
@@ -873,30 +1135,15 @@ function LandingPage({ setPage }) {
       </section>
 
 
-      <Footer setPage={setPage} />
+      <Footer />
     </div>
   );
 }
 
-// ─── App Router
 // ─── App Router ───────────────────────────────────────────────────────────────
 export default function App() {
-  const [page, setPage] = useState("home");
-
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800,900&display=swap";
-    document.head.appendChild(link);
-  }, []);
-
-  const handleSetPage = (p) => {
-    setPage(p);
-    setTimeout(() => window.scrollTo({ top: 0 }), 10);
-  };
-
   return (
-    <>
+    <BrowserRouter>
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; background: #0d1f4e; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
@@ -925,12 +1172,16 @@ export default function App() {
           .vendor-form-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
-      {page === "home" && <LandingPage setPage={handleSetPage} />}
-      {page === "vendor" && <VendorPage setPage={handleSetPage} />}
-      {page === "privacy" && <PrivacyPage setPage={handleSetPage} />}
-      {page === "terms" && <TermsPage setPage={handleSetPage} />}
-      {page === "refunds" && <RefundsPage setPage={handleSetPage} />}
-      {page === "contact" && <ContactPage setPage={handleSetPage} />}
-    </>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="/vendor" element={<VendorPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/refunds" element={<RefundsPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

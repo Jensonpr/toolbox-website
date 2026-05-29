@@ -2,20 +2,52 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://thetoolboxapp.com.au/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/blog/5-ways-tradies-save-money-on-gear</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/blog/fuelling-your-body-on-site</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/blog/anthem-workwear-vendor-spotlight</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://thetoolboxapp.com.au/vendor</loc>
-  </url>
-  <url>
-    <loc>https://thetoolboxapp.com.au/privacy</loc>
-  </url>
-  <url>
-    <loc>https://thetoolboxapp.com.au/terms</loc>
-  </url>
-  <url>
-    <loc>https://thetoolboxapp.com.au/refunds</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://thetoolboxapp.com.au/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/terms</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/refunds</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>
