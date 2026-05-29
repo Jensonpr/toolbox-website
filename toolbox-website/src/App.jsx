@@ -872,6 +872,122 @@ function BlogPostPage() {
   );
 }
 
+// ─── Savings Calculator ───────────────────────────────────────────────────────
+const calcSliderStyle = (value, min, max) => ({
+  width: "100%", height: 6, borderRadius: 99, display: "block",
+  WebkitAppearance: "none", appearance: "none", outline: "none", cursor: "pointer",
+  background: `linear-gradient(to right, #5ba4cf ${((value - min) / (max - min) * 100).toFixed(1)}%, #e2e8f0 ${((value - min) / (max - min) * 100).toFixed(1)}%)`,
+});
+
+function SavingsCalculator({ onJoin }) {
+  const [workwear, setWorkwear] = useState(100);
+  const [supps, setSupps] = useState(80);
+  const [gear, setGear] = useState(150);
+
+  const DISCOUNT = 0.15;
+  const MEMBERSHIP = 4.99;
+  const totalSpend = workwear + supps + gear;
+  const monthlySavings = totalSpend * DISCOUNT;
+  const annualSavings = monthlySavings * 12;
+  const netAnnual = annualSavings - (MEMBERSHIP * 12);
+
+  const labelRow = (label, value) => (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+      <span style={{ fontWeight: 700, fontSize: 15, color: "rgba(13,31,78,0.7)" }}>{label}</span>
+      <span style={{ fontWeight: 900, fontSize: 18, color: "#0d1f4e", letterSpacing: "-0.03em" }}>${value}</span>
+    </div>
+  );
+  const minMax = (min, max) => (
+    <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6 }}>
+      <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(13,31,78,0.3)" }}>${min}</span>
+      <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(13,31,78,0.3)" }}>${max}</span>
+    </div>
+  );
+
+  return (
+    <>
+      <style>{`
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #0d1f4e; cursor: grab; border: 3px solid #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.3); margin-top: -9px; }
+        input[type=range]::-webkit-slider-thumb:active { cursor: grabbing; background: #5ba4cf; }
+        input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 99px; }
+        input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #0d1f4e; cursor: grab; border: 3px solid #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        input[type=range]::-moz-range-track { height: 6px; border-radius: 99px; }
+        .calc-number { transition: all 0.15s ease; }
+      `}</style>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 40, alignItems: "start" }}>
+        <div style={{ background: "#f8fafc", borderRadius: 32, padding: 40, border: "1px solid #e2e8f0" }}>
+          <div style={{ marginBottom: 32 }}>
+            {labelRow("Monthly workwear spend", workwear)}
+            <input type="range" min={0} max={500} step={10} value={workwear} onChange={e => setWorkwear(Number(e.target.value))} style={calcSliderStyle(workwear, 0, 500)} />
+            {minMax(0, 500)}
+          </div>
+          <div style={{ marginBottom: 32 }}>
+            {labelRow("Monthly supplement spend", supps)}
+            <input type="range" min={0} max={300} step={10} value={supps} onChange={e => setSupps(Number(e.target.value))} style={calcSliderStyle(supps, 0, 300)} />
+            {minMax(0, 300)}
+          </div>
+          <div style={{ marginBottom: 32 }}>
+            {labelRow("Monthly tools & gear spend", gear)}
+            <input type="range" min={0} max={500} step={10} value={gear} onChange={e => setGear(Number(e.target.value))} style={calcSliderStyle(gear, 0, 500)} />
+            {minMax(0, 500)}
+          </div>
+          <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(13,31,78,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Total monthly spend</span>
+            <span className="calc-number" style={{ fontSize: 20, fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em" }}>${totalSpend}</span>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div style={{ background: "#0d1f4e", borderRadius: 28, padding: 36 }}>
+            <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 10 }}>Monthly savings</p>
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 6, marginBottom: 8 }}>
+              <span className="calc-number" style={{ fontSize: "3.5rem", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>${monthlySavings.toFixed(0)}</span>
+              <span style={{ fontSize: "1.1rem", color: "rgba(255,255,255,0.4)", fontWeight: 700, paddingBottom: 6 }}>/mo</span>
+            </div>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontWeight: 600, fontSize: 13 }}>At ~15% avg discount across partner brands</p>
+          </div>
+
+          <div style={{ background: "#5ba4cf", borderRadius: 28, padding: 36 }}>
+            <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 10 }}>Annual savings</p>
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 6, marginBottom: 8 }}>
+              <span className="calc-number" style={{ fontSize: "3.5rem", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>${annualSavings.toFixed(0)}</span>
+              <span style={{ fontSize: "1.1rem", color: "rgba(255,255,255,0.6)", fontWeight: 700, paddingBottom: 6 }}>/yr</span>
+            </div>
+            <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: 13 }}>After $4.99/mo membership: <strong style={{ color: "#fff" }}>${netAnnual.toFixed(0)} net</strong></p>
+          </div>
+
+          <button onClick={onJoin}
+            style={{ width: "100%", background: "#0d1f4e", color: "#fff", padding: "20px", borderRadius: 20, fontWeight: 900, fontSize: "1.05rem", fontStyle: "italic", border: "none", cursor: "pointer", transition: "background 0.2s" }}
+            onMouseOver={e => e.currentTarget.style.background = "#5ba4cf"}
+            onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
+            Secure My Founding Spot →
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function useCountUp(target, duration = 1000, startDelay = 750) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      let start = null;
+      const step = (ts) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        setCount(Math.floor(ease * target));
+        if (progress < 1) requestAnimationFrame(step);
+        else setCount(target);
+      };
+      requestAnimationFrame(step);
+    }, startDelay);
+    return () => clearTimeout(t);
+  }, [target]);
+  return count;
+}
+
 // ─── Landing Page ─────────────────────────────────────────────────────────────
 function LandingPage() {
   const navigate = useNavigate();
@@ -880,6 +996,8 @@ function LandingPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const count25 = useCountUp(25, 900, 800);
+  const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
     document.title = "The ToolBox — Australia's Tradie Discount App";
@@ -929,9 +1047,9 @@ function LandingPage() {
                 onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "#5ba4cf"}>Partner with us</button>
             </div>
           </div>
-          <button onClick={() => setShowModal(true)} style={{ background: "#5ba4cf", color: "#fff", padding: "14px 28px", borderRadius: 14, fontWeight: 900, fontSize: 15, border: "none", cursor: "pointer", whiteSpace: "nowrap" }}
-            onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
-            onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}>
+          <button onClick={() => setShowModal(true)} style={{ background: "#5ba4cf", color: "#fff", padding: "14px 28px", borderRadius: 14, fontWeight: 900, fontSize: 15, border: "none", cursor: "pointer", whiteSpace: "nowrap", animation: "glowPulse 3s ease-in-out infinite" }}
+            onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "none"; }}
+            onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "glowPulse 3s ease-in-out infinite"; }}>
             Join Waitlist
           </button>
         </div>
@@ -939,7 +1057,7 @@ function LandingPage() {
 
       {/* Hero - Signup */}
       <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "#0d1f4e" }}>
-        <div style={{ position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)", width: 800, height: 800, background: "#5ba4cf", borderRadius: "50%", filter: "blur(180px)", opacity: 0.06, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "20%", left: "50%", width: 800, height: 800, background: "#5ba4cf", borderRadius: "50%", filter: "blur(180px)", opacity: 0.07, pointerEvents: "none", animation: "float 12s ease-in-out infinite" }} />
 
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "140px 32px 80px", position: "relative", zIndex: 10, width: "100%", textAlign: "center" }}>
 
@@ -961,7 +1079,7 @@ function LandingPage() {
           </div>
 
           <div className="anim-fade-up anim-fade-up-5" style={{ display: "flex", justifyContent: "center", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-            {[["$4.99", "Per Month"], ["25+", "Partner Brands"], ["500", "Founding Spots"]].map(([val, label], i) => (
+            {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Spots"]].map(([val, label], i) => (
               <div key={label} style={{ textAlign: "center", flex: 1, borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : "none", padding: "0 16px" }}>
                 <p style={{ fontSize: "2.2rem", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 6, color: "#fff" }}>{val}</p>
                 <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{label}</p>
@@ -984,7 +1102,7 @@ function LandingPage() {
               { step: "02", title: "Browse Brands", desc: "Explore 25+ vendors across all your favourite trade categories.", icon: <IcoCreditCard /> },
               { step: "03", title: "Save Big", desc: "Show your digital card in-store or use codes online to redeem your deals.", icon: <IcoTag /> },
             ].map((item, i) => (
-              <div key={i} style={{ background: "rgba(255,255,255,0.35)", backdropFilter: "blur(10px)", padding: 40, borderRadius: 40, border: "1px solid rgba(255,255,255,0.2)", transition: "all 0.3s", cursor: "default" }}
+              <div key={i} className="scroll-reveal" style={{ background: "rgba(255,255,255,0.35)", backdropFilter: "blur(10px)", padding: 40, borderRadius: 40, border: "1px solid rgba(255,255,255,0.2)", transition: "all 0.3s", transitionDelay: `${i * 0.15}s`, cursor: "default" }}
                 onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.55)"; e.currentTarget.style.transform = "translateY(-10px)"; e.currentTarget.style.boxShadow = "0 30px 60px rgba(0,0,0,0.15)"; }}
                 onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.35)"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32 }}>
@@ -1068,7 +1186,7 @@ function LandingPage() {
                 feats: ["Everything in Monthly, plus 2 months completely free", "Priority access to new vendors and drops", "Members-only giveaways and exclusive deals"],
                 badge: "BEST VALUE" },
             ].map((plan, i) => (
-              <div key={i} style={{ background: plan.highlight ? "#5ba4cf" : "#fff", color: "#0d1f4e", padding: 40, borderRadius: 40, boxShadow: "0 30px 60px rgba(0,0,0,0.2)", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden", transition: "transform 0.3s" }}
+              <div key={i} className="scroll-reveal" style={{ background: plan.highlight ? "#5ba4cf" : "#fff", color: "#0d1f4e", padding: 40, borderRadius: 40, boxShadow: "0 30px 60px rgba(0,0,0,0.2)", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden", transition: "all 0.3s", transitionDelay: `${i * 0.15}s` }}
                 onMouseOver={e => e.currentTarget.style.transform = "translateY(-10px)"}
                 onMouseOut={e => e.currentTarget.style.transform = "translateY(0)"}>
                 {plan.badge && (
@@ -1104,6 +1222,20 @@ function LandingPage() {
       </section>
 
       {/* FAQ */}
+      {/* Savings Calculator */}
+      <section style={{ background: "#fff", padding: "96px 0", width: "100%", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 12 }}>See For Yourself</p>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 0.9, fontStyle: "italic", textTransform: "uppercase" }}>
+              How much will<br />you save<span style={{ color: "#5ba4cf" }}>?</span>
+            </h2>
+            <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 600, marginTop: 20, fontSize: "1.05rem" }}>Slide to match your monthly spend and see your savings.</p>
+          </div>
+          <SavingsCalculator onJoin={() => setShowModal(true)} />
+        </div>
+      </section>
+
       <section id="faq" style={{ background: "#fff", padding: "96px 0", scrollMarginTop: 80, width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
@@ -1161,6 +1293,8 @@ export default function App() {
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes float { 0%, 100% { transform: translateX(-50%) translateY(0px); } 50% { transform: translateX(-50%) translateY(-32px); } }
+        @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(91,164,207,0.35); } 50% { box-shadow: 0 0 52px rgba(91,164,207,0.7), 0 0 90px rgba(91,164,207,0.2); } }
         ::selection { background: #5ba4cf; color: #fff; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0d1f4e; }
