@@ -923,7 +923,7 @@ function LandingPage() {
                 <a key={label} href={href} style={{ color: "#fff", textDecoration: "none", transition: "color 0.2s" }}
                   onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>{label}</a>
               ))}
-              <button onClick={() => navigate("/blog")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", fontWeight: 900, fontSize: 16 }}
+              <button onClick={() => navigate("/blog")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", fontWeight: 900, fontSize: 16, padding: 0, lineHeight: "inherit", fontFamily: "inherit" }}
                 onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>Blog</button>
               <button onClick={() => navigate("/vendor")} style={{ background: "none", border: "none", cursor: "pointer", color: "#5ba4cf", fontWeight: 900, fontSize: 14 }}
                 onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "#5ba4cf"}>Partner with us</button>
@@ -1145,7 +1145,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; background: #0d1f4e; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; background: #0d1f4e; } button, input, textarea, select { font-family: inherit; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .anim-fade-up { opacity: 0; animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
