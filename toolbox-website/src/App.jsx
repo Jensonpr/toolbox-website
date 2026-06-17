@@ -135,6 +135,18 @@ const BLOG_POSTS = [
   },
 ];
 
+// ─── SEO Helper ──────────────────────────────────────────────────────────────
+const BASE_URL = "https://thetoolboxapp.com.au";
+function setPageMeta(title, description, path) {
+  document.title = title;
+  const url = `${BASE_URL}${path}`;
+  document.querySelector('meta[name="description"]')?.setAttribute("content", description);
+  document.querySelector('link[rel="canonical"]')?.setAttribute("href", url);
+  document.querySelector('meta[property="og:url"]')?.setAttribute("content", url);
+  document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
+  document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
+}
+
 // ─── Marquee Carousel ─────────────────────────────────────────────────────────
 function Marquee({ items, reverse = false, speed = 80 }) {
   const doubled = [...items, ...items, ...items, ...items];
@@ -280,8 +292,7 @@ function LegalSection({ title, children }) {
 // ─── Pages ────────────────────────────────────────────────────────────────────
 function PrivacyPage() {
   useEffect(() => {
-    document.title = "Privacy Policy | The ToolBox";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "Read The ToolBox privacy policy — how we collect, use, and protect your personal data.");
+    setPageMeta("Privacy Policy | The ToolBox", "Read The ToolBox privacy policy — how we collect, use, and protect your personal data.", "/privacy");
   }, []);
   return (
     <LegalPage title="Privacy Policy">
@@ -319,8 +330,7 @@ function PrivacyPage() {
 
 function TermsPage() {
   useEffect(() => {
-    document.title = "Terms of Service | The ToolBox";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "The ToolBox terms of service — membership, subscription, usage rules, and governing law.");
+    setPageMeta("Terms of Service | The ToolBox", "The ToolBox terms of service — membership, subscription, usage rules, and governing law.", "/terms");
   }, []);
   return (
     <LegalPage title="Terms of Service">
@@ -355,8 +365,7 @@ function TermsPage() {
 
 function RefundsPage() {
   useEffect(() => {
-    document.title = "Refund Policy | The ToolBox";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "The ToolBox refund policy — subscription cancellations, exceptional circumstances, and vendor disputes.");
+    setPageMeta("Refund Policy | The ToolBox", "The ToolBox refund policy — subscription cancellations, exceptional circumstances, and vendor disputes.", "/refunds");
   }, []);
   return (
     <LegalPage title="Refund Policy">
@@ -388,8 +397,7 @@ function VendorPage() {
   const [status, setStatus] = useState("idle");
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
-    document.title = "Partner With Us | The ToolBox";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "Apply to become a vendor partner on The ToolBox — reach thousands of Australian tradies with exclusive deals.");
+    setPageMeta("Partner With Us | The ToolBox", "Apply to become a vendor partner on The ToolBox — reach thousands of Australian tradies with exclusive deals.", "/vendor");
   }, []);
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", boxSizing: "border-box" };
@@ -487,8 +495,7 @@ function ContactPage() {
   const [status, setStatus] = useState("idle");
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
-    document.title = "Contact Us | The ToolBox";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "Get in touch with The ToolBox team — questions about your membership, partnerships, or anything else.");
+    setPageMeta("Contact Us | The ToolBox", "Get in touch with The ToolBox team — questions about your membership, partnerships, or anything else.", "/contact");
   }, []);
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box" };
@@ -729,8 +736,7 @@ function BlogPage() {
   const navigate = useNavigate();
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
-    document.title = "Blog | The ToolBox";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "Tradie tips, health & fitness advice, and vendor spotlights from The ToolBox Journal.");
+    setPageMeta("Blog | The ToolBox", "Tradie tips, health & fitness advice, and vendor spotlights from The ToolBox Journal.", "/blog");
   }, []);
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
@@ -802,10 +808,7 @@ function BlogPostPage() {
   const post = BLOG_POSTS.find(p => p.slug === slug);
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
   useEffect(() => {
-    if (post) {
-      document.title = `${post.title} | The ToolBox`;
-      document.querySelector('meta[name="description"]')?.setAttribute("content", post.excerpt);
-    }
+    if (post) setPageMeta(`${post.title} | The ToolBox`, post.excerpt, `/blog/${post.slug}`);
   }, [post]);
   if (!post) { navigate("/blog", { replace: true }); return null; }
 
@@ -1000,8 +1003,7 @@ function LandingPage() {
   const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
-    document.title = "The ToolBox | Australia's Tradie Discount App";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "Save money on workwear, supplements, tools & more. Australia's first discount membership app built for tradies. $4.99/mo.");
+    setPageMeta("The ToolBox | Australia's Tradie Discount App", "Save money on workwear, supplements, tools & more. Australia's first discount membership app built for tradies. $4.99/mo.", "/");
   }, []);
 
   useEffect(() => {
