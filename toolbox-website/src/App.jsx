@@ -130,7 +130,7 @@ const BLOG_POSTS = [
       { type: "h2", text: "What ToolBox Members Get" },
       { type: "p", text: "As a ToolBox member, you get an exclusive discount at Elite Supplements — in-store and online. Whether you're picking up your usual protein tub or trying something new for recovery, the savings add up across the year. For members who buy supps regularly, this deal alone covers the membership cost multiple times over." },
       { type: "h2", text: "Find Them in the App" },
-      { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 25+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
+      { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 30+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
     ],
   },
 ];
@@ -996,7 +996,7 @@ function LandingPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const count25 = useCountUp(25, 900, 800);
+  const count25 = useCountUp(30, 900, 800);
   const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
@@ -1099,7 +1099,7 @@ function LandingPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
             {[
               { step: "01", title: "Join up", desc: "Download the app and start your $4.99/mo membership.", icon: <IcoSmartphone /> },
-              { step: "02", title: "Browse Brands", desc: "Explore 25+ vendors across all your favourite trade categories.", icon: <IcoCreditCard /> },
+              { step: "02", title: "Browse Brands", desc: "Explore 30+ vendors across all your favourite trade categories.", icon: <IcoCreditCard /> },
               { step: "03", title: "Save Big", desc: "Show your digital card in-store or use codes online to redeem your deals.", icon: <IcoTag /> },
             ].map((item, i) => (
               <div key={i} className="scroll-reveal" style={{ background: "rgba(255,255,255,0.35)", backdropFilter: "blur(10px)", padding: 40, borderRadius: 40, border: "1px solid rgba(255,255,255,0.2)", transition: "all 0.3s", transitionDelay: `${i * 0.15}s`, cursor: "default" }}
@@ -1152,7 +1152,7 @@ function LandingPage() {
                 <h2 style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#0d1f4e", lineHeight: 1 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
               </div>
               <div>
-                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>25+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
+                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>30+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(13,31,78,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end" }}>
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
                   Live Network Updates
@@ -1180,7 +1180,7 @@ function LandingPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 960, margin: "0 auto" }}>
             {[
               { name: "Monthly Pro", price: "$4.99", period: "/ mo", desc: "Cancel Anytime", highlight: false,
-                feats: ["Discounts across 25+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"],
+                feats: ["Discounts across 30+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"],
                 badge: null },
               { name: "Annual Gold Saver", price: "$49.99", period: "/ yr", desc: "Save $10 Per Year", highlight: true,
                 feats: ["Everything in Monthly, plus 2 months completely free", "Priority access to new vendors and drops", "Members-only giveaways and exclusive deals"],
@@ -1247,7 +1247,7 @@ function LandingPage() {
             {[
               { q: "How do I use my discount?", a: "Once you're a member, simply open the app and show your digital membership card in-store at any of our partner vendors, or use the provided promo code for online orders." },
               { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
-              { q: "Which brands are included?", a: "We have 25+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
+              { q: "Which brands are included?", a: "We have 30+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
               { q: "Can I use it anywhere in Australia?", a: "Currently we are focused on Victoria-based vendors and legends, but we are expanding rapidly to other states very soon. Stay tuned!" },
               { q: "When is the Android version coming?", a: "We launched on iOS first to get the product right. Android is on the roadmap and will be announced to our waitlist first - another reason to sign up now." },
               { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
