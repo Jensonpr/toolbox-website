@@ -1000,7 +1000,7 @@ function LandingPage() {
   const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
-    document.title = "The ToolBox — Australia's Tradie Discount App";
+    document.title = "The ToolBox | Australia's Tradie Discount App";
     document.querySelector('meta[name="description"]')?.setAttribute("content", "Save money on workwear, supplements, tools & more. Australia's first discount membership app built for tradies. $4.99/mo.");
   }, []);
 
