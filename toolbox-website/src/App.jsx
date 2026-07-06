@@ -654,7 +654,7 @@ function WaitlistInline() {
         onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}>
         {status === "submitting"
           ? <div style={{ width: 20, height: 20, border: "3px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-          : "Secure My Spot"}
+          : "Notify Me at Launch"}
       </button>
     </form>
   );
@@ -683,29 +683,34 @@ function WaitlistModal({ onClose }) {
 
         {status === "success" ? (
           <div style={{ textAlign: "center", padding: "16px 0 8px" }}>
-            <p style={{ fontSize: "2.5rem", marginBottom: 16 }}>🎉</p>
-            <h3 style={{ fontSize: "1.6rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", marginBottom: 10 }}>You're on the list!</h3>
+            <p style={{ fontSize: "2.5rem", marginBottom: 16 }}>🚀</p>
+            <h3 style={{ fontSize: "1.6rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", marginBottom: 10 }}>You're in!</h3>
             <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 600, lineHeight: 1.6, fontSize: 15 }}>
-              Founding 500 spot secured. We'll hit you up the moment The ToolBox drops.
+              We'll hit you up the moment The ToolBox goes live. You'll be first through the door.
             </p>
           </div>
         ) : (
           <>
-            <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 12 }}>Founding 500 - Spots filling fast</p>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+              <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", flexShrink: 0 }} />
+              <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em" }}>Launching Soon — 300 spots left</p>
+            </div>
             <h3 style={{ fontSize: "1.8rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: 10 }}>
-              Lock in your price.<br />Forever.
+              Be first through<br />the door.
             </h3>
-            <p style={{ color: "rgba(13,31,78,0.55)", fontWeight: 600, lineHeight: 1.6, fontSize: 14, marginBottom: 24 }}>
-              First 500 members lock in $4.99/mo for life and get an exclusive Founding Member badge in the app.
+            <p style={{ color: "rgba(13,31,78,0.55)", fontWeight: 600, lineHeight: 1.6, fontSize: 14, marginBottom: 20 }}>
+              Drop your email and we'll notify you the moment the app goes live. Founding members lock in $4.99/mo for life.
             </p>
 
-            <div style={{ display: "flex", gap: 10, marginBottom: 24 }}>
-              {[["$4.99/mo", "forever"], ["500", "spots only"], ["Free", "to download"]].map(([val, label]) => (
-                <div key={label} style={{ flex: 1, textAlign: "center", padding: "12px 6px", background: "#f8fafc", borderRadius: 12, border: "1px solid #e2e8f0" }}>
-                  <p style={{ fontSize: "1.1rem", fontWeight: 900, color: "#0d1f4e", marginBottom: 2 }}>{val}</p>
-                  <p style={{ fontSize: 10, fontWeight: 700, color: "rgba(13,31,78,0.4)", textTransform: "uppercase", letterSpacing: "0.08em" }}>{label}</p>
-                </div>
-              ))}
+            <div style={{ background: "#f8fafc", borderRadius: 14, padding: "14px 16px", marginBottom: 20, border: "1px solid #e2e8f0" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(13,31,78,0.5)" }}>Pre-launch waitlist</span>
+                <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.1em" }}>Full ✓</span>
+              </div>
+              <div style={{ background: "#e2e8f0", borderRadius: 99, height: 6, overflow: "hidden" }}>
+                <div style={{ width: "40%", height: "100%", background: "#5ba4cf", borderRadius: 99 }} />
+              </div>
+              <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(13,31,78,0.4)", marginTop: 6, textAlign: "right" }}>200 / 500 claimed</p>
             </div>
 
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -719,10 +724,10 @@ function WaitlistModal({ onClose }) {
                 onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
                 {status === "submitting"
                   ? <div style={{ width: 20, height: 20, border: "3px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-                  : "Secure My Founding Spot"}
+                  : "Notify Me at Launch"}
               </button>
               {status === "error" && <p style={{ textAlign: "center", fontSize: 12, color: "#ef4444", fontWeight: 600 }}>Something went wrong. Try again or email support@thetoolbox.group</p>}
-              <p style={{ textAlign: "center", fontSize: 12, color: "rgba(13,31,78,0.3)", fontWeight: 600 }}>No spam. We'll only email you when the app launches.</p>
+              <p style={{ textAlign: "center", fontSize: 12, color: "rgba(13,31,78,0.3)", fontWeight: 600 }}>No spam. Launch notification only.</p>
             </form>
           </>
         )}
@@ -857,16 +862,16 @@ function BlogPostPage() {
       </article>
 
       <section style={{ background: "#0d1f4e", padding: "80px 32px", textAlign: "center" }}>
-        <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Ready to save?</p>
+        <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Launching Soon</p>
         <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
-          Join the Waitlist<span style={{ color: "#5ba4cf" }}>.</span>
+          Be First to Know<span style={{ color: "#5ba4cf" }}>.</span>
         </h2>
-        <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 36, maxWidth: 400, margin: "0 auto 36px" }}>Founding 500 members lock in $4.99/mo for life.</p>
+        <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 36, maxWidth: 400, margin: "0 auto 36px" }}>Get notified the moment The ToolBox goes live. Founding members lock in $4.99/mo for life.</p>
         <button onClick={() => navigate("/")}
           style={{ background: "#5ba4cf", color: "#fff", padding: "18px 40px", borderRadius: 16, fontWeight: 900, fontSize: "1rem", fontStyle: "italic", border: "none", cursor: "pointer", transition: "all 0.2s" }}
           onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
           onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}>
-          Secure My Spot
+          Notify Me at Launch
         </button>
       </section>
 
@@ -963,7 +968,7 @@ function SavingsCalculator({ onJoin }) {
             style={{ width: "100%", background: "#0d1f4e", color: "#fff", padding: "20px", borderRadius: 20, fontWeight: 900, fontSize: "1.05rem", fontStyle: "italic", border: "none", cursor: "pointer", transition: "background 0.2s" }}
             onMouseOver={e => e.currentTarget.style.background = "#5ba4cf"}
             onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
-            Secure My Founding Spot →
+            Notify Me at Launch →
           </button>
         </div>
       </div>
@@ -1052,7 +1057,7 @@ function LandingPage() {
           <button onClick={() => setShowModal(true)} style={{ background: "#5ba4cf", color: "#fff", padding: "14px 28px", borderRadius: 14, fontWeight: 900, fontSize: 15, border: "none", cursor: "pointer", whiteSpace: "nowrap", animation: "glowPulse 3s ease-in-out infinite" }}
             onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "none"; }}
             onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "glowPulse 3s ease-in-out infinite"; }}>
-            Join Waitlist
+            Notify Me at Launch
           </button>
         </div>
       </nav>
@@ -1087,6 +1092,32 @@ function LandingPage() {
                 <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{label}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Founding 500 Progress Banner */}
+      <section style={{ background: "#0a1940", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(91,164,207,0.12)", padding: "36px 0" }}>
+        <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 32px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 6 }}>Founding 500</p>
+              <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.15rem", letterSpacing: "-0.02em", lineHeight: 1.2 }}>200 spots claimed before we even launched.</p>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 4 }}>Launch spots remaining</p>
+              <p style={{ fontWeight: 900, color: "#fff", fontSize: "2rem", letterSpacing: "-0.04em", lineHeight: 1 }}>300</p>
+            </div>
+          </div>
+          <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 8, overflow: "hidden" }}>
+            <div style={{ width: "40%", height: "100%", background: "linear-gradient(to right, #5ba4cf, #7ec0e8)", borderRadius: 99 }} />
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e" }} />
+              <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>Pre-launch waitlist: <span style={{ color: "#22c55e", fontWeight: 900 }}>FULL</span></span>
+            </div>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>200 / 500 claimed</span>
           </div>
         </div>
       </section>
@@ -1215,7 +1246,7 @@ function LandingPage() {
                 </div>
                 <button onClick={() => setShowModal(true)} style={{ width: "100%", background: plan.highlight ? "#0d1f4e" : "#5ba4cf", color: "#fff", padding: 18, borderRadius: 16, fontWeight: 900, fontSize: "1.1rem", fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", border: "none", cursor: "pointer", transition: "opacity 0.2s" }}
                   onMouseOver={e => e.target.style.opacity = "0.85"} onMouseOut={e => e.target.style.opacity = "1"}>
-                  Join the Waitlist
+                  Notify Me at Launch
                 </button>
               </div>
             ))}
