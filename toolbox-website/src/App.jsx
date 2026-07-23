@@ -314,16 +314,32 @@ function PrivacyPage() {
       <LegalSection title="4. Disclosure of Information">
         <p>We do not sell your personal information. We may share information with:</p>
         <ul style={{ paddingLeft: 24, marginTop: 12 }}>
-          {["Partner vendors (only to verify membership for discounts).", "Service providers who perform services on our behalf.", "Legal authorities if required by law or to protect our rights."].map(i => <li key={i} style={{ marginBottom: 8 }}>{i}</li>)}
+          {[
+            "Partner vendors (only to verify membership for discounts).",
+            "Mailchimp (Intuit Inc.) — used to manage our email list and send launch and membership communications.",
+            "Apple Inc. and Google LLC — for app distribution and in-app purchase processing.",
+            "Payment processors (e.g. Stripe) — to handle subscription billing securely. We do not store your full card details.",
+            "Legal authorities if required by law or to protect our rights.",
+          ].map(i => <li key={i} style={{ marginBottom: 8 }}>{i}</li>)}
         </ul>
       </LegalSection>
       <LegalSection title="5. Security">
         <p>We take reasonable measures to help protect information about you from loss, theft, misuse, and unauthorized access. However, no data transmission over the internet can be guaranteed to be 100% secure.</p>
       </LegalSection>
-      <LegalSection title="6. Contact Us">
-        <p>If you have any questions about this Privacy Policy, please contact us at support@thetoolbox.group.</p>
+      <LegalSection title="6. Your Rights & Data Deletion">
+        <p>You have the right to access, correct, or delete the personal information we hold about you. To request deletion of your account and associated data, please contact us at <strong>support@thetoolbox.group</strong> with the subject line "Data Deletion Request". We will process your request within 30 days.</p>
+        <p style={{ marginTop: 12 }}>You may also unsubscribe from marketing emails at any time using the unsubscribe link included in every email we send.</p>
       </LegalSection>
-      <p style={{ fontSize: 13, opacity: 0.4, marginTop: 48 }}>Last updated: April 21, 2026</p>
+      <LegalSection title="7. Children's Privacy">
+        <p>The ToolBox is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have inadvertently collected information from a child under 13, please contact us immediately at support@thetoolbox.group and we will take steps to delete that information.</p>
+      </LegalSection>
+      <LegalSection title="8. Changes to This Policy">
+        <p>We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new policy on this page and updating the "Last updated" date below. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
+      </LegalSection>
+      <LegalSection title="9. Contact Us">
+        <p>If you have any questions about this Privacy Policy or wish to exercise your privacy rights, please contact us at <strong>support@thetoolbox.group</strong>.</p>
+      </LegalSection>
+      <p style={{ fontSize: 13, opacity: 0.4, marginTop: 48 }}>Last updated: July 10, 2026</p>
     </LegalPage>
   );
 }
