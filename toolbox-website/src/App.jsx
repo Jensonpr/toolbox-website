@@ -27,6 +27,14 @@ const IcoBriefcase = () => <Icon d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0
 const IcoBuilding = () => <Icon d="M3 21h18M9 21V7l7-4v18M3 21V11l6-4" />;
 const IcoInfo = () => <Icon d="M12 22a10 10 0 100-20 10 10 0 000 20zM12 8h.01M11 12h1v4h1" />;
 const IcoArrowLeft = () => <Icon d="M19 12H5M12 19l-7-7 7-7" />;
+const IcoApple = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 814 1000" fill="currentColor" style={{ flexShrink: 0 }}>
+    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-42.3-150.3-110.5c-68.3-100.4-119.4-259.5-119.4-410.6 0-225.6 147.1-344.7 292-344.7 74.3 0 136.2 48.8 182.5 48.8 44.5 0 114.7-51.9 199.1-51.9zm-182.5-114.1c33.4-40.8 57.3-97.7 57.3-154.6 0-7.7-.6-15.4-1.9-21.7-54.5 2-118.7 36.3-157.5 83.5-31.2 37.5-61.1 94.4-61.1 152.6 0 8.9 1.3 17.9 1.9 21.7 3.8.6 10.2 1.3 16.5 1.3 48.8 0 109.1-33.7 144.8-82.8z"/>
+  </svg>
+);
+
+const APP_STORE_URL = "https://apps.apple.com/au/app/id6757898214";
+const VENDOR_PORTAL_URL = "https://admin-vendor-sync.lovable.app";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const VENDORS = [
@@ -616,141 +624,25 @@ function submitToMailchimp(email, onSuccess, onError) {
   }, 8000);
 }
 
-// ─── Waitlist Inline (used in hero) ──────────────────────────────────────────
-function WaitlistInline() {
-  const [status, setStatus] = useState("idle");
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!email) return;
-    setStatus("submitting");
-    submitToMailchimp(
-      email,
-      () => setStatus("success"),
-      () => setStatus("error")
-    );
-  };
-
-  if (status === "success") {
-    return (
-      <div style={{ background: "rgba(91,164,207,0.1)", border: "1px solid rgba(91,164,207,0.25)", borderRadius: 20, padding: "28px 32px", maxWidth: 520, margin: "0 auto", textAlign: "center" }}>
-        <p style={{ fontSize: "1.5rem", marginBottom: 8 }}>🎉</p>
-        <p style={{ fontWeight: 900, fontSize: "1.1rem", marginBottom: 6 }}>You're on the list!</p>
-        <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, fontSize: 14 }}>Your Founding 500 spot is secured. We'll hit you up the moment the app drops.</p>
-      </div>
-    );
-  }
-
-  if (status === "error") {
-    return (
-      <div style={{ background: "rgba(255,80,80,0.1)", border: "1px solid rgba(255,80,80,0.25)", borderRadius: 20, padding: "20px 28px", maxWidth: 520, margin: "0 auto", textAlign: "center" }}>
-        <p style={{ fontWeight: 700, fontSize: 14, color: "rgba(255,255,255,0.7)" }}>Something went wrong. Try again or email us at admin@thetoolbox.group</p>
-      </div>
-    );
-  }
-
+// ─── App Store CTA ────────────────────────────────────────────────────────────
+function AppStoreCTA() {
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 520, margin: "0 auto" }}>
-      <div style={{ position: "relative", flex: 1 }}>
-        <span style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.3)", pointerEvents: "none" }}>
-          <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6"/></svg>
-        </span>
-        <input
-          type="email" required placeholder="your@email.com"
-          value={email} onChange={e => setEmail(e.target.value)}
-          style={{ width: "100%", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 14, padding: "17px 18px 17px 46px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box", transition: "border-color 0.2s" }}
-          onFocus={e => e.target.style.borderColor = "rgba(91,164,207,0.7)"}
-          onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"}
-        />
-      </div>
-      <button type="submit" disabled={status === "submitting"}
-        style={{ background: "#5ba4cf", color: "#fff", padding: "17px 28px", borderRadius: 14, fontWeight: 900, fontSize: "0.95rem", fontStyle: "italic", border: "none", cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.2s", opacity: status === "submitting" ? 0.7 : 1, flexShrink: 0 }}
-        onMouseOver={e => { if (status !== "submitting") { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}}
-        onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}>
-        {status === "submitting"
-          ? <div style={{ width: 20, height: 20, border: "3px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-          : "Notify Me at Launch"}
-      </button>
-    </form>
-  );
-}
-
-// ─── Waitlist Modal ───────────────────────────────────────────────────────────
-function WaitlistModal({ onClose }) {
-  const [status, setStatus] = useState("idle");
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus("submitting");
-    submitToMailchimp(email, () => setStatus("success"), () => setStatus("error"));
-  };
-
-  return (
-    <div onClick={e => { if (e.target === e.currentTarget) onClose(); }}
-      style={{ position: "fixed", inset: 0, zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(12px)" }} />
-      <div style={{ position: "relative", zIndex: 1, background: "#fff", borderRadius: 28, padding: "36px 28px 28px", maxWidth: 420, width: "100%", boxShadow: "0 40px 80px rgba(0,0,0,0.4)" }}>
-        
-        <button onClick={onClose} style={{ position: "absolute", top: 16, right: 16, background: "rgba(13,31,78,0.06)", border: "none", cursor: "pointer", width: 36, height: 36, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "#0d1f4e" }}>
-          <IcoX />
-        </button>
-
-        {status === "success" ? (
-          <div style={{ textAlign: "center", padding: "16px 0 8px" }}>
-            <p style={{ fontSize: "2.5rem", marginBottom: 16 }}>🚀</p>
-            <h3 style={{ fontSize: "1.6rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", marginBottom: 10 }}>You're in!</h3>
-            <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 600, lineHeight: 1.6, fontSize: 15 }}>
-              We'll hit you up the moment The ToolBox goes live. You'll be first through the door.
-            </p>
-          </div>
-        ) : (
-          <>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-              <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", flexShrink: 0 }} />
-              <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em" }}>Launching Soon — 300 spots left</p>
-            </div>
-            <h3 style={{ fontSize: "1.8rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: 10 }}>
-              Be first through<br />the door.
-            </h3>
-            <p style={{ color: "rgba(13,31,78,0.55)", fontWeight: 600, lineHeight: 1.6, fontSize: 14, marginBottom: 20 }}>
-              Drop your email and we'll notify you the moment the app goes live. Founding members lock in $4.99/mo for life.
-            </p>
-
-            <div style={{ background: "#f8fafc", borderRadius: 14, padding: "14px 16px", marginBottom: 20, border: "1px solid #e2e8f0" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(13,31,78,0.5)" }}>Pre-launch waitlist</span>
-                <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.1em" }}>Full ✓</span>
-              </div>
-              <div style={{ background: "#e2e8f0", borderRadius: 99, height: 6, overflow: "hidden" }}>
-                <div style={{ width: "40%", height: "100%", background: "#5ba4cf", borderRadius: 99 }} />
-              </div>
-              <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(13,31,78,0.4)", marginTop: 6, textAlign: "right" }}>200 / 500 claimed</p>
-            </div>
-
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <input type="email" required placeholder="your@email.com"
-                value={email} onChange={e => setEmail(e.target.value)}
-                style={{ width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 14, padding: "16px 18px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", boxSizing: "border-box", color: "#0d1f4e" }}
-                onFocus={e => e.target.style.borderColor = "#5ba4cf"} onBlur={e => e.target.style.borderColor = "#e2e8f0"} />
-              <button disabled={status === "submitting"}
-                style={{ width: "100%", background: "#0d1f4e", color: "#fff", padding: 18, borderRadius: 14, fontWeight: 900, fontSize: "1.05rem", fontStyle: "italic", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}
-                onMouseOver={e => { if (status !== "submitting") e.currentTarget.style.background = "#5ba4cf"; }}
-                onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
-                {status === "submitting"
-                  ? <div style={{ width: 20, height: 20, border: "3px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-                  : "Notify Me at Launch"}
-              </button>
-              {status === "error" && <p style={{ textAlign: "center", fontSize: 12, color: "#ef4444", fontWeight: 600 }}>Something went wrong. Try again or email admin@thetoolbox.group</p>}
-              <p style={{ textAlign: "center", fontSize: 12, color: "rgba(13,31,78,0.3)", fontWeight: 600 }}>No spam. Launch notification only.</p>
-            </form>
-          </>
-        )}
-      </div>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+      <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+        style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "#fff", color: "#0d1f4e", padding: "18px 40px", borderRadius: 18, fontWeight: 900, fontSize: "1.1rem", textDecoration: "none", transition: "all 0.25s", animation: "glowPulseWhite 3s ease-in-out infinite", boxShadow: "0 8px 40px rgba(255,255,255,0.15)" }}
+        onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; e.currentTarget.style.boxShadow = "0 8px 40px rgba(91,164,207,0.5)"; }}
+        onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; e.currentTarget.style.boxShadow = "0 8px 40px rgba(255,255,255,0.15)"; }}>
+        <IcoApple size={22} />
+        <div style={{ textAlign: "left" }}>
+          <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.5, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1 }}>Download on the</div>
+          <div style={{ fontSize: "1.15rem", fontWeight: 900, lineHeight: 1.2 }}>App Store</div>
+        </div>
+      </a>
+      <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>Free to download · $4.99/mo membership</p>
     </div>
   );
 }
+
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
 function BlogPage() {
@@ -878,17 +770,17 @@ function BlogPostPage() {
       </article>
 
       <section style={{ background: "#0d1f4e", padding: "80px 32px", textAlign: "center" }}>
-        <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Launching Soon</p>
+        <p style={{ color: "#22c55e", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Now Live</p>
         <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
-          Be First to Know<span style={{ color: "#5ba4cf" }}>.</span>
+          Start Saving Today<span style={{ color: "#5ba4cf" }}>.</span>
         </h2>
-        <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 36, maxWidth: 400, margin: "0 auto 36px" }}>Get notified the moment The ToolBox goes live. Founding members lock in $4.99/mo for life.</p>
-        <button onClick={() => navigate("/")}
-          style={{ background: "#5ba4cf", color: "#fff", padding: "18px 40px", borderRadius: 16, fontWeight: 900, fontSize: "1rem", fontStyle: "italic", border: "none", cursor: "pointer", transition: "all 0.2s" }}
-          onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
-          onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}>
-          Notify Me at Launch
-        </button>
+        <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 36, maxWidth: 400, margin: "0 auto 36px" }}>Download The ToolBox and start saving on workwear, supplements, tools and more. $4.99/mo, cancel anytime.</p>
+        <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+          style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "18px 40px", borderRadius: 16, fontWeight: 900, fontSize: "1rem", fontStyle: "italic", textDecoration: "none", transition: "all 0.2s" }}
+          onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
+          onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
+          <IcoApple size={18} /> Download on the App Store
+        </a>
       </section>
 
       <Footer />
@@ -980,12 +872,12 @@ function SavingsCalculator({ onJoin }) {
             <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: 13 }}>After $4.99/mo membership: <strong style={{ color: "#fff" }}>${netAnnual.toFixed(0)} net</strong></p>
           </div>
 
-          <button onClick={onJoin}
-            style={{ width: "100%", background: "#0d1f4e", color: "#fff", padding: "20px", borderRadius: 20, fontWeight: 900, fontSize: "1.05rem", fontStyle: "italic", border: "none", cursor: "pointer", transition: "background 0.2s" }}
+          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+            style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "#0d1f4e", color: "#fff", padding: "20px", borderRadius: 20, fontWeight: 900, fontSize: "1.05rem", fontStyle: "italic", textDecoration: "none", transition: "background 0.2s", boxSizing: "border-box" }}
             onMouseOver={e => e.currentTarget.style.background = "#5ba4cf"}
             onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
-            Notify Me at Launch →
-          </button>
+            <IcoApple size={18} /> Download on the App Store →
+          </a>
         </div>
       </div>
     </>
@@ -1019,7 +911,6 @@ function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
-  const [showModal, setShowModal] = useState(false);
   const count25 = useCountUp(30, 900, 800);
   const count500 = useCountUp(500, 1100, 800);
 
@@ -1052,7 +943,6 @@ function LandingPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
-      {showModal && <WaitlistModal onClose={() => setShowModal(false)} />}
 
       {/* Nav */}
       <nav style={navStyle}>
@@ -1070,11 +960,20 @@ function LandingPage() {
                 onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "#5ba4cf"}>Partner with us</button>
             </div>
           </div>
-          <button onClick={() => setShowModal(true)} style={{ background: "#5ba4cf", color: "#fff", padding: "14px 28px", borderRadius: 14, fontWeight: 900, fontSize: 15, border: "none", cursor: "pointer", whiteSpace: "nowrap", animation: "glowPulse 3s ease-in-out infinite" }}
-            onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "none"; }}
-            onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "glowPulse 3s ease-in-out infinite"; }}>
-            Notify Me at Launch
-          </button>
+          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#0d1f4e", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", whiteSpace: "nowrap", transition: "all 0.2s", animation: "glowPulseWhite 3s ease-in-out infinite" }}
+              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; }}>
+              <IcoApple size={16} /> Get the App
+            </a>
+            <a href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.15)", transition: "all 0.2s" }}
+              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
+              Vendor Portal
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -1084,9 +983,9 @@ function LandingPage() {
 
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "140px 32px 80px", position: "relative", zIndex: 10, width: "100%", textAlign: "center" }}>
 
-          <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.25)", borderRadius: 100, padding: "7px 16px", marginBottom: 32 }}>
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#5ba4cf", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
-            <span style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.15em" }}>Founding 500 - Limited spots</span>
+          <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "7px 16px", marginBottom: 32 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
+            <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.15em" }}>Now Live on the App Store</span>
           </div>
 
           <h1 className="anim-fade-up anim-fade-up-2" style={{ fontSize: "clamp(2.6rem, 5vw, 4.5rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
@@ -1098,11 +997,11 @@ function LandingPage() {
           </p>
 
           <div className="anim-fade-up anim-fade-up-4">
-            <WaitlistInline />
+            <AppStoreCTA />
           </div>
 
           <div className="anim-fade-up anim-fade-up-5" style={{ display: "flex", justifyContent: "center", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-            {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Spots"]].map(([val, label], i) => (
+            {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Members"]].map(([val, label], i) => (
               <div key={label} style={{ textAlign: "center", flex: 1, borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : "none", padding: "0 16px" }}>
                 <p style={{ fontSize: "2.2rem", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 6, color: "#fff" }}>{val}</p>
                 <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{label}</p>
@@ -1117,11 +1016,11 @@ function LandingPage() {
         <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
             <div>
-              <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 6 }}>Founding 500</p>
-              <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.15rem", letterSpacing: "-0.02em", lineHeight: 1.2 }}>200 spots claimed before we even launched.</p>
+              <p style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 6 }}>We're Live 🎉</p>
+              <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.15rem", letterSpacing: "-0.02em", lineHeight: 1.2 }}>200 founding members joined before launch.</p>
             </div>
             <div style={{ textAlign: "right" }}>
-              <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 4 }}>Launch spots remaining</p>
+              <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 4 }}>Founding spots remaining</p>
               <p style={{ fontWeight: 900, color: "#fff", fontSize: "2rem", letterSpacing: "-0.04em", lineHeight: 1 }}>300</p>
             </div>
           </div>
@@ -1260,10 +1159,10 @@ function LandingPage() {
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#f4c430", flexShrink: 0 }} />
                   <p style={{ fontSize: 12, fontWeight: 700, opacity: 0.8, fontStyle: "italic" }}>Founding 500 members lock in this price forever + get an exclusive in-app badge.</p>
                 </div>
-                <button onClick={() => setShowModal(true)} style={{ width: "100%", background: plan.highlight ? "#0d1f4e" : "#5ba4cf", color: "#fff", padding: 18, borderRadius: 16, fontWeight: 900, fontSize: "1.1rem", fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", border: "none", cursor: "pointer", transition: "opacity 0.2s" }}
-                  onMouseOver={e => e.target.style.opacity = "0.85"} onMouseOut={e => e.target.style.opacity = "1"}>
-                  Notify Me at Launch
-                </button>
+                <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: plan.highlight ? "#0d1f4e" : "#5ba4cf", color: "#fff", padding: 18, borderRadius: 16, fontWeight: 900, fontSize: "1.1rem", fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", textDecoration: "none", transition: "opacity 0.2s", boxSizing: "border-box" }}
+                  onMouseOver={e => e.currentTarget.style.opacity = "0.85"} onMouseOut={e => e.currentTarget.style.opacity = "1"}>
+                  <IcoApple size={18} /> Download Now
+                </a>
               </div>
             ))}
           </div>
@@ -1344,6 +1243,7 @@ export default function App() {
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         @keyframes float { 0%, 100% { transform: translateX(-50%) translateY(0px); } 50% { transform: translateX(-50%) translateY(-32px); } }
         @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(91,164,207,0.35); } 50% { box-shadow: 0 0 52px rgba(91,164,207,0.7), 0 0 90px rgba(91,164,207,0.2); } }
+        @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
         ::selection { background: #5ba4cf; color: #fff; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0d1f4e; }
