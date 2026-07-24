@@ -318,7 +318,7 @@ function PrivacyPage() {
             "Partner vendors (only to verify membership for discounts).",
             "Mailchimp (Intuit Inc.) — used to manage our email list and send launch and membership communications.",
             "Apple Inc. and Google LLC — for app distribution and in-app purchase processing.",
-            "Payment processors (e.g. Stripe) — to handle subscription billing securely. We do not store your full card details.",
+            "Payment processors — to handle subscription billing securely. We do not store your full card details.",
             "Legal authorities if required by law or to protect our rights.",
           ].map(i => <li key={i} style={{ marginBottom: 8 }}>{i}</li>)}
         </ul>
@@ -327,17 +327,17 @@ function PrivacyPage() {
         <p>We take reasonable measures to help protect information about you from loss, theft, misuse, and unauthorized access. However, no data transmission over the internet can be guaranteed to be 100% secure.</p>
       </LegalSection>
       <LegalSection title="6. Your Rights & Data Deletion">
-        <p>You have the right to access, correct, or delete the personal information we hold about you. To request deletion of your account and associated data, please contact us at <strong>support@thetoolbox.group</strong> with the subject line "Data Deletion Request". We will process your request within 30 days.</p>
+        <p>You have the right to access, correct, or delete the personal information we hold about you. To request deletion of your account and associated data, please contact us at <strong>admin@thetoolbox.group</strong> with the subject line "Data Deletion Request". We will process your request within 30 days.</p>
         <p style={{ marginTop: 12 }}>You may also unsubscribe from marketing emails at any time using the unsubscribe link included in every email we send.</p>
       </LegalSection>
       <LegalSection title="7. Children's Privacy">
-        <p>The ToolBox is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have inadvertently collected information from a child under 13, please contact us immediately at support@thetoolbox.group and we will take steps to delete that information.</p>
+        <p>The ToolBox is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have inadvertently collected information from a child under 13, please contact us immediately at admin@thetoolbox.group and we will take steps to delete that information.</p>
       </LegalSection>
       <LegalSection title="8. Changes to This Policy">
         <p>We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new policy on this page and updating the "Last updated" date below. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
       </LegalSection>
       <LegalSection title="9. Contact Us">
-        <p>If you have any questions about this Privacy Policy or wish to exercise your privacy rights, please contact us at <strong>support@thetoolbox.group</strong>.</p>
+        <p>If you have any questions about this Privacy Policy or wish to exercise your privacy rights, please contact us at <strong>admin@thetoolbox.group</strong>.</p>
       </LegalSection>
       <p style={{ fontSize: 13, opacity: 0.4, marginTop: 48 }}>Last updated: July 10, 2026</p>
     </LegalPage>
@@ -401,7 +401,7 @@ function RefundsPage() {
         <p>The ToolBox is not responsible for the products or services provided by partner vendors. Any refunds for purchases made at a partner vendor must be handled directly with that vendor.</p>
       </LegalSection>
       <LegalSection title="5. Contact Support">
-        <p>To discuss a refund request, please email support@thetoolbox.group with your account details and the reason for the request.</p>
+        <p>To discuss a refund request, please email admin@thetoolbox.group with your account details and the reason for the request.</p>
       </LegalSection>
       <p style={{ fontSize: 13, opacity: 0.4, marginTop: 48 }}>Last updated: April 21, 2026</p>
     </LegalPage>
@@ -532,7 +532,7 @@ function ContactPage() {
             <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 32, fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9 }}>Contact us<span style={{ color: "#5ba4cf" }}>.</span></h1>
             <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 500, lineHeight: 1.7, marginBottom: 48, maxWidth: 360 }}>Have a question about your membership? Or just want to have a yarn? Send us a message and we'll get back to you shortly.</p>
             {[
-              { icon: <IcoMail />, label: "Email us", value: "support@thetoolbox.group" },
+              { icon: <IcoMail />, label: "Email us", value: "admin@thetoolbox.group" },
               { icon: <IcoInstagram />, label: "Follow us", value: "@thetoolboxau" },
             ].map(c => (
               <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 32 }}>
@@ -645,7 +645,7 @@ function WaitlistInline() {
   if (status === "error") {
     return (
       <div style={{ background: "rgba(255,80,80,0.1)", border: "1px solid rgba(255,80,80,0.25)", borderRadius: 20, padding: "20px 28px", maxWidth: 520, margin: "0 auto", textAlign: "center" }}>
-        <p style={{ fontWeight: 700, fontSize: 14, color: "rgba(255,255,255,0.7)" }}>Something went wrong. Try again or email us at support@thetoolbox.group</p>
+        <p style={{ fontWeight: 700, fontSize: 14, color: "rgba(255,255,255,0.7)" }}>Something went wrong. Try again or email us at admin@thetoolbox.group</p>
       </div>
     );
   }
@@ -742,7 +742,7 @@ function WaitlistModal({ onClose }) {
                   ? <div style={{ width: 20, height: 20, border: "3px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
                   : "Notify Me at Launch"}
               </button>
-              {status === "error" && <p style={{ textAlign: "center", fontSize: 12, color: "#ef4444", fontWeight: 600 }}>Something went wrong. Try again or email support@thetoolbox.group</p>}
+              {status === "error" && <p style={{ textAlign: "center", fontSize: 12, color: "#ef4444", fontWeight: 600 }}>Something went wrong. Try again or email admin@thetoolbox.group</p>}
               <p style={{ textAlign: "center", fontSize: 12, color: "rgba(13,31,78,0.3)", fontWeight: 600 }}>No spam. Launch notification only.</p>
             </form>
           </>
