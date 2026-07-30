@@ -1037,7 +1037,7 @@ function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
-  const count25 = useCountUp(30, 900, 800);
+  const count25 = useCountUp(35, 900, 800);
   const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
