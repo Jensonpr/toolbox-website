@@ -26,6 +26,31 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://thetoolboxapp.com.au/blog/the-toolbox-is-now-live</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/blog/best-tradie-workwear-deals-australia</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/blog/tradie-fitness-recovery-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/blog/tradie-lifestyle-perks-toolbox-partners</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://thetoolboxapp.com.au/blog/30-vendor-partners-toolbox-network</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://thetoolboxapp.com.au/vendor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
