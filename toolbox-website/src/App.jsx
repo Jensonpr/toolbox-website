@@ -78,21 +78,21 @@ const BLOG_POSTS = [
     date: "May 20, 2025",
     readTime: "4 min read",
     author: "The ToolBox Team",
-    excerpt: "Being on the tools is expensive. Between boots, workwear, supps, and smoko runs — it adds up fast. Here's how savvy tradies are keeping more cash in their pocket.",
+    excerpt: "Being on the tools is expensive. Between boots, workwear, supps, and smoko runs  -  it adds up fast. Here's how savvy tradies are keeping more cash in their pocket.",
     content: [
-      { type: "p", text: "Let's be real — being a tradie is expensive. By the time you've kitted yourself out with proper boots, decent workwear, a few supplements to keep you going, and whatever your ute needs this week, the pay cheque doesn't stretch as far as it should." },
+      { type: "p", text: "Let's be real  -  being a tradie is expensive. By the time you've kitted yourself out with proper boots, decent workwear, a few supplements to keep you going, and whatever your ute needs this week, the pay cheque doesn't stretch as far as it should." },
       { type: "p", text: "But there are ways to claw that money back. Here are five things smart tradies are doing to keep more cash in their pocket without cutting corners on quality." },
       { type: "h2", text: "1. Use a Discount Membership App" },
-      { type: "p", text: "Discount apps built specifically for tradies — like The ToolBox — negotiate bulk discounts with the brands you're already buying from. Instead of paying RRP on workwear, supplements, and tools, members pay 10–30% less just by flashing a digital card. If you spend $100/month on gear, a $4.99 membership that saves you 15% pays for itself in the first transaction." },
+      { type: "p", text: "Discount apps built specifically for tradies  -  like The ToolBox  -  negotiate bulk discounts with the brands you're already buying from. Instead of paying RRP on workwear, supplements, and tools, members pay 10–30% less just by flashing a digital card. If you spend $100/month on gear, a $4.99 membership that saves you 15% pays for itself in the first transaction." },
       { type: "h2", text: "2. Buy Consumables in Bulk" },
-      { type: "p", text: "Screws, sandpaper, drill bits, cable ties — consumables are a death by a thousand cuts. Buying in bulk from a trade supplier versus grabbing a small pack from the nearest hardware chain can cut costs by 40–60% over a year. One bulk buy sets you up for months." },
+      { type: "p", text: "Screws, sandpaper, drill bits, cable ties  -  consumables are a death by a thousand cuts. Buying in bulk from a trade supplier versus grabbing a small pack from the nearest hardware chain can cut costs by 40–60% over a year. One bulk buy sets you up for months." },
       { type: "h2", text: "3. Meal Prep for the Work Week" },
-      { type: "p", text: "Smoko and lunch runs might feel small — $15 here, $20 there — but five days a week, 48 weeks a year, that's potentially $4,000 you've handed to the servo or the burger joint. Spending two hours on Sunday prepping meals is one of the highest-value uses of your weekend." },
+      { type: "p", text: "Smoko and lunch runs might feel small  -  $15 here, $20 there  -  but five days a week, 48 weeks a year, that's potentially $4,000 you've handed to the servo or the burger joint. Spending two hours on Sunday prepping meals is one of the highest-value uses of your weekend." },
       { type: "h2", text: "4. Look After Your Gear" },
-      { type: "p", text: "A good pair of work boots costs $200–$400. Proper care — cleaning, conditioning, waterproofing — can double their lifespan. The same goes for power tools. Regular maintenance and proper storage means fewer replacements and less out of pocket every year." },
+      { type: "p", text: "A good pair of work boots costs $200–$400. Proper care  -  cleaning, conditioning, waterproofing  -  can double their lifespan. The same goes for power tools. Regular maintenance and proper storage means fewer replacements and less out of pocket every year." },
       { type: "h2", text: "5. Compare Before You Buy" },
       { type: "p", text: "Most tradies buy from the place they already know. Taking 5 minutes to compare online before heading in regularly saves 10–20% on big purchases. Stack that with a discount membership and you're looking at serious savings over the year." },
-      { type: "p", text: "The tradie lifestyle shouldn't mean being the last one to benefit from the industries you literally build. Use every tool at your disposal — including the financial ones." },
+      { type: "p", text: "The tradie lifestyle shouldn't mean being the last one to benefit from the industries you literally build. Use every tool at your disposal  -  including the financial ones." },
     ],
   },
   {
@@ -105,18 +105,18 @@ const BLOG_POSTS = [
     author: "The ToolBox Team",
     excerpt: "Your body is your biggest tool. What you fuel it with on site directly affects how you perform, recover, and feel at the end of a long day.",
     content: [
-      { type: "p", text: "Most tradies wouldn't show up to site with a power tool running on empty batteries. But plenty of blokes rock up having skipped breakfast, powering through on two coffees and whatever the smoko run brings. Your body isn't any different to that drill — fuel matters." },
+      { type: "p", text: "Most tradies wouldn't show up to site with a power tool running on empty batteries. But plenty of blokes rock up having skipped breakfast, powering through on two coffees and whatever the smoko run brings. Your body isn't any different to that drill  -  fuel matters." },
       { type: "h2", text: "The Physical Reality of Trade Work" },
-      { type: "p", text: "Trade work is physically demanding in ways that are easy to underestimate. Electricians are constantly crouching, reaching, and carrying. Carpenters lift, swing, and maintain balance on scaffolding for hours. Plumbers spend half the day in positions that would make a physio wince. The caloric and nutritional demands are high — and most standard dietary advice isn't written for this lifestyle." },
+      { type: "p", text: "Trade work is physically demanding in ways that are easy to underestimate. Electricians are constantly crouching, reaching, and carrying. Carpenters lift, swing, and maintain balance on scaffolding for hours. Plumbers spend half the day in positions that would make a physio wince. The caloric and nutritional demands are high  -  and most standard dietary advice isn't written for this lifestyle." },
       { type: "h2", text: "Hydration Is the First Priority" },
-      { type: "p", text: "Before you think about pre-workouts or protein shakes, get your water intake right. Dehydration of just 2% of body weight has been shown to impair physical performance and cognitive function. On a summer site, that's easy to hit before lunch. A water bottle you actually keep filled — ideally with electrolytes on hot days — is the highest ROI investment for on-site performance." },
+      { type: "p", text: "Before you think about pre-workouts or protein shakes, get your water intake right. Dehydration of just 2% of body weight has been shown to impair physical performance and cognitive function. On a summer site, that's easy to hit before lunch. A water bottle you actually keep filled  -  ideally with electrolytes on hot days  -  is the highest ROI investment for on-site performance." },
       { type: "h2", text: "Protein for Recovery" },
       { type: "p", text: "Construction and trade work breaks down muscle tissue. Without adequate protein to repair it, you'll feel it in your joints and energy levels within weeks. Aim for 1.6–2.2g of protein per kg of bodyweight if you're doing heavy physical work. A quality protein supplement post-work makes hitting those numbers manageable without eating six chicken breasts a day." },
       { type: "h2", text: "What About Supps?" },
       { type: "p", text: "The supplement market is flooded, and a lot of it is overpriced noise. But a few categories are genuinely useful for tradies: creatine for strength and power output, magnesium for muscle recovery and sleep quality, and omega-3s for joint health. These are supported by solid research and make a real difference with consistent use." },
-      { type: "p", text: "The key is buying quality without paying retail markup. Partners like Elite Supplements and Nutrition Warehouse — both in The ToolBox network — carry the brands worth buying at prices that make consistent supplementation practical on a tradie budget." },
+      { type: "p", text: "The key is buying quality without paying retail markup. Partners like Elite Supplements and Nutrition Warehouse  -  both in The ToolBox network  -  carry the brands worth buying at prices that make consistent supplementation practical on a tradie budget." },
       { type: "h2", text: "The Long Game" },
-      { type: "p", text: "Your body is your career. The blokes still running their own business at 55 didn't get there by grinding themselves into the ground at 35. Eating well, recovering properly, and looking after your physical health isn't soft — it's the smartest business decision you can make." },
+      { type: "p", text: "Your body is your career. The blokes still running their own business at 55 didn't get there by grinding themselves into the ground at 35. Eating well, recovering properly, and looking after your physical health isn't soft  -  it's the smartest business decision you can make." },
     ],
   },
   {
@@ -127,16 +127,16 @@ const BLOG_POSTS = [
     date: "May 5, 2025",
     readTime: "3 min read",
     author: "The ToolBox Team",
-    excerpt: "Elite Supplements is one of Australia's biggest supplement retailers — and one of the first brands to partner with The ToolBox. Here's why it's a no-brainer for tradies.",
+    excerpt: "Elite Supplements is one of Australia's biggest supplement retailers  -  and one of the first brands to partner with The ToolBox. Here's why it's a no-brainer for tradies.",
     content: [
       { type: "p", text: "When we were putting together the vendor network for The ToolBox, supplements were a category we knew had to be done right. Tradies are physically active, they burn through energy, and they need quality products at a price that makes sense. Elite Supplements was the obvious first call." },
       { type: "h2", text: "Who Are Elite Supplements?" },
-      { type: "p", text: "Elite Supplements is one of Australia's largest specialty supplement retailers, with stores across Victoria and a massive online range. They stock everything from protein and pre-workouts through to vitamins, recovery gear, and health foods — all from the brands that actually matter." },
+      { type: "p", text: "Elite Supplements is one of Australia's largest specialty supplement retailers, with stores across Victoria and a massive online range. They stock everything from protein and pre-workouts through to vitamins, recovery gear, and health foods  -  all from the brands that actually matter." },
       { type: "p", text: "Unlike the generic health aisle at the supermarket, Elite Supplements staff actually know their stuff. If you're not sure what you need, you'll get a straight answer rather than a sales pitch for whatever has the biggest margin." },
       { type: "h2", text: "Why Supplements Matter for Tradies" },
-      { type: "p", text: "Trade work is hard on the body. Long days, physical strain, and early starts mean your recovery and energy needs are higher than the average office worker. Quality protein helps repair muscle tissue, creatine supports strength output, and magnesium helps you actually sleep after a big day. These aren't gym bro extras — they're practical tools for anyone doing physical work for a living." },
+      { type: "p", text: "Trade work is hard on the body. Long days, physical strain, and early starts mean your recovery and energy needs are higher than the average office worker. Quality protein helps repair muscle tissue, creatine supports strength output, and magnesium helps you actually sleep after a big day. These aren't gym bro extras  -  they're practical tools for anyone doing physical work for a living." },
       { type: "h2", text: "What ToolBox Members Get" },
-      { type: "p", text: "As a ToolBox member, you get an exclusive discount at Elite Supplements — in-store and online. Whether you're picking up your usual protein tub or trying something new for recovery, the savings add up across the year. For members who buy supps regularly, this deal alone covers the membership cost multiple times over." },
+      { type: "p", text: "As a ToolBox member, you get an exclusive discount at Elite Supplements  -  in-store and online. Whether you're picking up your usual protein tub or trying something new for recovery, the savings add up across the year. For members who buy supps regularly, this deal alone covers the membership cost multiple times over." },
       { type: "h2", text: "Find Them in the App" },
       { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 30+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
     ],
@@ -149,14 +149,14 @@ const BLOG_POSTS = [
     date: "July 25, 2025",
     readTime: "3 min read",
     author: "The ToolBox Team",
-    excerpt: "After months of building, testing, and signing up 30+ partner brands — The ToolBox is officially live on the App Store. Here's what that means for Australian tradies.",
+    excerpt: "After months of building, testing, and signing up 30+ partner brands  -  The ToolBox is officially live on the App Store. Here's what that means for Australian tradies.",
     content: [
-      { type: "p", text: "It's here. The ToolBox — Australia's first discount membership app built specifically for tradies — is now available to download on the App Store. For $4.99 a month, members get instant access to exclusive deals across workwear, supplements, fitness, grooming, food, tech, and more." },
+      { type: "p", text: "It's here. The ToolBox  -  Australia's first discount membership app built specifically for tradies  -  is now available to download on the App Store. For $4.99 a month, members get instant access to exclusive deals across workwear, supplements, fitness, grooming, food, tech, and more." },
       { type: "h2", text: "What We Built and Why" },
-      { type: "p", text: "The idea behind The ToolBox is simple: tradies spend serious money on the gear, food, and lifestyle that keeps them going — but they never get the bulk buying power that corporate memberships or big brands take for granted. We fixed that." },
-      { type: "p", text: "We went out and negotiated directly with 30+ Australian brands to lock in real discounts — not token offers, but 10–25% off on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
+      { type: "p", text: "The idea behind The ToolBox is simple: tradies spend serious money on the gear, food, and lifestyle that keeps them going  -  but they never get the bulk buying power that corporate memberships or big brands take for granted. We fixed that." },
+      { type: "p", text: "We went out and negotiated directly with 30+ Australian brands to lock in real discounts  -  not token offers, but 10–25% off on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
       { type: "h2", text: "200 Founding Members Before We Even Launched" },
-      { type: "p", text: "One of the things that made this launch special: over 200 people joined the waitlist before we went live. That's 200 tradies who saw the value before a single deal was redeemable. Those are our Founding Members — they're locked in at $4.99/mo for life, no matter where pricing goes." },
+      { type: "p", text: "One of the things that made this launch special: over 200 people joined the waitlist before we went live. That's 200 tradies who saw the value before a single deal was redeemable. Those are our Founding Members  -  they're locked in at $4.99/mo for life, no matter where pricing goes." },
       { type: "p", text: "There are still 300 founding member spots available for the first people who download and subscribe. Once those are gone, they're gone." },
       { type: "h2", text: "What's Available Right Now" },
       { type: "p", text: "From day one, the app includes deals across a huge range of categories: workwear from Anthem Workwear and Ruff Supplied, supplements from Elite Supplements and Nutrition Warehouse, energy from Kamikaze Energy, fitness at Industrial Strength and Fitness, Reps Fitness Bayswater, and Fitspace Training, recovery at Resilient Recovery, grooming at Jukes Grooming and The Barber Club, tech from BitPocket and Hard Hat Smartwatches, golf at Future Golf, Sundayfairway, and Maroondah Golf Park, and a lot more." },
@@ -173,20 +173,20 @@ const BLOG_POSTS = [
     date: "July 18, 2025",
     readTime: "5 min read",
     author: "The ToolBox Team",
-    excerpt: "Good workwear isn't cheap — but it should last. Here's how Australian tradies are getting quality gear at real prices, and which brands are worth your money.",
+    excerpt: "Good workwear isn't cheap  -  but it should last. Here's how Australian tradies are getting quality gear at real prices, and which brands are worth your money.",
     content: [
-      { type: "p", text: "Tradie workwear is one of those categories where you genuinely get what you pay for. A cheap pair of work pants falls apart in a month. Boots that aren't rated properly are a safety hazard. But quality gear at full retail adds up fast — especially if you're kitting out a crew or replacing items regularly." },
+      { type: "p", text: "Tradie workwear is one of those categories where you genuinely get what you pay for. A cheap pair of work pants falls apart in a month. Boots that aren't rated properly are a safety hazard. But quality gear at full retail adds up fast  -  especially if you're kitting out a crew or replacing items regularly." },
       { type: "p", text: "Here's what's actually worth buying, and how to get it at a price that doesn't hurt." },
-      { type: "h2", text: "Anthem Workwear — Purpose-Built for the Site" },
-      { type: "p", text: "Anthem Workwear designs gear specifically for tradies — not rebranded outdoor clothing, but workwear engineered for the demands of the site. ToolBox members get 20% off both online and in-store, which on a full kit makes a meaningful difference." },
-      { type: "h2", text: "Ruff Supplied — Built Tough, No Fluff" },
+      { type: "h2", text: "Anthem Workwear  -  Purpose-Built for the Site" },
+      { type: "p", text: "Anthem Workwear designs gear specifically for tradies  -  not rebranded outdoor clothing, but workwear engineered for the demands of the site. ToolBox members get 20% off both online and in-store, which on a full kit makes a meaningful difference." },
+      { type: "h2", text: "Ruff Supplied  -  Built Tough, No Fluff" },
       { type: "p", text: "Ruff Supplied has built a following in the tradie community for exactly what the name suggests: gear that holds up to real work. 10% off for ToolBox members might sound modest, but on regular orders for consumables and workwear it stacks up over a year." },
-      { type: "h2", text: "Tradie Frames — Protect Your Eyes on Site" },
-      { type: "p", text: "Eye protection is non-negotiable in most trades, and Tradie Frames makes safety eyewear that doesn't look like it came out of a 1990s safety catalogue. ToolBox members get 20% off — for something you're legally required to wear on most sites, getting quality at a discount is a no-brainer." },
-      { type: "h2", text: "The Trade Shade — Sun Protection That Works on Site" },
-      { type: "p", text: "Outdoor tradies cop more UV than almost anyone. The Trade Shade makes sun-protection gear built for working conditions — not beach holidays. ToolBox members save 20% on a brand that takes skin protection seriously for people who spend their lives under the Australian sun." },
+      { type: "h2", text: "Tradie Frames  -  Protect Your Eyes on Site" },
+      { type: "p", text: "Eye protection is non-negotiable in most trades, and Tradie Frames makes safety eyewear that doesn't look like it came out of a 1990s safety catalogue. ToolBox members get 20% off  -  for something you're legally required to wear on most sites, getting quality at a discount is a no-brainer." },
+      { type: "h2", text: "The Trade Shade  -  Sun Protection That Works on Site" },
+      { type: "p", text: "Outdoor tradies cop more UV than almost anyone. The Trade Shade makes sun-protection gear built for working conditions  -  not beach holidays. ToolBox members save 20% on a brand that takes skin protection seriously for people who spend their lives under the Australian sun." },
       { type: "h2", text: "How to Stack Your Savings" },
-      { type: "p", text: "The real play with workwear isn't getting a one-off discount — it's having a consistent supplier you're getting a discount from every time. A ToolBox membership at $4.99/mo gives you ongoing access to all of these brands, so every workwear purchase across the year is cheaper than retail." },
+      { type: "p", text: "The real play with workwear isn't getting a one-off discount  -  it's having a consistent supplier you're getting a discount from every time. A ToolBox membership at $4.99/mo gives you ongoing access to all of these brands, so every workwear purchase across the year is cheaper than retail." },
       { type: "p", text: "If you spend $600 a year on workwear and average 15% savings, that's $90 back in your pocket. The membership costs $60 a year. You're ahead before you've bought a single supplement or paid for a gym session." },
     ],
   },
@@ -198,20 +198,20 @@ const BLOG_POSTS = [
     date: "July 10, 2025",
     readTime: "6 min read",
     author: "The ToolBox Team",
-    excerpt: "Trade work is physically brutal. Here's how to train smart, recover faster, and keep your body working for you — not against you — with help from The ToolBox's fitness partners.",
+    excerpt: "Trade work is physically brutal. Here's how to train smart, recover faster, and keep your body working for you  -  not against you  -  with help from The ToolBox's fitness partners.",
     content: [
-      { type: "p", text: "Trade work puts serious miles on your body. The repetitive movements, heavy lifts, awkward positions, and long days in the sun take a physical toll that most fitness advice doesn't account for. The goal isn't to go harder — it's to last longer." },
+      { type: "p", text: "Trade work puts serious miles on your body. The repetitive movements, heavy lifts, awkward positions, and long days in the sun take a physical toll that most fitness advice doesn't account for. The goal isn't to go harder  -  it's to last longer." },
       { type: "h2", text: "Train to Support the Work, Not Compete With It" },
-      { type: "p", text: "The biggest mistake active tradies make in the gym is training the same muscles they've been hammering all day. If you're a carpenter spending eight hours with a hammer in your dominant hand, you don't need more pressing volume at the gym. You need antagonist work — pulling movements, rotator cuff stability, and hip mobility that counterbalances what the job demands." },
-      { type: "p", text: "Industrial Strength and Fitness is one of the best gym partners in The ToolBox network for this. As a specialist strength facility with a 15% member discount, it's built for people who take training seriously — not a casual spin bike and sauna setup." },
+      { type: "p", text: "The biggest mistake active tradies make in the gym is training the same muscles they've been hammering all day. If you're a carpenter spending eight hours with a hammer in your dominant hand, you don't need more pressing volume at the gym. You need antagonist work  -  pulling movements, rotator cuff stability, and hip mobility that counterbalances what the job demands." },
+      { type: "p", text: "Industrial Strength and Fitness is one of the best gym partners in The ToolBox network for this. As a specialist strength facility with a 15% member discount, it's built for people who take training seriously  -  not a casual spin bike and sauna setup." },
       { type: "h2", text: "Recovery Is Where the Gains Are Made" },
-      { type: "p", text: "Resilient Recovery specialises in exactly what the name says: helping your body bounce back faster. For tradies, soft tissue work, compression, and structured recovery isn't a luxury — it's maintenance. ToolBox members get 20% off, and for anyone with ongoing joint or muscle issues from the job, it's one of the most valuable deals in the app." },
+      { type: "p", text: "Resilient Recovery specialises in exactly what the name says: helping your body bounce back faster. For tradies, soft tissue work, compression, and structured recovery isn't a luxury  -  it's maintenance. ToolBox members get 20% off, and for anyone with ongoing joint or muscle issues from the job, it's one of the most valuable deals in the app." },
       { type: "h2", text: "Gym Options for Every Lifestyle" },
-      { type: "p", text: "Not every tradie wants the same gym experience. Reps Fitness Bayswater offers a solid facility with 10% off for ToolBox members — good for members who want straightforward, no-frills training access. Fitspace Training gives members $9 off per session, which across the week adds up to real money." },
+      { type: "p", text: "Not every tradie wants the same gym experience. Reps Fitness Bayswater offers a solid facility with 10% off for ToolBox members  -  good for members who want straightforward, no-frills training access. Fitspace Training gives members $9 off per session, which across the week adds up to real money." },
       { type: "h2", text: "Nutrition Makes the Difference" },
-      { type: "p", text: "You can train perfectly and still feel ordinary if your nutrition is off. Nutrition Warehouse has one of the widest ranges of health and supplement products available, with $10 off in-store for ToolBox members. Sigma Movement — another ToolBox partner with 15% off — covers functional health from a movement-first perspective." },
+      { type: "p", text: "You can train perfectly and still feel ordinary if your nutrition is off. Nutrition Warehouse has one of the widest ranges of health and supplement products available, with $10 off in-store for ToolBox members. Sigma Movement  -  another ToolBox partner with 15% off  -  covers functional health from a movement-first perspective." },
       { type: "h2", text: "Fuel for the Day" },
-      { type: "p", text: "Edge Endurance rounds out the fitness ecosystem in the app with 20% off for ToolBox members. For tradies who need sustained energy performance — not just a pre-workout spike — performance nutrition from a brand that understands endurance is worth keeping in the kit." },
+      { type: "p", text: "Edge Endurance rounds out the fitness ecosystem in the app with 20% off for ToolBox members. For tradies who need sustained energy performance  -  not just a pre-workout spike  -  performance nutrition from a brand that understands endurance is worth keeping in the kit." },
       { type: "p", text: "Building a fitness and recovery routine that actually works around trade hours is hard. Having the right partners at member prices makes it easier to stay consistent without blowing the budget." },
     ],
   },
@@ -225,19 +225,19 @@ const BLOG_POSTS = [
     author: "The ToolBox Team",
     excerpt: "The ToolBox isn't just about workwear and supps. From golf and grooming to food and crypto, here's what founding members are actually using it for.",
     content: [
-      { type: "p", text: "When we designed The ToolBox, we didn't want to build just another discount on hard hats. Tradies work hard and they spend money across a full life — not just on site. So we went out and built a partner network that covers the whole lifestyle." },
-      { type: "h2", text: "Golf — Because You've Earned It" },
-      { type: "p", text: "Golf has always been the tradie's sport of choice on the weekend, and the ToolBox has three partners making it more accessible. Future Golf offers 20% off for members. Sundayfairway — the online golf retail destination — gives members 15% off gear. And Maroondah Golf Park offers $3 off per round, so your regular Saturday hit doesn't cost what it used to." },
-      { type: "h2", text: "Grooming — Looking the Part Off the Tools" },
-      { type: "p", text: "Jukes Grooming gives ToolBox members 20% off — one of the sharper discounts in the app for a grooming brand that actually understands the tradie market. The Barber Club offers 20% off in-store, with a one-per-member policy that keeps the deal fair. For guys who get a regular cut, that's real money over the year." },
-      { type: "h2", text: "Food — Smoko Done Right" },
-      { type: "p", text: "Rosco's Pizza is in the ToolBox network with 10% off for members — because not every meal needs to be a protein shake. Good food, decent discount, no questions asked." },
-      { type: "h2", text: "Energy — Keeping You Sharp Through the Day" },
+      { type: "p", text: "When we designed The ToolBox, we didn't want to build just another discount on hard hats. Tradies work hard and they spend money across a full life  -  not just on site. So we went out and built a partner network that covers the whole lifestyle." },
+      { type: "h2", text: "Golf  -  Because You've Earned It" },
+      { type: "p", text: "Golf has always been the tradie's sport of choice on the weekend, and the ToolBox has three partners making it more accessible. Future Golf offers 20% off for members. Sundayfairway  -  the online golf retail destination  -  gives members 15% off gear. And Maroondah Golf Park offers $3 off per round, so your regular Saturday hit doesn't cost what it used to." },
+      { type: "h2", text: "Grooming  -  Looking the Part Off the Tools" },
+      { type: "p", text: "Jukes Grooming gives ToolBox members 20% off  -  one of the sharper discounts in the app for a grooming brand that actually understands the tradie market. The Barber Club offers 20% off in-store, with a one-per-member policy that keeps the deal fair. For guys who get a regular cut, that's real money over the year." },
+      { type: "h2", text: "Food  -  Smoko Done Right" },
+      { type: "p", text: "Rosco's Pizza is in the ToolBox network with 10% off for members  -  because not every meal needs to be a protein shake. Good food, decent discount, no questions asked." },
+      { type: "h2", text: "Energy  -  Keeping You Sharp Through the Day" },
       { type: "p", text: "Kamikaze Energy gives members 15% off. Whether you're running on black coffee or prefer a clean energy product that actually works on a long day, having a discount on your regular energy brand is one of those small saves that adds up without you noticing." },
-      { type: "h2", text: "Tech — Smarter Gear for the Modern Tradie" },
-      { type: "p", text: "Hard Hat Smartwatches offers 20% off — a brand making watches that actually hold up on site, rather than the fashion-forward stuff that doesn't survive a week in the field. BitPocket, with 25% off for members, rounds out the tech category for tradies who are into crypto and digital finance." },
+      { type: "h2", text: "Tech  -  Smarter Gear for the Modern Tradie" },
+      { type: "p", text: "Hard Hat Smartwatches offers 20% off  -  a brand making watches that actually hold up on site, rather than the fashion-forward stuff that doesn't survive a week in the field. BitPocket, with 25% off for members, rounds out the tech category for tradies who are into crypto and digital finance." },
       { type: "h2", text: "One App, All of It" },
-      { type: "p", text: "The point of The ToolBox isn't to be a coupon book. It's to be the one membership that actually covers the way tradies live — hard during the week, enjoying it on the weekend. $4.99 a month, and every deal is in your pocket the moment you download the app." },
+      { type: "p", text: "The point of The ToolBox isn't to be a coupon book. It's to be the one membership that actually covers the way tradies live  -  hard during the week, enjoying it on the weekend. $4.99 a month, and every deal is in your pocket the moment you download the app." },
     ],
   },
   {
@@ -248,22 +248,22 @@ const BLOG_POSTS = [
     date: "June 25, 2025",
     readTime: "5 min read",
     author: "The ToolBox Team",
-    excerpt: "Getting 30+ brands on board before launch wasn't easy. Here's how The ToolBox built a deal network that actually works for tradies — and what it means for members.",
+    excerpt: "Getting 30+ brands on board before launch wasn't easy. Here's how The ToolBox built a deal network that actually works for tradies  -  and what it means for members.",
     content: [
       { type: "p", text: "Building a discount network that tradies would actually use meant doing two things most apps don't bother with: finding brands tradies already love, and negotiating deals that are genuinely worth redeeming. Here's how we got to 30+ partners before we even launched." },
       { type: "h2", text: "Why Vendor Partnerships Matter" },
-      { type: "p", text: "A discount app is only as good as its partners. Generic 5%-off vouchers at brands nobody uses don't save anyone money. From the start, we focused on building relationships with brands that already had tradie audiences — and negotiating minimums that made the membership worth carrying." },
+      { type: "p", text: "A discount app is only as good as its partners. Generic 5%-off vouchers at brands nobody uses don't save anyone money. From the start, we focused on building relationships with brands that already had tradie audiences  -  and negotiating minimums that made the membership worth carrying." },
       { type: "p", text: "The result: deals averaging 15–20% off, across categories that cover the full tradie lifestyle." },
       { type: "h2", text: "Workwear & Protection" },
-      { type: "p", text: "Anthem Workwear (20% off), Ruff Supplied (10% off), Tradie Frames (20% off), and The Trade Shade (20% off) cover everything from hi-vis and pants to sun protection and safety eyewear. These are brands built for people working outdoors in Australian conditions — not fashion brands with a workwear line." },
+      { type: "p", text: "Anthem Workwear (20% off), Ruff Supplied (10% off), Tradie Frames (20% off), and The Trade Shade (20% off) cover everything from hi-vis and pants to sun protection and safety eyewear. These are brands built for people working outdoors in Australian conditions  -  not fashion brands with a workwear line." },
       { type: "h2", text: "Fitness, Health & Supplements" },
       { type: "p", text: "This is the biggest category in the app. Elite Supplements (10% off in-store), Nutrition Warehouse ($10 off), Edge Endurance (20% off), BSCO (15% off), and Roam Essentials (15% off) cover nutrition and supplements. For fitness, Industrial Strength and Fitness (15% off), Reps Fitness Bayswater (10% off), Fitspace Training ($9 off), and Sigma Movement (15% off in-store) give members access to quality facilities at member rates. Resilient Recovery (20% off) rounds out the health stack for anyone managing the physical wear of trade work." },
       { type: "h2", text: "Lifestyle, Grooming & Tech" },
       { type: "p", text: "Jukes Grooming and The Barber Club both offer 20% off. Hard Hat Smartwatches and BitPocket cover the tech angle at 20% and 25% off respectively. Roam Essentials covers travel and lifestyle at 15% off. Rosco's Pizza handles the smoko runs at 10% off." },
       { type: "h2", text: "Golf & Recreation" },
-      { type: "p", text: "Three golf partners — Future Golf (20% off), Sundayfairway (15% off), and Maroondah Golf Park ($3 off per round) — make The ToolBox one of the few memberships that actually rewards tradies for how they spend their weekends." },
+      { type: "p", text: "Three golf partners  -  Future Golf (20% off), Sundayfairway (15% off), and Maroondah Golf Park ($3 off per round)  -  make The ToolBox one of the few memberships that actually rewards tradies for how they spend their weekends." },
       { type: "h2", text: "More Coming" },
-      { type: "p", text: "We're actively signing new partners. The brief we give every potential partner is simple: tradies spend real money in your category. Give them a deal worth having. If that sounds like your brand, reach out through the Vendor Portal — we'd love to talk." },
+      { type: "p", text: "We're actively signing new partners. The brief we give every potential partner is simple: tradies spend real money in your category. Give them a deal worth having. If that sounds like your brand, reach out through the Vendor Portal  -  we'd love to talk." },
       { type: "p", text: "If you're a tradie, the best time to join is now. Founding member spots are limited, the price won't stay this low forever, and the network is only getting bigger." },
     ],
   },
@@ -426,7 +426,7 @@ function LegalSection({ title, children }) {
 // ─── Pages ────────────────────────────────────────────────────────────────────
 function PrivacyPage() {
   useEffect(() => {
-    setPageMeta("Privacy Policy | The ToolBox", "Read The ToolBox privacy policy — how we collect, use, and protect your personal data.", "/privacy");
+    setPageMeta("Privacy Policy | The ToolBox", "Read The ToolBox privacy policy  -  how we collect, use, and protect your personal data.", "/privacy");
   }, []);
   return (
     <LegalPage title="Privacy Policy">
@@ -450,9 +450,9 @@ function PrivacyPage() {
         <ul style={{ paddingLeft: 24, marginTop: 12 }}>
           {[
             "Partner vendors (only to verify membership for discounts).",
-            "Mailchimp (Intuit Inc.) — used to manage our email list and send launch and membership communications.",
-            "Apple Inc. and Google LLC — for app distribution and in-app purchase processing.",
-            "Payment processors — to handle subscription billing securely. We do not store your full card details.",
+            "Mailchimp (Intuit Inc.)  -  used to manage our email list and send launch and membership communications.",
+            "Apple Inc. and Google LLC  -  for app distribution and in-app purchase processing.",
+            "Payment processors  -  to handle subscription billing securely. We do not store your full card details.",
             "Legal authorities if required by law or to protect our rights.",
           ].map(i => <li key={i} style={{ marginBottom: 8 }}>{i}</li>)}
         </ul>
@@ -480,7 +480,7 @@ function PrivacyPage() {
 
 function TermsPage() {
   useEffect(() => {
-    setPageMeta("Terms of Service | The ToolBox", "The ToolBox terms of service — membership, subscription, usage rules, and governing law.", "/terms");
+    setPageMeta("Terms of Service | The ToolBox", "The ToolBox terms of service  -  membership, subscription, usage rules, and governing law.", "/terms");
   }, []);
   return (
     <LegalPage title="Terms of Service">
@@ -515,7 +515,7 @@ function TermsPage() {
 
 function RefundsPage() {
   useEffect(() => {
-    setPageMeta("Refund Policy | The ToolBox", "The ToolBox refund policy — subscription cancellations, exceptional circumstances, and vendor disputes.", "/refunds");
+    setPageMeta("Refund Policy | The ToolBox", "The ToolBox refund policy  -  subscription cancellations, exceptional circumstances, and vendor disputes.", "/refunds");
   }, []);
   return (
     <LegalPage title="Refund Policy">
@@ -547,7 +547,7 @@ function VendorPage() {
   const [status, setStatus] = useState("idle");
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
-    setPageMeta("Partner With Us | The ToolBox", "Apply to become a vendor partner on The ToolBox — reach thousands of Australian tradies with exclusive deals.", "/vendor");
+    setPageMeta("Partner With Us | The ToolBox", "Apply to become a vendor partner on The ToolBox  -  reach thousands of Australian tradies with exclusive deals.", "/vendor");
   }, []);
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", boxSizing: "border-box" };
@@ -645,7 +645,7 @@ function ContactPage() {
   const [status, setStatus] = useState("idle");
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
-    setPageMeta("Contact Us | The ToolBox", "Get in touch with The ToolBox team — questions about your membership, partnerships, or anything else.", "/contact");
+    setPageMeta("Contact Us | The ToolBox", "Get in touch with The ToolBox team  -  questions about your membership, partnerships, or anything else.", "/contact");
   }, []);
   const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
   const inp = { width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box" };
