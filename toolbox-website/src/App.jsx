@@ -332,7 +332,7 @@ function Footer() {
             ]},
             { title: "Partners", links: [
               { label: "Partner With Us", page: "vendor" },
-              { label: "Vendor Login", href: "#" },
+              { label: "Vendor Portal", href: VENDOR_PORTAL_URL },
             ]},
             { title: "Legal", links: [
               { label: "Privacy Policy", page: "privacy" },
@@ -369,8 +369,8 @@ function Footer() {
           <div style={{ display: "flex", gap: 24 }}>
             {[
               { icon: <IcoInstagram />, href: "https://www.instagram.com/thetoolboxau/" },
-              { icon: <IcoFacebook />, href: "#" },
-              { icon: <IcoLinkedin />, href: "#" },
+              { icon: <IcoFacebook />, href: "https://www.facebook.com/thetoolboxau" },
+              { icon: <IcoLinkedin />, href: "https://www.linkedin.com/company/thetoolboxau" },
             ].map((s, i) => (
               <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.2)", textDecoration: "none" }}
                 onMouseOver={e => { e.currentTarget.style.color = "#5ba4cf"; e.currentTarget.style.transform = "scale(1.1)"; }}
@@ -549,7 +549,26 @@ function VendorPage() {
   useEffect(() => {
     setPageMeta("Partner With Us | The ToolBox", "Apply to become a vendor partner on The ToolBox  -  reach thousands of Australian tradies with exclusive deals.", "/vendor");
   }, []);
-  const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("submitting");
+    const data = new FormData(e.target);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/admin@thetoolbox.group", {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: data,
+      });
+      const json = await res.json();
+      if (json.success === "true" || json.success === true) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
   const inp = { width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", boxSizing: "border-box" };
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
@@ -585,24 +604,26 @@ function VendorPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+                  <input type="hidden" name="_subject" value="New vendor application - The ToolBox" />
+                  <input type="hidden" name="_captcha" value="false" />
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
                     {[
-                      { label: "Contact Name *", placeholder: "John Smith", type: "text", icon: <IcoUser />, required: true },
-                      { label: "Job Title", placeholder: "Director", type: "text", icon: <IcoBriefcase />, required: false },
+                      { label: "Contact Name *", placeholder: "John Smith", type: "text", name: "contact_name", icon: <IcoUser />, required: true },
+                      { label: "Job Title", placeholder: "Director", type: "text", name: "job_title", icon: <IcoBriefcase />, required: false },
                     ].map(f => (
                       <div key={f.label}>
                         <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.4)", fontStyle: "italic", display: "block", marginBottom: 8 }}>{f.label}</label>
                         <div style={{ position: "relative" }}>
                           <span style={{ position: "absolute", left: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(13,31,78,0.2)" }}>{f.icon}</span>
-                          <input type={f.type} placeholder={f.placeholder} required={f.required} style={inp} />
+                          <input type={f.type} name={f.name} placeholder={f.placeholder} required={f.required} style={inp} />
                         </div>
                       </div>
                     ))}
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
                     {[
-                      { label: "Email Address *", placeholder: "john@business.com", type: "email", icon: <IcoMail />, required: true },
-                      { label: "Business Name *", placeholder: "The ToolBox Co.", type: "text", icon: <IcoBuilding />, required: true },
+                      { label: "Email Address *", placeholder: "john@business.com", type: "email", name: "email", icon: <IcoMail />, required: true },
+                      { label: "Business Name *", placeholder: "The ToolBox Co.", type: "text", name: "business_name", icon: <IcoBuilding />, required: true },
                     ].map(f => (
                       <div key={f.label}>
                         <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.4)", fontStyle: "italic", display: "block", marginBottom: 8 }}>{f.label}</label>
@@ -615,8 +636,11 @@ function VendorPage() {
                   </div>
                   <div>
                     <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.4)", fontStyle: "italic", display: "block", marginBottom: 8 }}>Offer / Discount *</label>
-                    <textarea required placeholder="20% off storewide, Buy 1 get 1 Free, etc." rows={5} style={{ width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 16, padding: 20, fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", resize: "vertical", boxSizing: "border-box" }} />
+                    <textarea required name="offer" placeholder="20% off storewide, Buy 1 get 1 Free, etc." rows={5} style={{ width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 16, padding: 20, fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", resize: "vertical", boxSizing: "border-box" }} />
                   </div>
+                  {status === "error" && (
+                    <p style={{ color: "#dc2626", fontWeight: 700, fontSize: 14, textAlign: "center" }}>Something went wrong. Please email us at admin@thetoolbox.group</p>
+                  )}
                   <button disabled={status === "submitting"} style={{ width: "100%", background: "#0d1f4e", color: "#fff", padding: "22px", borderRadius: 16, fontWeight: 900, fontSize: "1.2rem", fontStyle: "italic", letterSpacing: "-0.02em", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, opacity: status === "submitting" ? 0.5 : 1 }}
                     onMouseOver={e => { if (status !== "submitting") e.currentTarget.style.background = "#5ba4cf"; }}
                     onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
@@ -1128,35 +1152,47 @@ function LandingPage() {
       </nav>
 
       {/* Hero - Signup */}
-      <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "#0d1f4e" }}>
-        <div style={{ position: "absolute", top: "20%", left: "50%", width: 800, height: 800, background: "#5ba4cf", borderRadius: "50%", filter: "blur(180px)", opacity: 0.07, pointerEvents: "none", animation: "float 12s ease-in-out infinite" }} />
+      <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", background: "#0d1f4e" }}>
+        <div style={{ position: "absolute", top: "20%", left: "30%", width: 800, height: 800, background: "#5ba4cf", borderRadius: "50%", filter: "blur(180px)", opacity: 0.07, pointerEvents: "none", animation: "float 12s ease-in-out infinite" }} />
 
-        <div style={{ maxWidth: 680, margin: "0 auto", padding: "140px 32px 80px", position: "relative", zIndex: 10, width: "100%", textAlign: "center" }}>
+        <div className="hero-grid" style={{ maxWidth: 1400, margin: "0 auto", padding: "140px 32px 80px", position: "relative", zIndex: 10, width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
 
-          <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "7px 16px", marginBottom: 32 }}>
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
-            <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.15em" }}>Now Live on the App Store</span>
+          {/* Left: copy */}
+          <div>
+            <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "7px 16px", marginBottom: 32 }}>
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
+              <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.15em" }}>Now Live on the App Store</span>
+            </div>
+
+            <h1 className="anim-fade-up anim-fade-up-2" style={{ fontSize: "clamp(2.6rem, 4vw, 5rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
+              Stop paying full<br />price on site<span style={{ color: "#5ba4cf" }}>.</span>
+            </h1>
+
+            <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "1.15rem", color: "rgba(255,255,255,0.55)", fontWeight: 500, lineHeight: 1.6, marginBottom: 40, maxWidth: 440 }}>
+              Australia's first discount membership app built for the tradie lifestyle.
+            </p>
+
+            <div className="anim-fade-up anim-fade-up-4" style={{ display: "flex", justifyContent: "flex-start" }}>
+              <AppStoreCTA />
+            </div>
+
+            <div className="anim-fade-up anim-fade-up-5" style={{ display: "flex", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)", maxWidth: 440 }}>
+              {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Members"]].map(([val, label], i) => (
+                <div key={label} style={{ textAlign: "center", flex: 1, borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : "none", padding: "0 16px" }}>
+                  <p style={{ fontSize: "2.2rem", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 6, color: "#fff" }}>{val}</p>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{label}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <h1 className="anim-fade-up anim-fade-up-2" style={{ fontSize: "clamp(2.6rem, 5vw, 4.5rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
-            Stop paying full<br />price on site<span style={{ color: "#5ba4cf" }}>.</span>
-          </h1>
-
-          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "1.15rem", color: "rgba(255,255,255,0.55)", fontWeight: 500, lineHeight: 1.6, marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
-            Australia's first discount membership app built for the tradie lifestyle.
-          </p>
-
-          <div className="anim-fade-up anim-fade-up-4">
-            <AppStoreCTA />
-          </div>
-
-          <div className="anim-fade-up anim-fade-up-5" style={{ display: "flex", justifyContent: "center", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-            {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Members"]].map(([val, label], i) => (
-              <div key={label} style={{ textAlign: "center", flex: 1, borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : "none", padding: "0 16px" }}>
-                <p style={{ fontSize: "2.2rem", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 6, color: "#fff" }}>{val}</p>
-                <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{label}</p>
-              </div>
-            ))}
+          {/* Right: app hero image */}
+          <div className="hero-image anim-fade-up anim-fade-up-3" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <img
+              src="/app-screens/app-hero.png"
+              alt="The ToolBox App"
+              style={{ width: "100%", maxWidth: 520, objectFit: "contain", filter: "drop-shadow(0 40px 80px rgba(0,0,0,0.5))" }}
+            />
           </div>
         </div>
       </section>
@@ -1183,6 +1219,48 @@ function LandingPage() {
               <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>Pre-launch waitlist: <span style={{ color: "#22c55e", fontWeight: 900 }}>FULL</span></span>
             </div>
             <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>200 / 500 claimed</span>
+          </div>
+        </div>
+      </section>
+
+      {/* App Screenshots Strip */}
+      <section style={{ background: "#070f2a", padding: "96px 0", overflow: "hidden" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
+          <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
+            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Inside the App</p>
+            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 0.95 }}>See how it works<span style={{ color: "#5ba4cf" }}>.</span></h2>
+          </div>
+          <div className="screenshots-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32, alignItems: "end" }}>
+            {[
+              { src: "/app-screens/app-browse.png", label: "Browse", desc: "Search 35+ partner brands by category  -  workwear, fitness, food, golf, and more." },
+              { src: "/app-screens/app-map.png", label: "Find", desc: "Locate partner stores near you on the map, or shop online with a member code." },
+              { src: "/app-screens/app-promo.png", label: "Redeem", desc: "Tap to reveal your promo code. Show staff before payment. Done." },
+            ].map((s, i) => (
+              <div key={i} className="scroll-reveal" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28, transitionDelay: `${i * 0.12}s` }}>
+                <img src={s.src} alt={s.label} style={{ width: "100%", maxWidth: 260, borderRadius: 32, boxShadow: "0 32px 80px rgba(0,0,0,0.6)", objectFit: "cover" }} />
+                <div style={{ textAlign: "center" }}>
+                  <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 8 }}>{s.label}</p>
+                  <p style={{ color: "rgba(255,255,255,0.55)", fontWeight: 600, lineHeight: 1.6, fontSize: "0.95rem", maxWidth: 260 }}>{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* Savings callout */}
+          <div className="scroll-reveal savings-grid" style={{ marginTop: 80, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center", background: "rgba(255,255,255,0.04)", borderRadius: 32, padding: "48px 56px", border: "1px solid rgba(255,255,255,0.08)" }}>
+            <div>
+              <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Real Members, Real Savings</p>
+              <h3 style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 20 }}>Members track every dollar saved, in real time<span style={{ color: "#5ba4cf" }}>.</span></h3>
+              <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, lineHeight: 1.7, marginBottom: 32 }}>The app adds up every deal you redeem so you can see exactly what the membership is worth to you. Most members are ahead within their first week.</p>
+              <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+                style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#0d1f4e", padding: "14px 28px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", transition: "all 0.2s" }}
+                onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
+                onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
+                <IcoApple size={16} /> Download Free
+              </a>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <img src="/app-screens/app-savings.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28, boxShadow: "0 24px 60px rgba(0,0,0,0.5)" }} />
+            </div>
           </div>
         </div>
       </section>
@@ -1394,6 +1472,13 @@ export default function App() {
         @keyframes float { 0%, 100% { transform: translateX(-50%) translateY(0px); } 50% { transform: translateX(-50%) translateY(-32px); } }
         @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(91,164,207,0.35); } 50% { box-shadow: 0 0 52px rgba(91,164,207,0.7), 0 0 90px rgba(91,164,207,0.2); } }
         @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
+        @media (max-width: 768px) {
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-grid .hero-image { display: none; }
+          .desktop-nav { display: none !important; }
+          .screenshots-grid { grid-template-columns: 1fr !important; }
+          .savings-grid { grid-template-columns: 1fr !important; }
+        }
         ::selection { background: #5ba4cf; color: #fff; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0d1f4e; }
