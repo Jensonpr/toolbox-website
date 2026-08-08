@@ -1235,9 +1235,9 @@ function LandingPage() {
           </div>
           <div className="screenshots-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32, alignItems: "end" }}>
             {[
-              { src: "/app-screens/app-browse.png", label: "Browse", desc: "Search 35+ partner brands by category  -  workwear, fitness, food, golf, and more." },
+              { src: "/app-screens/app-savings.png", label: "Browse", desc: "Search 35+ partner brands by category  -  workwear, fitness, food, golf, and more." },
               { src: "/app-screens/app-map.png", label: "Find", desc: "Locate partner stores near you on the map, or shop online with a member code." },
-              { src: "/app-screens/app-promo.png", label: "Redeem", desc: "Tap to reveal your promo code. Show staff before payment. Done." },
+              { src: "/app-screens/app-browse.png", label: "Redeem", desc: "Tap to reveal your promo code. Show staff before payment. Done." },
             ].map((s, i) => (
               <div key={i} className="scroll-reveal" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28, transitionDelay: `${i * 0.12}s` }}>
                 <img src={s.src} alt={s.label} style={{ width: "100%", maxWidth: 260, borderRadius: 32, boxShadow: "0 32px 60px rgba(13,31,78,0.3)", objectFit: "cover" }} />
@@ -1262,7 +1262,7 @@ function LandingPage() {
               </a>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <img src="/app-screens/app-savings.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28, boxShadow: "0 24px 60px rgba(13,31,78,0.25)" }} />
+              <img src="/app-screens/app-promo.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28, boxShadow: "0 24px 60px rgba(13,31,78,0.25)" }} />
             </div>
           </div>
         </div>
