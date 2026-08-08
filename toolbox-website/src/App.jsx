@@ -1201,44 +1201,52 @@ function LandingPage() {
       </section>
 
       {/* Founding 500 Progress Banner */}
-      <section style={{ background: "#0a1940", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(91,164,207,0.12)", padding: "40px 0" }}>
-        <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
+      <section style={{ background: "#0a1940", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(91,164,207,0.12)", padding: "44px 0" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px" }}>
+          <div className="founding-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 56px", alignItems: "center" }}>
+
+            {/* Left: progress + stats */}
             <div>
-              <p style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 6 }}>Founding 500 — Limited Spots</p>
-              <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.15rem", letterSpacing: "-0.02em", lineHeight: 1.2 }}>Be part of the first 500. Lock in perks that won't come back.</p>
-            </div>
-            <div style={{ textAlign: "right" }}>
-              <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 4 }}>Founding spots remaining</p>
-              <p style={{ fontWeight: 900, color: "#fff", fontSize: "2rem", letterSpacing: "-0.04em", lineHeight: 1 }}>253</p>
-            </div>
-          </div>
-          <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 8, overflow: "hidden" }}>
-            <div style={{ width: "49.4%", height: "100%", background: "linear-gradient(to right, #5ba4cf, #7ec0e8)", borderRadius: 99 }} />
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10, marginBottom: 24 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e" }} />
-              <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>Pre-launch waitlist: <span style={{ color: "#22c55e", fontWeight: 900 }}>FULL</span></span>
-            </div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>247 / 500 claimed</span>
-          </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 20, display: "flex", flexWrap: "wrap", gap: 10 }}>
-            {[
-              "Locked-in price, forever",
-              "Exclusive Founding 500 vendor deals",
-              "First access to every new vendor drop",
-              "Priority access to member events",
-              "Numbered Founding Member badge in-app",
-            ].map((perk) => (
-              <div key={perk} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 100, padding: "7px 14px" }}>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <circle cx="6" cy="6" r="6" fill="rgba(34,197,94,0.2)" />
-                  <path d="M3.5 6l1.8 1.8 3.2-3.6" stroke="#22c55e" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.75)", whiteSpace: "nowrap" }}>{perk}</span>
+              <p style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 8 }}>Founding 500 — Limited Spots</p>
+              <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.2rem", letterSpacing: "-0.02em", lineHeight: 1.3, marginBottom: 20 }}>Be part of the first 500. Lock in perks that won't come back.</p>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>247 / 500 claimed</span>
+                <div style={{ textAlign: "right" }}>
+                  <span style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.12em" }}>Remaining </span>
+                  <span style={{ fontWeight: 900, color: "#fff", fontSize: "1.4rem", letterSpacing: "-0.04em" }}>253</span>
+                </div>
               </div>
-            ))}
+              <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 8, overflow: "hidden", marginBottom: 12 }}>
+                <div style={{ width: "49.4%", height: "100%", background: "linear-gradient(to right, #5ba4cf, #7ec0e8)", borderRadius: 99 }} />
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e" }} />
+                <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>Pre-launch waitlist: <span style={{ color: "#22c55e", fontWeight: 900 }}>FULL</span></span>
+              </div>
+            </div>
+
+            {/* Right: benefits */}
+            <div style={{ borderLeft: "1px solid rgba(255,255,255,0.08)", paddingLeft: 56 }}>
+              <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>What founding members get</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {[
+                  "Locked-in price, forever",
+                  "Exclusive Founding 500 vendor deals",
+                  "First access to every new vendor drop",
+                  "Priority access to member events",
+                  "Numbered Founding Member badge in-app",
+                ].map((perk) => (
+                  <div key={perk} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}>
+                      <circle cx="9" cy="9" r="9" fill="rgba(34,197,94,0.15)" />
+                      <path d="M5.5 9l2.5 2.5 4.5-5" stroke="#22c55e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.8)" }}>{perk}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -1474,6 +1482,8 @@ export default function App() {
           .vendor-portal-btn { display: none !important; }
           .screenshots-grid { grid-template-columns: 1fr !important; }
           .savings-grid { grid-template-columns: 1fr !important; padding: 32px 24px !important; }
+          .founding-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .founding-grid > div:last-child { border-left: none !important; border-top: 1px solid rgba(255,255,255,0.08) !important; padding-left: 0 !important; padding-top: 24px !important; }
           .vendors-header { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
           .vendors-header-right p { text-align: left !important; max-width: 100% !important; }
           .vendors-header-right > div { justify-content: flex-start !important; }
