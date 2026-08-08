@@ -1141,7 +1141,7 @@ function LandingPage() {
               onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; }}>
               <IcoApple size={16} /> Get the App
             </a>
-            <a href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer"
+            <a href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="vendor-portal-btn"
               style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.15)", transition: "all 0.2s" }}
               onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; }}
               onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
@@ -1176,7 +1176,7 @@ function LandingPage() {
               <AppStoreCTA />
             </div>
 
-            <div className="anim-fade-up anim-fade-up-5" style={{ display: "flex", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)", maxWidth: 440 }}>
+            <div className="anim-fade-up anim-fade-up-5 hero-stats-row" style={{ display: "flex", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)", maxWidth: 440 }}>
               {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Members"]].map(([val, label], i) => (
                 <div key={label} style={{ textAlign: "center", flex: 1, borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : "none", padding: "0 16px" }}>
                   <p style={{ fontSize: "2.2rem", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 6, color: "#fff" }}>{val}</p>
@@ -1210,18 +1210,70 @@ function LandingPage() {
             </div>
             <div style={{ textAlign: "right" }}>
               <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 4 }}>Founding spots remaining</p>
-              <p style={{ fontWeight: 900, color: "#fff", fontSize: "2rem", letterSpacing: "-0.04em", lineHeight: 1 }}>300</p>
+              <p style={{ fontWeight: 900, color: "#fff", fontSize: "2rem", letterSpacing: "-0.04em", lineHeight: 1 }}>253</p>
             </div>
           </div>
           <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 8, overflow: "hidden" }}>
-            <div style={{ width: "40%", height: "100%", background: "linear-gradient(to right, #5ba4cf, #7ec0e8)", borderRadius: 99 }} />
+            <div style={{ width: "49.4%", height: "100%", background: "linear-gradient(to right, #5ba4cf, #7ec0e8)", borderRadius: 99 }} />
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e" }} />
               <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>Pre-launch waitlist: <span style={{ color: "#22c55e", fontWeight: 900 }}>FULL</span></span>
             </div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>200 / 500 claimed</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>247 / 500 claimed</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission + Vendors */}
+      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100%", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
+          <div>
+            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Mission</p>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 0.9, color: "#0d1f4e", marginBottom: 40 }}>
+              Built by the trade<span style={{ color: "#5ba4cf" }}>,</span><br /> for the trade<span style={{ color: "#5ba4cf" }}>.</span>
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: "1.1rem", color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.7, maxWidth: 480 }}>
+              <p>The ToolBox wasn't born in a boardroom - it was born on site. We got sick of seeing everyone else get the perks while the ones doing the hard yards got the short end of the stick.</p>
+              <p>We built this app to level the playing field.</p>
+            </div>
+          </div>
+          <div className="mission-image-col" style={{ position: "relative" }}>
+            <div style={{ position: "absolute", inset: -16, background: "rgba(91,164,207,0.05)", borderRadius: 40, transform: "rotate(-2deg)" }} />
+            <div style={{ position: "relative" }}>
+              <img src="https://res.cloudinary.com/dy4rpazlk/image/upload/f_auto,q_auto/v1777162843/IMG_1781_l8ffof_tp09hu.heic"
+                alt="On site" style={{ width: "100%", maxHeight: 420, aspectRatio: "1", objectFit: "cover", borderRadius: 40 }} />
+              <div style={{ position: "absolute", bottom: 24, left: 24, right: 24, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)", padding: 20, borderRadius: 20, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
+                <p style={{ color: "#0d1f4e", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", fontSize: "1.05rem", marginBottom: 4 }}>"Reclaiming value for Australian tradies."</p>
+                <p style={{ color: "#5ba4cf", fontWeight: 700, fontSize: 13 }}>Founded in Melbourne, VIC</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Vendors */}
+        <div id="vendors" style={{ scrollMarginTop: 80 }}>
+          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px 48px" }}>
+            <div className="vendors-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+              <div>
+                <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 12, marginBottom: 12 }}>Our Network</p>
+                <h2 style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#0d1f4e", lineHeight: 1 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
+              </div>
+              <div className="vendors-header-right">
+                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>35+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(13,31,78,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end" }}>
+                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
+                  Live Network Updates
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24, position: "relative" }}>
+            <Marquee items={VENDORS.slice(0, 7)} speed={70} />
+            <Marquee items={VENDORS.slice(7)} reverse speed={90} />
+            <div style={{ position: "absolute", inset: "0 auto 0 0", width: 160, background: "linear-gradient(to right, #fff, transparent)", pointerEvents: "none", zIndex: 2 }} />
+            <div style={{ position: "absolute", inset: "0 0 0 auto", width: 160, background: "linear-gradient(to left, #fff, transparent)", pointerEvents: "none", zIndex: 2 }} />
           </div>
         </div>
       </section>
@@ -1240,7 +1292,7 @@ function LandingPage() {
               { src: "/app-screens/app-browse.png", label: "Redeem", desc: "Tap to reveal your promo code. Show staff before payment. Done." },
             ].map((s, i) => (
               <div key={i} className="scroll-reveal" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28, transitionDelay: `${i * 0.12}s` }}>
-                <img src={s.src} alt={s.label} style={{ width: "100%", maxWidth: 260, borderRadius: 32, boxShadow: "0 32px 60px rgba(13,31,78,0.3)", objectFit: "cover" }} />
+                <img src={s.src} alt={s.label} style={{ width: "100%", maxWidth: 260, borderRadius: 32, objectFit: "cover" }} />
                 <div style={{ textAlign: "center" }}>
                   <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 8 }}>{s.label}</p>
                   <p style={{ color: "rgba(255,255,255,0.75)", fontWeight: 600, lineHeight: 1.6, fontSize: "0.95rem", maxWidth: 260 }}>{s.desc}</p>
@@ -1262,60 +1314,8 @@ function LandingPage() {
               </a>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <img src="/app-screens/app-promo.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28, boxShadow: "0 24px 60px rgba(13,31,78,0.25)" }} />
+              <img src="/app-screens/app-promo.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28 }} />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission + Vendors */}
-      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100%", boxSizing: "border-box" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
-          <div>
-            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Mission</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 0.9, color: "#0d1f4e", marginBottom: 40 }}>
-              Built by the trade<span style={{ color: "#5ba4cf" }}>,</span><br /> for the trade<span style={{ color: "#5ba4cf" }}>.</span>
-            </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: "1.1rem", color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.7, maxWidth: 480 }}>
-              <p>The ToolBox wasn't born in a boardroom - it was born on site. We got sick of seeing everyone else get the perks while the ones doing the hard yards got the short end of the stick.</p>
-              <p>We built this app to level the playing field.</p>
-            </div>
-          </div>
-          <div style={{ position: "relative" }}>
-            <div style={{ position: "absolute", inset: -16, background: "rgba(91,164,207,0.05)", borderRadius: 40, transform: "rotate(-2deg)" }} />
-            <div style={{ position: "relative" }}>
-              <img src="https://res.cloudinary.com/dy4rpazlk/image/upload/f_auto,q_auto/v1777162843/IMG_1781_l8ffof_tp09hu.heic"
-                alt="On site" style={{ width: "100%", maxHeight: 420, aspectRatio: "1", objectFit: "cover", borderRadius: 40 }} />
-              <div style={{ position: "absolute", bottom: 24, left: 24, right: 24, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)", padding: 20, borderRadius: 20, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
-                <p style={{ color: "#0d1f4e", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", fontSize: "1.05rem", marginBottom: 4 }}>"Reclaiming value for Australian tradies."</p>
-                <p style={{ color: "#5ba4cf", fontWeight: 700, fontSize: 13 }}>Founded in Melbourne, VIC</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Vendors */}
-        <div id="vendors" style={{ scrollMarginTop: 80 }}>
-          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px 48px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-              <div>
-                <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 12, marginBottom: 12 }}>Our Network</p>
-                <h2 style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#0d1f4e", lineHeight: 1 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
-              </div>
-              <div>
-                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>35+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(13,31,78,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end" }}>
-                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
-                  Live Network Updates
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 24, position: "relative" }}>
-            <Marquee items={VENDORS.slice(0, 7)} speed={70} />
-            <Marquee items={VENDORS.slice(7)} reverse speed={90} />
-            <div style={{ position: "absolute", inset: "0 auto 0 0", width: 160, background: "linear-gradient(to right, #fff, transparent)", pointerEvents: "none", zIndex: 2 }} />
-            <div style={{ position: "absolute", inset: "0 0 0 auto", width: 160, background: "linear-gradient(to left, #fff, transparent)", pointerEvents: "none", zIndex: 2 }} />
           </div>
         </div>
       </section>
@@ -1448,19 +1448,24 @@ export default function App() {
         @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(91,164,207,0.35); } 50% { box-shadow: 0 0 52px rgba(91,164,207,0.7), 0 0 90px rgba(91,164,207,0.2); } }
         @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
         @media (max-width: 768px) {
-          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-grid { grid-template-columns: 1fr !important; padding: 80px 20px 60px !important; }
           .hero-grid .hero-image { display: none; }
+          .hero-stats-row { max-width: 100% !important; margin-top: 40px !important; }
+          .hero-stats-row > div { padding: 0 8px !important; }
+          .hero-stats-row p:first-child { font-size: 1.6rem !important; }
           .desktop-nav { display: none !important; }
+          .vendor-portal-btn { display: none !important; }
           .screenshots-grid { grid-template-columns: 1fr !important; }
-          .savings-grid { grid-template-columns: 1fr !important; }
+          .savings-grid { grid-template-columns: 1fr !important; padding: 32px 24px !important; }
+          .vendors-header { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
+          .vendors-header-right p { text-align: left !important; max-width: 100% !important; }
+          .vendors-header-right > div { justify-content: flex-start !important; }
+          .mission-image-col { display: none !important; }
         }
         ::selection { background: #5ba4cf; color: #fff; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0d1f4e; }
         ::-webkit-scrollbar-thumb { background: #5ba4cf; border-radius: 3px; }
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-        }
         @media (max-width: 600px) {
           .vendor-form-grid { grid-template-columns: 1fr !important; }
         }
