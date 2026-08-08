@@ -1108,7 +1108,7 @@ function LandingPage() {
   }, []);
 
   const navStyle = {
-    position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, height: 72,
+    position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, height: 88,
     background: scrolled ? "rgba(13,31,78,0.95)" : "transparent",
     backdropFilter: scrolled ? "blur(20px)" : "none",
     borderBottom: scrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
@@ -1123,7 +1123,7 @@ function LandingPage() {
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
             <img src={LOGO} alt="The ToolBox" style={{ height: 48, objectFit: "contain", display: "block", filter: "brightness(0) invert(1)" }} />
-            <div className="desktop-nav" style={{ display: "flex", gap: 40, fontSize: 16, fontWeight: 900 }}>
+            <div className="desktop-nav" style={{ display: "flex", gap: 40, fontSize: 17, fontWeight: 900 }}>
               {[["How it works", "#about"], ["Vendors", "#vendors"], ["Pricing", "#pricing"], ["FAQ", "#faq"]].map(([label, href]) => (
                 <a key={label} href={href} style={{ color: "#fff", textDecoration: "none", transition: "color 0.2s" }}
                   onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>{label}</a>
@@ -1155,7 +1155,7 @@ function LandingPage() {
       <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", background: "#0d1f4e" }}>
         <div style={{ position: "absolute", top: "20%", left: "30%", width: 800, height: 800, background: "#5ba4cf", borderRadius: "50%", filter: "blur(180px)", opacity: 0.07, pointerEvents: "none", animation: "float 12s ease-in-out infinite" }} />
 
-        <div className="hero-grid" style={{ maxWidth: 1200, margin: "0 auto", padding: "140px 32px 80px", position: "relative", zIndex: 10, width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" }}>
+        <div className="hero-grid" style={{ maxWidth: 1200, margin: "0 auto", padding: "100px 32px 80px", position: "relative", zIndex: 10, width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" }}>
 
           {/* Left: copy */}
           <div>
@@ -1230,8 +1230,8 @@ function LandingPage() {
       <section id="about" style={{ background: "#5ba4cf", padding: "96px 0", overflow: "hidden", position: "relative" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 1 }}>
           <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
-            <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Inside the App</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 0.95 }}>See how it works<span style={{ color: "#fff" }}>.</span></h2>
+            <p style={{ color: "rgba(255,255,255,0.65)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Inside the App</p>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 0.95 }}>See how it works<span style={{ color: "rgba(255,255,255,0.4)" }}>.</span></h2>
           </div>
           <div className="screenshots-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32, alignItems: "end" }}>
             {[
@@ -1242,8 +1242,8 @@ function LandingPage() {
               <div key={i} className="scroll-reveal" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28, transitionDelay: `${i * 0.12}s` }}>
                 <img src={s.src} alt={s.label} style={{ width: "100%", maxWidth: 260, borderRadius: 32, boxShadow: "0 32px 60px rgba(13,31,78,0.3)", objectFit: "cover" }} />
                 <div style={{ textAlign: "center" }}>
-                  <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(13,31,78,0.5)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 8 }}>{s.label}</p>
-                  <p style={{ color: "rgba(13,31,78,0.7)", fontWeight: 600, lineHeight: 1.6, fontSize: "0.95rem", maxWidth: 260 }}>{s.desc}</p>
+                  <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 8 }}>{s.label}</p>
+                  <p style={{ color: "rgba(255,255,255,0.75)", fontWeight: 600, lineHeight: 1.6, fontSize: "0.95rem", maxWidth: 260 }}>{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -1251,9 +1251,9 @@ function LandingPage() {
           {/* Savings callout */}
           <div className="scroll-reveal savings-grid" style={{ marginTop: 80, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center", background: "rgba(255,255,255,0.35)", backdropFilter: "blur(10px)", borderRadius: 40, padding: "48px 56px", border: "1px solid rgba(255,255,255,0.2)" }}>
             <div>
-              <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Real Members, Real Savings</p>
-              <h3 style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 20 }}>Members track every dollar saved, in real time<span style={{ color: "#fff" }}>.</span></h3>
-              <p style={{ color: "rgba(13,31,78,0.65)", fontWeight: 600, lineHeight: 1.7, marginBottom: 32 }}>The app adds up every deal you redeem so you can see exactly what the membership is worth to you. Most members are ahead within their first week.</p>
+              <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Real Members, Real Savings</p>
+              <h3 style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 20 }}>Members track every dollar saved, in real time<span style={{ color: "rgba(255,255,255,0.4)" }}>.</span></h3>
+              <p style={{ color: "rgba(255,255,255,0.75)", fontWeight: 600, lineHeight: 1.7, marginBottom: 32 }}>The app adds up every deal you redeem so you can see exactly what the membership is worth to you. Most members are ahead within their first week.</p>
               <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
                 style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0d1f4e", color: "#fff", padding: "14px 28px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", transition: "all 0.2s" }}
                 onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
