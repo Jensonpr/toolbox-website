@@ -1155,7 +1155,7 @@ function LandingPage() {
       <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", background: "#0d1f4e" }}>
         <div style={{ position: "absolute", top: "20%", left: "30%", width: 800, height: 800, background: "#5ba4cf", borderRadius: "50%", filter: "blur(180px)", opacity: 0.07, pointerEvents: "none", animation: "float 12s ease-in-out infinite" }} />
 
-        <div className="hero-grid" style={{ maxWidth: 1400, margin: "0 auto", padding: "140px 32px 80px", position: "relative", zIndex: 10, width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+        <div className="hero-grid" style={{ maxWidth: 1200, margin: "0 auto", padding: "140px 32px 80px", position: "relative", zIndex: 10, width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" }}>
 
           {/* Left: copy */}
           <div>
@@ -1187,11 +1187,14 @@ function LandingPage() {
           </div>
 
           {/* Right: app hero image */}
-          <div className="hero-image anim-fade-up anim-fade-up-3" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div className="hero-image anim-fade-up anim-fade-up-3" style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}>
+            {/* Glow rings behind the phone */}
+            <div style={{ position: "absolute", width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle, rgba(91,164,207,0.35) 0%, transparent 70%)", animation: "glowPulse 4s ease-in-out infinite", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(91,164,207,0.2) 0%, transparent 70%)", animation: "glowPulse 4s ease-in-out infinite 1s", pointerEvents: "none" }} />
             <img
               src="/app-screens/app-hero.png"
               alt="The ToolBox App"
-              style={{ width: "100%", maxWidth: 520, objectFit: "contain", filter: "drop-shadow(0 40px 80px rgba(0,0,0,0.5))" }}
+              style={{ width: "100%", maxWidth: 480, objectFit: "contain", position: "relative", zIndex: 1, filter: "drop-shadow(0 30px 60px rgba(91,164,207,0.4)) drop-shadow(0 0 80px rgba(91,164,207,0.2))" }}
             />
           </div>
         </div>
@@ -1224,11 +1227,11 @@ function LandingPage() {
       </section>
 
       {/* App Screenshots Strip */}
-      <section style={{ background: "#070f2a", padding: "96px 0", overflow: "hidden" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
+      <section id="about" style={{ background: "#5ba4cf", padding: "96px 0", overflow: "hidden", position: "relative" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 1 }}>
           <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
-            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Inside the App</p>
-            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 0.95 }}>See how it works<span style={{ color: "#5ba4cf" }}>.</span></h2>
+            <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Inside the App</p>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 0.95 }}>See how it works<span style={{ color: "#fff" }}>.</span></h2>
           </div>
           <div className="screenshots-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32, alignItems: "end" }}>
             {[
@@ -1237,58 +1240,30 @@ function LandingPage() {
               { src: "/app-screens/app-promo.png", label: "Redeem", desc: "Tap to reveal your promo code. Show staff before payment. Done." },
             ].map((s, i) => (
               <div key={i} className="scroll-reveal" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28, transitionDelay: `${i * 0.12}s` }}>
-                <img src={s.src} alt={s.label} style={{ width: "100%", maxWidth: 260, borderRadius: 32, boxShadow: "0 32px 80px rgba(0,0,0,0.6)", objectFit: "cover" }} />
+                <img src={s.src} alt={s.label} style={{ width: "100%", maxWidth: 260, borderRadius: 32, boxShadow: "0 32px 60px rgba(13,31,78,0.3)", objectFit: "cover" }} />
                 <div style={{ textAlign: "center" }}>
-                  <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 8 }}>{s.label}</p>
-                  <p style={{ color: "rgba(255,255,255,0.55)", fontWeight: 600, lineHeight: 1.6, fontSize: "0.95rem", maxWidth: 260 }}>{s.desc}</p>
+                  <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(13,31,78,0.5)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 8 }}>{s.label}</p>
+                  <p style={{ color: "rgba(13,31,78,0.7)", fontWeight: 600, lineHeight: 1.6, fontSize: "0.95rem", maxWidth: 260 }}>{s.desc}</p>
                 </div>
               </div>
             ))}
           </div>
           {/* Savings callout */}
-          <div className="scroll-reveal savings-grid" style={{ marginTop: 80, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center", background: "rgba(255,255,255,0.04)", borderRadius: 32, padding: "48px 56px", border: "1px solid rgba(255,255,255,0.08)" }}>
+          <div className="scroll-reveal savings-grid" style={{ marginTop: 80, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center", background: "rgba(255,255,255,0.35)", backdropFilter: "blur(10px)", borderRadius: 40, padding: "48px 56px", border: "1px solid rgba(255,255,255,0.2)" }}>
             <div>
-              <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Real Members, Real Savings</p>
-              <h3 style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 20 }}>Members track every dollar saved, in real time<span style={{ color: "#5ba4cf" }}>.</span></h3>
-              <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, lineHeight: 1.7, marginBottom: 32 }}>The app adds up every deal you redeem so you can see exactly what the membership is worth to you. Most members are ahead within their first week.</p>
+              <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Real Members, Real Savings</p>
+              <h3 style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 20 }}>Members track every dollar saved, in real time<span style={{ color: "#fff" }}>.</span></h3>
+              <p style={{ color: "rgba(13,31,78,0.65)", fontWeight: 600, lineHeight: 1.7, marginBottom: 32 }}>The app adds up every deal you redeem so you can see exactly what the membership is worth to you. Most members are ahead within their first week.</p>
               <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-                style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#0d1f4e", padding: "14px 28px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", transition: "all 0.2s" }}
-                onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
-                onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
+                style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0d1f4e", color: "#fff", padding: "14px 28px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", transition: "all 0.2s" }}
+                onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
+                onMouseOut={e => { e.currentTarget.style.background = "#0d1f4e"; e.currentTarget.style.color = "#fff"; }}>
                 <IcoApple size={16} /> Download Free
               </a>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <img src="/app-screens/app-savings.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28, boxShadow: "0 24px 60px rgba(0,0,0,0.5)" }} />
+              <img src="/app-screens/app-savings.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28, boxShadow: "0 24px 60px rgba(13,31,78,0.25)" }} />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section id="about" style={{ background: "#5ba4cf", padding: "96px 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 1 }}>
-          <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
-            <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Process</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e" }}>How it works.</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
-            {[
-              { step: "01", title: "Join up", desc: "Download the app and start your $4.99/mo membership.", icon: <IcoSmartphone /> },
-              { step: "02", title: "Browse Brands", desc: "Explore 35+ vendors across all your favourite trade categories.", icon: <IcoCreditCard /> },
-              { step: "03", title: "Save Big", desc: "Show your digital card in-store or use codes online to redeem your deals.", icon: <IcoTag /> },
-            ].map((item, i) => (
-              <div key={i} className="scroll-reveal" style={{ background: "rgba(255,255,255,0.35)", backdropFilter: "blur(10px)", padding: 40, borderRadius: 40, border: "1px solid rgba(255,255,255,0.2)", transition: "all 0.3s", transitionDelay: `${i * 0.15}s`, cursor: "default" }}
-                onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.55)"; e.currentTarget.style.transform = "translateY(-10px)"; e.currentTarget.style.boxShadow = "0 30px 60px rgba(0,0,0,0.15)"; }}
-                onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.35)"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32 }}>
-                  <div style={{ color: "#0d1f4e" }}>{item.icon}</div>
-                  <span style={{ fontSize: "4rem", fontWeight: 900, color: "rgba(13,31,78,0.1)", lineHeight: 1, fontStyle: "italic", textTransform: "uppercase" }}>{item.step}</span>
-                </div>
-                <h3 style={{ fontSize: "1.8rem", fontWeight: 900, letterSpacing: "-0.03em", color: "#0d1f4e", marginBottom: 12 }}>{item.title}</h3>
-                <p style={{ color: "rgba(13,31,78,0.7)", fontWeight: 600, lineHeight: 1.6, fontSize: "1.05rem" }}>{item.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
