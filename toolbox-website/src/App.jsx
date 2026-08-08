@@ -28,8 +28,8 @@ const IcoBuilding = () => <Icon d="M3 21h18M9 21V7l7-4v18M3 21V11l6-4" />;
 const IcoInfo = () => <Icon d="M12 22a10 10 0 100-20 10 10 0 000 20zM12 8h.01M11 12h1v4h1" />;
 const IcoArrowLeft = () => <Icon d="M19 12H5M12 19l-7-7 7-7" />;
 const IcoApple = ({ size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 814 1000" fill="currentColor" style={{ flexShrink: 0 }}>
-    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-42.3-150.3-110.5c-68.3-100.4-119.4-259.5-119.4-410.6 0-225.6 147.1-344.7 292-344.7 74.3 0 136.2 48.8 182.5 48.8 44.5 0 114.7-51.9 199.1-51.9zm-182.5-114.1c33.4-40.8 57.3-97.7 57.3-154.6 0-7.7-.6-15.4-1.9-21.7-54.5 2-118.7 36.3-157.5 83.5-31.2 37.5-61.1 94.4-61.1 152.6 0 8.9 1.3 17.9 1.9 21.7 3.8.6 10.2 1.3 16.5 1.3 48.8 0 109.1-33.7 144.8-82.8z"/>
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
   </svg>
 );
 
@@ -647,7 +647,26 @@ function ContactPage() {
   useEffect(() => {
     setPageMeta("Contact Us | The ToolBox", "Get in touch with The ToolBox team  -  questions about your membership, partnerships, or anything else.", "/contact");
   }, []);
-  const handleSubmit = (e) => { e.preventDefault(); setStatus("submitting"); setTimeout(() => setStatus("success"), 1500); };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("submitting");
+    const data = new FormData(e.target);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/admin@thetoolbox.group", {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: data,
+      });
+      const json = await res.json();
+      if (json.success === "true" || json.success === true) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
   const inp = { width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box" };
   return (
     <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
@@ -690,22 +709,27 @@ function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+                <input type="hidden" name="_subject" value="New message from The ToolBox website" />
+                <input type="hidden" name="_captcha" value="false" />
                 {[
-                  { label: "Your Name *", placeholder: "John Smith", type: "text", icon: <IcoUser />, required: true },
-                  { label: "Email Address *", placeholder: "john@email.com", type: "email", icon: <IcoMail />, required: true },
+                  { label: "Your Name *", placeholder: "John Smith", type: "text", name: "name", icon: <IcoUser />, required: true },
+                  { label: "Email Address *", placeholder: "john@email.com", type: "email", name: "email", icon: <IcoMail />, required: true },
                 ].map(f => (
                   <div key={f.label}>
                     <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(255,255,255,0.3)", fontStyle: "italic", display: "block", marginBottom: 8 }}>{f.label}</label>
                     <div style={{ position: "relative" }}>
                       <span style={{ position: "absolute", left: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.2)" }}>{f.icon}</span>
-                      <input type={f.type} placeholder={f.placeholder} required={f.required} style={inp} />
+                      <input type={f.type} name={f.name} placeholder={f.placeholder} required={f.required} style={inp} />
                     </div>
                   </div>
                 ))}
                 <div>
                   <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(255,255,255,0.3)", fontStyle: "italic", display: "block", marginBottom: 8 }}>Message *</label>
-                  <textarea required placeholder="How can we help?" rows={5} style={{ width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: 20, fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", resize: "vertical", boxSizing: "border-box" }} />
+                  <textarea required name="message" placeholder="How can we help?" rows={5} style={{ width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: 20, fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", resize: "vertical", boxSizing: "border-box" }} />
                 </div>
+                {status === "error" && (
+                  <p style={{ color: "#f87171", fontWeight: 700, fontSize: 14, textAlign: "center" }}>Something went wrong. Please email us directly at admin@thetoolbox.group</p>
+                )}
                 <button disabled={status === "submitting"} style={{ width: "100%", background: "#fff", color: "#0d1f4e", padding: "22px", borderRadius: 16, fontWeight: 900, fontSize: "1.2rem", fontStyle: "italic", letterSpacing: "-0.02em", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, opacity: status === "submitting" ? 0.5 : 1 }}
                   onMouseOver={e => { if (status !== "submitting") e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
                   onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
