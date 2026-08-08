@@ -1122,7 +1122,7 @@ function LandingPage() {
       <nav style={navStyle}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
-            <img src={LOGO} alt="The ToolBox" style={{ height: 48, objectFit: "contain", display: "block", filter: "brightness(0) invert(1)" }} />
+            <img src={LOGO} alt="The ToolBox" className="nav-logo" style={{ height: 48, objectFit: "contain", display: "block", filter: "brightness(0) invert(1)" }} />
             <div className="desktop-nav" style={{ display: "flex", gap: 40, fontSize: 17, fontWeight: 900 }}>
               {[["How it works", "#about"], ["Vendors", "#vendors"], ["Pricing", "#pricing"], ["FAQ", "#faq"]].map(([label, href]) => (
                 <a key={label} href={href} style={{ color: "#fff", textDecoration: "none", transition: "color 0.2s" }}
@@ -1152,7 +1152,7 @@ function LandingPage() {
       </nav>
 
       {/* Hero - Signup */}
-      <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", background: "#0d1f4e" }}>
+      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", background: "#0d1f4e" }}>
         <div style={{ position: "absolute", top: "20%", left: "30%", width: 800, height: 800, background: "#5ba4cf", borderRadius: "50%", filter: "blur(180px)", opacity: 0.07, pointerEvents: "none", animation: "float 12s ease-in-out infinite" }} />
 
         <div className="hero-grid" style={{ maxWidth: 1200, margin: "0 auto", padding: "100px 32px 80px", position: "relative", zIndex: 10, width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" }}>
@@ -1473,11 +1473,13 @@ export default function App() {
         @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(91,164,207,0.35); } 50% { box-shadow: 0 0 52px rgba(91,164,207,0.7), 0 0 90px rgba(91,164,207,0.2); } }
         @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
         @media (max-width: 768px) {
-          .hero-grid { grid-template-columns: 1fr !important; padding: 80px 20px 60px !important; }
-          .hero-grid .hero-image { display: none; }
-          .hero-stats-row { max-width: 100% !important; margin-top: 40px !important; }
+          .nav-logo { height: 34px !important; }
+          .hero-section { min-height: auto !important; padding-bottom: 56px; }
+          .hero-grid { grid-template-columns: 1fr !important; padding: 72px 20px 0 !important; }
+          .hero-grid .hero-image { display: none !important; }
+          .hero-stats-row { max-width: 100% !important; margin-top: 32px !important; padding-top: 28px !important; }
           .hero-stats-row > div { padding: 0 8px !important; }
-          .hero-stats-row p:first-child { font-size: 1.6rem !important; }
+          .hero-stats-row p:first-child { font-size: 1.5rem !important; }
           .desktop-nav { display: none !important; }
           .vendor-portal-btn { display: none !important; }
           .screenshots-grid { grid-template-columns: 1fr !important; }
