@@ -32,8 +32,14 @@ const IcoApple = ({ size = 20 }) => (
     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
   </svg>
 );
+const IcoGoogle = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+    <path d="M3.18 23.76c.35.2.75.24 1.13.11l12.04-6.96-2.56-2.56-10.61 9.41zm-1.5-20.7C1.49 3.37 1.4 3.7 1.4 4.06v15.88c0 .36.09.69.28.98l.07.08 8.9-8.9v-.21L1.75 3.01l-.07.05zm18.05 9.3l-2.57-1.49-2.82 2.82 2.82 2.82 2.59-1.5c.74-.43.74-1.13-.02-1.65zM4.31.24C3.93.12 3.53.15 3.18.35L13.84 11 11.27 13.57 4.31.24z"/>
+  </svg>
+);
 
 const APP_STORE_URL = "https://apps.apple.com/au/app/id6757898214";
+const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.the.tool.box.app";
 const VENDOR_PORTAL_URL = "https://admin-vendor-sync.lovable.app";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -144,25 +150,25 @@ const BLOG_POSTS = [
   {
     id: 4,
     slug: "the-toolbox-is-now-live",
-    title: "The ToolBox Is Now Live on the App Store",
+    title: "The ToolBox Is Now Live on iOS & Android",
     category: "News",
     date: "July 25, 2026",
     readTime: "3 min read",
     author: "The ToolBox Team",
-    excerpt: "After months of building, testing, and signing up 35+ partner brands  -  The ToolBox is officially live on the App Store. Here's what that means for Australian tradies.",
+    excerpt: "After months of building, testing, and signing up 35+ partner brands  -  The ToolBox is officially live on the App Store and Google Play. Here's what that means for Australian tradies.",
     content: [
-      { type: "p", text: "It's here. The ToolBox  -  Australia's first discount membership app built specifically for tradies  -  is now available to download on the App Store. For $4.99 a month, members get instant access to exclusive deals across workwear, supplements, fitness, grooming, food, tech, and more." },
+      { type: "p", text: "It's here. The ToolBox  -  Australia's first discount membership app built specifically for tradies  -  is now available to download on the App Store and Google Play. For $4.99 a month, members get instant access to exclusive deals across workwear, supplements, fitness, grooming, food, tech, and more." },
       { type: "h2", text: "What We Built and Why" },
       { type: "p", text: "The idea behind The ToolBox is simple: tradies spend serious money on the gear, food, and lifestyle that keeps them going  -  but they never get the bulk buying power that corporate memberships or big brands take for granted. We fixed that." },
       { type: "p", text: "We went out and negotiated directly with 35+ Australian brands to lock in real discounts  -  not token offers, but genuine savings on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
       { type: "h2", text: "200 Founding Members Before We Even Launched" },
       { type: "p", text: "One of the things that made this launch special: over 200 people joined the waitlist before we went live. That's 200 tradies who saw the value before a single deal was redeemable. Those are our Founding Members  -  they're locked in at $4.99/mo for life, no matter where pricing goes." },
-      { type: "p", text: "There are still 300 founding member spots available for the first people who download and subscribe. Once those are gone, they're gone." },
+      { type: "p", text: "There are still 253 founding member spots available for the first people who download and subscribe. Once those are gone, they're gone." },
       { type: "h2", text: "What's Available Right Now" },
       { type: "p", text: "From day one, the app includes deals across a huge range of categories: workwear from Anthem Workwear and Ruff Supplied, supplements from Elite Supplements and Nutrition Warehouse, energy from Kamikaze Energy, fitness at Industrial Strength and Fitness, Reps Fitness Bayswater, and Fitspace Training, recovery at Resilient Recovery, grooming at Jukes Grooming and The Barber Club, tech from BitPocket and Hard Hat Smartwatches, golf at Future Golf, Sundayfairway, and Maroondah Golf Park, and a lot more." },
       { type: "h2", text: "Download It Now" },
-      { type: "p", text: "The ToolBox is free to download on the App Store. The $4.99/mo membership unlocks every partner deal in the app. If you do the numbers on even two or three of the deals available, it pays for itself before the end of the month." },
-      { type: "p", text: "Search 'The ToolBox' on the App Store, or head to thetoolboxapp.com.au and tap the download button. We'll see you in there." },
+      { type: "p", text: "The ToolBox is free to download on both the App Store and Google Play. The $4.99/mo membership unlocks every partner deal in the app. If you do the numbers on even two or three of the deals available, it pays for itself before the end of the month." },
+      { type: "p", text: "Search 'The ToolBox' on the App Store or Google Play, or head to thetoolboxapp.com.au and tap the download button. We'll see you in there." },
     ],
   },
   {
@@ -800,18 +806,31 @@ function submitToMailchimp(email, onSuccess, onError) {
 
 // ─── App Store CTA ────────────────────────────────────────────────────────────
 function AppStoreCTA() {
+  const btnStyle = { display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "16px 28px", borderRadius: 16, fontWeight: 900, textDecoration: "none", transition: "all 0.25s", boxShadow: "0 8px 32px rgba(255,255,255,0.12)" };
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
-      <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-        style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "#fff", color: "#0d1f4e", padding: "18px 40px", borderRadius: 18, fontWeight: 900, fontSize: "1.1rem", textDecoration: "none", transition: "all 0.25s", animation: "glowPulseWhite 3s ease-in-out infinite", boxShadow: "0 8px 40px rgba(255,255,255,0.15)" }}
-        onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; e.currentTarget.style.boxShadow = "0 8px 40px rgba(91,164,207,0.5)"; }}
-        onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; e.currentTarget.style.boxShadow = "0 8px 40px rgba(255,255,255,0.15)"; }}>
-        <IcoApple size={22} />
-        <div style={{ textAlign: "left" }}>
-          <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.5, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1 }}>Download on the</div>
-          <div style={{ fontSize: "1.15rem", fontWeight: 900, lineHeight: 1.2 }}>App Store</div>
-        </div>
-      </a>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16 }}>
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+          style={{ ...btnStyle, animation: "glowPulseWhite 3s ease-in-out infinite" }}
+          onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; }}
+          onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; }}>
+          <IcoApple size={20} />
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1 }}>Download on the</div>
+            <div style={{ fontSize: "1.05rem", fontWeight: 900, lineHeight: 1.2 }}>App Store</div>
+          </div>
+        </a>
+        <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
+          style={btnStyle}
+          onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
+          onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
+          <IcoGoogle size={20} />
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1 }}>Get it on</div>
+            <div style={{ fontSize: "1.05rem", fontWeight: 900, lineHeight: 1.2 }}>Google Play</div>
+          </div>
+        </a>
+      </div>
       <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>Free to download · $4.99/mo membership</p>
     </div>
   );
@@ -1134,17 +1153,23 @@ function LandingPage() {
                 onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "#5ba4cf"}>Partner with us</button>
             </div>
           </div>
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#0d1f4e", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", whiteSpace: "nowrap", transition: "all 0.2s", animation: "glowPulseWhite 3s ease-in-out infinite" }}
-              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; }}>
-              <IcoApple size={16} /> Get the App
+              style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#fff", color: "#0d1f4e", padding: "10px 16px", borderRadius: 10, fontWeight: 900, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap", transition: "all 0.2s" }}
+              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
+              <IcoApple size={14} /> iOS
+            </a>
+            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", color: "#fff", padding: "10px 16px", borderRadius: 10, fontWeight: 900, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.15)", transition: "all 0.2s" }}
+              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.18)"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}>
+              <IcoGoogle size={14} /> Android
             </a>
             <a href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="vendor-portal-btn"
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.15)", transition: "all 0.2s" }}
-              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.06)", color: "#fff", padding: "10px 16px", borderRadius: 10, fontWeight: 900, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.1)", transition: "all 0.2s" }}
+              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.12)"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }}>
               Vendor Portal
             </a>
           </div>
@@ -1161,7 +1186,7 @@ function LandingPage() {
           <div>
             <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "7px 16px", marginBottom: 32 }}>
               <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
-              <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.15em" }}>Now Live on the App Store</span>
+              <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.15em" }}>Now Live on iOS & Android</span>
             </div>
 
             <h1 className="anim-fade-up anim-fade-up-2" style={{ fontSize: "clamp(2.6rem, 4vw, 5rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
@@ -1331,12 +1356,20 @@ function LandingPage() {
               <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Real Members, Real Savings</p>
               <h3 style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 20 }}>Members track every dollar saved, in real time<span style={{ color: "rgba(255,255,255,0.4)" }}>.</span></h3>
               <p style={{ color: "rgba(255,255,255,0.75)", fontWeight: 600, lineHeight: 1.7, marginBottom: 32 }}>The app adds up every deal you redeem so you can see exactly what the membership is worth to you. Most members are ahead within their first week.</p>
-              <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-                style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0d1f4e", color: "#fff", padding: "14px 28px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", transition: "all 0.2s" }}
-                onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
-                onMouseOut={e => { e.currentTarget.style.background = "#0d1f4e"; e.currentTarget.style.color = "#fff"; }}>
-                <IcoApple size={16} /> Download Free
-              </a>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0d1f4e", color: "#fff", padding: "14px 24px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", transition: "all 0.2s" }}
+                  onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
+                  onMouseOut={e => { e.currentTarget.style.background = "#0d1f4e"; e.currentTarget.style.color = "#fff"; }}>
+                  <IcoApple size={16} /> App Store
+                </a>
+                <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(13,31,78,0.6)", color: "#fff", padding: "14px 24px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", border: "1px solid rgba(255,255,255,0.2)", transition: "all 0.2s" }}
+                  onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
+                  onMouseOut={e => { e.currentTarget.style.background = "rgba(13,31,78,0.6)"; e.currentTarget.style.color = "#fff"; }}>
+                  <IcoGoogle size={16} /> Google Play
+                </a>
+              </div>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <img src="/app-screens/app-promo.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28 }} />
