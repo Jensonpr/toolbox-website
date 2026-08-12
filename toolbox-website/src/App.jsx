@@ -805,33 +805,51 @@ function submitToMailchimp(email, onSuccess, onError) {
 }
 
 // ─── App Store CTA ────────────────────────────────────────────────────────────
-function AppStoreCTA() {
-  const btnStyle = { display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "16px 28px", borderRadius: 16, fontWeight: 900, textDecoration: "none", transition: "all 0.25s", boxShadow: "0 8px 32px rgba(255,255,255,0.12)" };
+function DownloadModal({ onClose }) {
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.65)", backdropFilter: "blur(10px)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: "#0d1f4e", borderRadius: 28, padding: "40px 36px", maxWidth: 360, width: "100%", border: "1px solid rgba(91,164,207,0.2)", boxShadow: "0 40px 80px rgba(0,0,0,0.5)", position: "relative" }}>
+        <button onClick={onClose} style={{ position: "absolute", top: 16, right: 16, background: "rgba(255,255,255,0.08)", border: "none", color: "#fff", width: 32, height: 32, borderRadius: "50%", cursor: "pointer", fontSize: 18, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
+        <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.4rem", letterSpacing: "-0.03em", marginBottom: 6 }}>Download The ToolBox</p>
+        <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 14, marginBottom: 28 }}>Choose your device to get started.</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+            style={{ display: "flex", alignItems: "center", gap: 14, background: "#fff", color: "#0d1f4e", padding: "16px 20px", borderRadius: 16, fontWeight: 900, textDecoration: "none", transition: "all 0.2s" }}
+            onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
+            onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
+            <IcoApple size={24} />
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1, marginBottom: 3 }}>Download on the</div>
+              <div style={{ fontSize: "1.1rem", fontWeight: 900, lineHeight: 1 }}>App Store</div>
+            </div>
+          </a>
+          <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
+            style={{ display: "flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "16px 20px", borderRadius: 16, fontWeight: 900, textDecoration: "none", border: "1px solid rgba(255,255,255,0.12)", transition: "all 0.2s" }}
+            onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
+            onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}>
+            <IcoGoogle size={24} />
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1, marginBottom: 3 }}>Get it on</div>
+              <div style={{ fontSize: "1.1rem", fontWeight: 900, lineHeight: 1 }}>Google Play</div>
+            </div>
+          </a>
+        </div>
+        <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", fontWeight: 600, textAlign: "center", marginTop: 20 }}>Free to download · $4.99/mo membership</p>
+      </div>
+    </div>
+  );
+}
+
+function AppStoreCTA({ onDownload }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16 }}>
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-        <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-          style={{ ...btnStyle, animation: "glowPulseWhite 3s ease-in-out infinite" }}
-          onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; }}
-          onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; }}>
-          <IcoApple size={20} />
-          <div style={{ textAlign: "left" }}>
-            <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1 }}>Download on the</div>
-            <div style={{ fontSize: "1.05rem", fontWeight: 900, lineHeight: 1.2 }}>App Store</div>
-          </div>
-        </a>
-        <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
-          style={btnStyle}
-          onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
-          onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
-          <IcoGoogle size={20} />
-          <div style={{ textAlign: "left" }}>
-            <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1 }}>Get it on</div>
-            <div style={{ fontSize: "1.05rem", fontWeight: 900, lineHeight: 1.2 }}>Google Play</div>
-          </div>
-        </a>
-      </div>
-      <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>Free to download · $4.99/mo membership</p>
+      <button onClick={onDownload}
+        style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "#fff", color: "#0d1f4e", padding: "18px 36px", borderRadius: 18, fontWeight: 900, fontSize: "1.1rem", border: "none", cursor: "pointer", transition: "all 0.25s", animation: "glowPulseWhite 3s ease-in-out infinite", boxShadow: "0 8px 40px rgba(255,255,255,0.15)", fontFamily: "inherit" }}
+        onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; }}
+        onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; }}>
+        Download Free
+      </button>
+      <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>iOS & Android · $4.99/mo membership</p>
     </div>
   );
 }
@@ -1104,6 +1122,7 @@ function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
+  const [showDL, setShowDL] = useState(false);
   const count25 = useCountUp(35, 900, 800);
   const count500 = useCountUp(500, 1100, 800);
 
@@ -1136,6 +1155,7 @@ function LandingPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
+      {showDL && <DownloadModal onClose={() => setShowDL(false)} />}
 
       {/* Nav */}
       <nav style={navStyle}>
@@ -1153,23 +1173,17 @@ function LandingPage() {
                 onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "#5ba4cf"}>Partner with us</button>
             </div>
           </div>
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#fff", color: "#0d1f4e", padding: "10px 16px", borderRadius: 10, fontWeight: 900, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap", transition: "all 0.2s" }}
-              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
-              <IcoApple size={14} /> iOS
-            </a>
-            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.1)", color: "#fff", padding: "10px 16px", borderRadius: 10, fontWeight: 900, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.15)", transition: "all 0.2s" }}
-              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.18)"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}>
-              <IcoGoogle size={14} /> Android
-            </a>
+          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            <button onClick={() => setShowDL(true)}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#0d1f4e", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, border: "none", cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.2s", animation: "glowPulseWhite 3s ease-in-out infinite", fontFamily: "inherit" }}
+              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; }}>
+              Get the App
+            </button>
             <a href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="vendor-portal-btn"
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.06)", color: "#fff", padding: "10px 16px", borderRadius: 10, fontWeight: 900, fontSize: 13, textDecoration: "none", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.1)", transition: "all 0.2s" }}
-              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.12)"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }}>
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.15)", transition: "all 0.2s" }}
+              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
               Vendor Portal
             </a>
           </div>
@@ -1198,7 +1212,7 @@ function LandingPage() {
             </p>
 
             <div className="anim-fade-up anim-fade-up-4" style={{ display: "flex", justifyContent: "flex-start" }}>
-              <AppStoreCTA />
+              <AppStoreCTA onDownload={() => setShowDL(true)} />
             </div>
 
             <div className="anim-fade-up anim-fade-up-5 hero-stats-row" style={{ display: "flex", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)", maxWidth: 440 }}>
@@ -1356,20 +1370,12 @@ function LandingPage() {
               <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Real Members, Real Savings</p>
               <h3 style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 20 }}>Members track every dollar saved, in real time<span style={{ color: "rgba(255,255,255,0.4)" }}>.</span></h3>
               <p style={{ color: "rgba(255,255,255,0.75)", fontWeight: 600, lineHeight: 1.7, marginBottom: 32 }}>The app adds up every deal you redeem so you can see exactly what the membership is worth to you. Most members are ahead within their first week.</p>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-                  style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0d1f4e", color: "#fff", padding: "14px 24px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", transition: "all 0.2s" }}
-                  onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
-                  onMouseOut={e => { e.currentTarget.style.background = "#0d1f4e"; e.currentTarget.style.color = "#fff"; }}>
-                  <IcoApple size={16} /> App Store
-                </a>
-                <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
-                  style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(13,31,78,0.6)", color: "#fff", padding: "14px 24px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", border: "1px solid rgba(255,255,255,0.2)", transition: "all 0.2s" }}
-                  onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
-                  onMouseOut={e => { e.currentTarget.style.background = "rgba(13,31,78,0.6)"; e.currentTarget.style.color = "#fff"; }}>
-                  <IcoGoogle size={16} /> Google Play
-                </a>
-              </div>
+              <button onClick={() => setShowDL(true)}
+                style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0d1f4e", color: "#fff", padding: "14px 28px", borderRadius: 12, fontWeight: 900, fontSize: 14, border: "none", cursor: "pointer", transition: "all 0.2s", fontFamily: "inherit" }}
+                onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
+                onMouseOut={e => { e.currentTarget.style.background = "#0d1f4e"; e.currentTarget.style.color = "#fff"; }}>
+                Download Free
+              </button>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <img src="/app-screens/app-promo.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28 }} />
@@ -1420,10 +1426,10 @@ function LandingPage() {
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#f4c430", flexShrink: 0 }} />
                   <p style={{ fontSize: 12, fontWeight: 700, opacity: 0.8, fontStyle: "italic" }}>Founding 500 members lock in this price forever + get an exclusive in-app badge.</p>
                 </div>
-                <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: plan.highlight ? "#0d1f4e" : "#5ba4cf", color: "#fff", padding: 18, borderRadius: 16, fontWeight: 900, fontSize: "1.1rem", fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", textDecoration: "none", transition: "opacity 0.2s", boxSizing: "border-box" }}
+                <button onClick={() => setShowDL(true)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: plan.highlight ? "#0d1f4e" : "#5ba4cf", color: "#fff", padding: 18, borderRadius: 16, fontWeight: 900, fontSize: "1.1rem", fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", border: "none", cursor: "pointer", transition: "opacity 0.2s", boxSizing: "border-box", fontFamily: "inherit" }}
                   onMouseOver={e => e.currentTarget.style.opacity = "0.85"} onMouseOut={e => e.currentTarget.style.opacity = "1"}>
-                  <IcoApple size={18} /> Download Now
-                </a>
+                  Download Now
+                </button>
               </div>
             ))}
           </div>
