@@ -1087,7 +1087,7 @@ function SavingsCalculator({ onJoin }) {
             style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "#0d1f4e", color: "#fff", padding: "20px", borderRadius: 20, fontWeight: 900, fontSize: "1.05rem", fontStyle: "italic", textDecoration: "none", transition: "background 0.2s", boxSizing: "border-box" }}
             onMouseOver={e => e.currentTarget.style.background = "#5ba4cf"}
             onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
-            <IcoApple size={18} /> Download on the App Store →
+            <IcoApple size={18} /> Download on the App Store
           </a>
         </div>
       </div>
@@ -1464,7 +1464,6 @@ function LandingPage() {
               { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
               { q: "Which brands are included?", a: "We have 35+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
               { q: "Can I use it anywhere in Australia?", a: "Currently we are focused on Victoria-based vendors and legends, but we are expanding rapidly to other states very soon. Stay tuned!" },
-              { q: "When is the Android version coming?", a: "We launched on iOS first to get the product right. Android is on the roadmap and will be announced to our waitlist first - another reason to sign up now." },
               { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
             ].map((item, i) => (
               <div key={i} style={{ borderRadius: 24, border: "1px solid #e2e8f0", overflow: "hidden" }}>
