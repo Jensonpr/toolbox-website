@@ -1083,12 +1083,12 @@ function SavingsCalculator({ onJoin }) {
             <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: 13 }}>After $4.99/mo membership: <strong style={{ color: "#fff" }}>${netAnnual.toFixed(0)} net</strong></p>
           </div>
 
-          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-            style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "#0d1f4e", color: "#fff", padding: "20px", borderRadius: 20, fontWeight: 900, fontSize: "1.05rem", fontStyle: "italic", textDecoration: "none", transition: "background 0.2s", boxSizing: "border-box" }}
+          <button onClick={onJoin}
+            style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "#0d1f4e", color: "#fff", padding: "20px", borderRadius: 20, fontWeight: 900, fontSize: "1.05rem", fontStyle: "italic", border: "none", cursor: "pointer", transition: "background 0.2s", boxSizing: "border-box", fontFamily: "inherit" }}
             onMouseOver={e => e.currentTarget.style.background = "#5ba4cf"}
             onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
-            <IcoApple size={18} /> Download on the App Store
-          </a>
+            Download Free
+          </button>
         </div>
       </div>
     </>
@@ -1447,7 +1447,7 @@ function LandingPage() {
             </h2>
             <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 600, marginTop: 20, fontSize: "1.05rem" }}>Slide to match your monthly spend and see your savings.</p>
           </div>
-          <SavingsCalculator onJoin={() => setShowModal(true)} />
+          <SavingsCalculator onJoin={() => setShowDL(true)} />
         </div>
       </section>
 
