@@ -1513,7 +1513,7 @@ export default function App() {
         @media (max-width: 768px) {
           .nav-logo { height: 34px !important; }
           .hero-section { min-height: auto !important; padding-bottom: 80px; }
-          .hero-grid { grid-template-columns: 1fr !important; padding: 112px 24px 0 !important; }
+          .hero-grid { grid-template-columns: 1fr !important; padding: 152px 24px 0 !important; }
           .hero-grid .hero-image { display: none !important; }
           .hero-stats-row { max-width: 100% !important; margin-top: 32px !important; padding-top: 28px !important; }
           .hero-stats-row > div { padding: 0 8px !important; }
