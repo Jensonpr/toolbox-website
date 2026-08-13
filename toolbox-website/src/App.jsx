@@ -1512,8 +1512,8 @@ export default function App() {
         @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
         @media (max-width: 768px) {
           .nav-logo { height: 34px !important; }
-          .hero-section { min-height: auto !important; padding-bottom: 56px; }
-          .hero-grid { grid-template-columns: 1fr !important; padding: 72px 20px 0 !important; }
+          .hero-section { min-height: auto !important; padding-bottom: 80px; }
+          .hero-grid { grid-template-columns: 1fr !important; padding: 112px 24px 0 !important; }
           .hero-grid .hero-image { display: none !important; }
           .hero-stats-row { max-width: 100% !important; margin-top: 32px !important; padding-top: 28px !important; }
           .hero-stats-row > div { padding: 0 8px !important; }
