@@ -144,7 +144,7 @@ const BLOG_POSTS = [
       { type: "h2", text: "What ToolBox Members Get" },
       { type: "p", text: "As a ToolBox member, you get an exclusive discount at Elite Supplements  -  in-store and online. Whether you're picking up your usual protein tub or trying something new for recovery, the savings add up across the year. For members who buy supps regularly, this deal alone covers the membership cost multiple times over." },
       { type: "h2", text: "Find Them in the App" },
-      { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 35+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
+      { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 40+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
     ],
   },
   {
@@ -155,12 +155,12 @@ const BLOG_POSTS = [
     date: "July 25, 2026",
     readTime: "3 min read",
     author: "The ToolBox Team",
-    excerpt: "After months of building, testing, and signing up 35+ partner brands  -  The ToolBox is officially live on the App Store and Google Play. Here's what that means for Australian tradies.",
+    excerpt: "After months of building, testing, and signing up 40+ partner brands  -  The ToolBox is officially live on the App Store and Google Play. Here's what that means for Australian tradies.",
     content: [
       { type: "p", text: "It's here. The ToolBox  -  Australia's first discount membership app built specifically for tradies  -  is now available to download on the App Store and Google Play. For $4.99 a month, members get instant access to exclusive deals across workwear, supplements, fitness, grooming, food, tech, and more." },
       { type: "h2", text: "What We Built and Why" },
       { type: "p", text: "The idea behind The ToolBox is simple: tradies spend serious money on the gear, food, and lifestyle that keeps them going  -  but they never get the bulk buying power that corporate memberships or big brands take for granted. We fixed that." },
-      { type: "p", text: "We went out and negotiated directly with 35+ Australian brands to lock in real discounts  -  not token offers, but genuine savings on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
+      { type: "p", text: "We went out and negotiated directly with 40+ Australian brands to lock in real discounts  -  not token offers, but genuine savings on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
       { type: "h2", text: "200 Founding Members Before We Even Launched" },
       { type: "p", text: "One of the things that made this launch special: over 200 people joined the waitlist before we went live. That's 200 tradies who saw the value before a single deal was redeemable. Those are our Founding Members  -  they're locked in at $4.99/mo for life, no matter where pricing goes." },
       { type: "p", text: "There are still 253 founding member spots available for the first people who download and subscribe. Once those are gone, they're gone." },
@@ -249,14 +249,14 @@ const BLOG_POSTS = [
   {
     id: 8,
     slug: "30-vendor-partners-toolbox-network",
-    title: "35+ Brand Partnerships: How The ToolBox Built Australia's Best Tradie Deal Network",
+    title: "40+ Brand Partnerships: How The ToolBox Built Australia's Best Tradie Deal Network",
     category: "Vendor Spotlight",
     date: "June 25, 2026",
     readTime: "5 min read",
     author: "The ToolBox Team",
-    excerpt: "Getting 35+ brands on board before launch wasn't easy. Here's how The ToolBox built a deal network that actually works for tradies  -  and what it means for members.",
+    excerpt: "Getting 40+ brands on board before launch wasn't easy. Here's how The ToolBox built a deal network that actually works for tradies  -  and what it means for members.",
     content: [
-      { type: "p", text: "Building a discount network that tradies would actually use meant doing two things most apps don't bother with: finding brands tradies already love, and negotiating deals that are genuinely worth redeeming. Here's how we got to 35+ partners before we even launched." },
+      { type: "p", text: "Building a discount network that tradies would actually use meant doing two things most apps don't bother with: finding brands tradies already love, and negotiating deals that are genuinely worth redeeming. Here's how we got to 40+ partners before we even launched." },
       { type: "h2", text: "Why Vendor Partnerships Matter" },
       { type: "p", text: "A discount app is only as good as its partners. Generic 5%-off vouchers at brands nobody uses don't save anyone money. From the start, we focused on building relationships with brands that already had tradie audiences  -  and negotiating minimums that made the membership worth carrying." },
       { type: "p", text: "The result: real deals across categories that cover the full tradie lifestyle  -  not token offers, but savings members actually notice." },
@@ -1123,7 +1123,7 @@ function LandingPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [showDL, setShowDL] = useState(false);
-  const count25 = useCountUp(35, 900, 800);
+  const count25 = useCountUp(40, 900, 800);
   const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
@@ -1325,7 +1325,7 @@ function LandingPage() {
                 <h2 style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#0d1f4e", lineHeight: 1 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
               </div>
               <div className="vendors-header-right">
-                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>35+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
+                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>40+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(13,31,78,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end" }}>
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
                   Live Network Updates
@@ -1351,7 +1351,7 @@ function LandingPage() {
           </div>
           <div className="screenshots-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32, alignItems: "end" }}>
             {[
-              { src: "/app-screens/app-savings.png", label: "Browse", desc: "Search 35+ partner brands by category  -  workwear, fitness, food, golf, and more." },
+              { src: "/app-screens/app-savings.png", label: "Browse", desc: "Search 40+ partner brands by category  -  workwear, fitness, food, golf, and more." },
               { src: "/app-screens/app-map.png", label: "Find", desc: "Locate partner stores near you on the map, or shop online with a member code." },
               { src: "/app-screens/app-browse.png", label: "Redeem", desc: "Tap to reveal your promo code. Show staff before payment. Done." },
             ].map((s, i) => (
@@ -1395,7 +1395,7 @@ function LandingPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 960, margin: "0 auto" }}>
             {[
               { name: "Monthly Pro", price: "$4.99", period: "/ mo", desc: "Cancel Anytime", highlight: false,
-                feats: ["Discounts across 35+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"],
+                feats: ["Discounts across 40+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"],
                 badge: null },
               { name: "Annual Gold Saver", price: "$49.99", period: "/ yr", desc: "Save $10 Per Year", highlight: true,
                 feats: ["Everything in Monthly, plus 2 months completely free", "Priority access to new vendors and drops", "Members-only giveaways and exclusive deals"],
@@ -1462,7 +1462,7 @@ function LandingPage() {
             {[
               { q: "How do I use my discount?", a: "Once you're a member, simply open the app and show your digital membership card in-store at any of our partner vendors, or use the provided promo code for online orders." },
               { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
-              { q: "Which brands are included?", a: "We have 35+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
+              { q: "Which brands are included?", a: "We have 40+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
               { q: "Can I use it anywhere in Australia?", a: "Currently we are focused on Victoria-based vendors and legends, but we are expanding rapidly to other states very soon. Stay tuned!" },
               { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
             ].map((item, i) => (
