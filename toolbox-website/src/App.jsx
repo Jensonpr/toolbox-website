@@ -1190,52 +1190,66 @@ function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero - Signup */}
-      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", background: "#0d1f4e" }}>
-        <div style={{ position: "absolute", top: "20%", left: "30%", width: 800, height: 800, background: "#5ba4cf", borderRadius: "50%", filter: "blur(180px)", opacity: 0.07, pointerEvents: "none", animation: "float 12s ease-in-out infinite" }} />
+      {/* Hero */}
+      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "#0a1940" }}>
+        {/* Background glows */}
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 90% 60% at 50% -5%, rgba(91,164,207,0.2) 0%, transparent 65%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "-10%", left: "50%", transform: "translateX(-50%)", width: 1000, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.06) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
 
-        <div className="hero-grid" style={{ maxWidth: 1200, margin: "0 auto", padding: "100px 32px 80px", position: "relative", zIndex: 10, width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" }}>
+        {/* Content */}
+        <div style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "0 24px", maxWidth: 1000, width: "100%" }}>
 
-          {/* Left: copy */}
-          <div>
-            <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "7px 16px", marginBottom: 32 }}>
-              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
-              <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.15em" }}>Now Live on iOS & Android</span>
-            </div>
-
-            <h1 className="anim-fade-up anim-fade-up-2" style={{ fontSize: "clamp(2.6rem, 4vw, 5rem)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", marginBottom: 24, color: "#fff" }}>
-              Stop paying full<br />price on site<span style={{ color: "#5ba4cf" }}>.</span>
-            </h1>
-
-            <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "1.15rem", color: "rgba(255,255,255,0.55)", fontWeight: 500, lineHeight: 1.6, marginBottom: 40, maxWidth: 440 }}>
-              Australia's first discount membership app built for the tradie lifestyle.
-            </p>
-
-            <div className="anim-fade-up anim-fade-up-4" style={{ display: "flex", justifyContent: "flex-start" }}>
-              <AppStoreCTA onDownload={() => setShowDL(true)} />
-            </div>
-
-            <div className="anim-fade-up anim-fade-up-5 hero-stats-row" style={{ display: "flex", gap: 0, marginTop: 56, paddingTop: 40, borderTop: "1px solid rgba(255,255,255,0.06)", maxWidth: 440 }}>
-              {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Members"]].map(([val, label], i) => (
-                <div key={label} style={{ textAlign: "center", flex: 1, borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : "none", padding: "0 16px" }}>
-                  <p style={{ fontSize: "2.2rem", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 6, color: "#fff" }}>{val}</p>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.15em" }}>{label}</p>
-                </div>
-              ))}
-            </div>
+          {/* Live badge */}
+          <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "8px 20px", marginBottom: 44 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
+            <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.2em" }}>Now Live on iOS & Android</span>
           </div>
 
-          {/* Right: app hero image */}
-          <div className="hero-image anim-fade-up anim-fade-up-3" style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}>
-            {/* Glow rings behind the phone */}
-            <div style={{ position: "absolute", width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle, rgba(91,164,207,0.35) 0%, transparent 70%)", animation: "glowPulse 4s ease-in-out infinite", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(91,164,207,0.2) 0%, transparent 70%)", animation: "glowPulse 4s ease-in-out infinite 1s", pointerEvents: "none" }} />
-            <img
-              src="/app-screens/app-hero.png"
-              alt="The ToolBox App"
-              style={{ width: "100%", maxWidth: 480, objectFit: "contain", position: "relative", zIndex: 1, filter: "drop-shadow(0 30px 60px rgba(91,164,207,0.4)) drop-shadow(0 0 80px rgba(91,164,207,0.2))" }}
-            />
+          {/* Headline */}
+          <h1 style={{ marginBottom: 32, lineHeight: 0.88 }}>
+            <span className="anim-hero-line-1" style={{ display: "block", fontSize: "clamp(3.8rem, 11vw, 9.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff" }}>Stop Paying</span>
+            <span className="anim-hero-line-2" style={{ display: "block", fontSize: "clamp(3.8rem, 11vw, 9.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#5ba4cf" }}>Full Price.</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.6, maxWidth: 480, margin: "0 auto 52px" }}>
+            Australia's first discount membership app built for the tradie lifestyle.
+          </p>
+
+          {/* Store buttons */}
+          <div className="anim-fade-up anim-fade-up-4 hero-store-btns" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginBottom: 16 }}>
+            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "17px 36px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", textDecoration: "none", transition: "all 0.22s", boxShadow: "0 0 40px rgba(255,255,255,0.12)", whiteSpace: "nowrap" }}
+              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.boxShadow = "0 0 40px rgba(91,164,207,0.45)"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.boxShadow = "0 0 40px rgba(255,255,255,0.12)"; }}>
+              <IcoApple size={18} /> Get it on iOS
+            </a>
+            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "17px 36px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.18)", transition: "all 0.22s", whiteSpace: "nowrap" }}
+              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.borderColor = "#5ba4cf"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)"; }}>
+              <IcoGoogle size={18} /> Get it on Android
+            </a>
           </div>
+          <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 80 }}>Free to download · $4.99/mo membership</p>
+
+          {/* Stat cards */}
+          <div className="anim-fade-up anim-fade-up-5 hero-stat-cards" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Members"]].map(([val, label]) => (
+              <div key={label} className="hero-stat-card" style={{ background: "#fff", borderRadius: 22, padding: "24px 36px", minWidth: 170, textAlign: "center", transition: "transform 0.2s" }}
+                onMouseOver={e => e.currentTarget.style.transform = "translateY(-4px)"}
+                onMouseOut={e => e.currentTarget.style.transform = "translateY(0)"}>
+                <p style={{ fontSize: "2.6rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 1, marginBottom: 6 }}>{val}</p>
+                <p style={{ fontSize: 10, fontWeight: 900, color: "#0d1f4e", textTransform: "uppercase", letterSpacing: "0.2em", opacity: 0.35 }}>{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Scroll cue */}
+        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, opacity: 0.3 }}>
+          <div style={{ width: 1, height: 44, background: "linear-gradient(to bottom, transparent, #fff)" }} />
+          <span style={{ fontSize: 9, fontWeight: 900, color: "#fff", textTransform: "uppercase", letterSpacing: "0.25em" }}>Scroll</span>
         </div>
       </section>
 
@@ -1493,6 +1507,7 @@ export default function App() {
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; background: #0d1f4e; } button, input, textarea, select { font-family: inherit; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes heroLine { from { opacity: 0; transform: translateY(48px) skewX(-2deg); } to { opacity: 1; transform: translateY(0) skewX(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .anim-fade-up { opacity: 0; animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
         .anim-fade-up-1 { animation-delay: 0.1s; }
@@ -1500,6 +1515,8 @@ export default function App() {
         .anim-fade-up-3 { animation-delay: 0.4s; }
         .anim-fade-up-4 { animation-delay: 0.55s; }
         .anim-fade-up-5 { animation-delay: 0.7s; }
+        .anim-hero-line-1 { opacity: 0; animation: heroLine 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards; }
+        .anim-hero-line-2 { opacity: 0; animation: heroLine 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s forwards; }
         .scroll-reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
         .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
         body { background: #0d1f4e; }
@@ -1512,12 +1529,12 @@ export default function App() {
         @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
         @media (max-width: 768px) {
           .nav-logo { height: 34px !important; }
-          .hero-section { min-height: auto !important; padding-bottom: 80px; }
-          .hero-grid { grid-template-columns: 1fr !important; padding: 152px 24px 0 !important; }
-          .hero-grid .hero-image { display: none !important; }
-          .hero-stats-row { max-width: 100% !important; margin-top: 32px !important; padding-top: 28px !important; }
-          .hero-stats-row > div { padding: 0 8px !important; }
-          .hero-stats-row p:first-child { font-size: 1.5rem !important; }
+          .hero-section { min-height: 100svh !important; padding: 100px 0 80px !important; }
+          .hero-store-btns { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+          .hero-store-btns a { justify-content: center !important; padding: 16px 24px !important; }
+          .hero-stat-cards { gap: 10px !important; padding: 0 8px !important; }
+          .hero-stat-card { padding: 18px 12px !important; min-width: 0 !important; flex: 1 !important; }
+          .hero-stat-card p:first-child { font-size: 1.8rem !important; }
           .desktop-nav { display: none !important; }
           .vendor-portal-btn { display: none !important; }
           .screenshots-grid { grid-template-columns: 1fr !important; }
