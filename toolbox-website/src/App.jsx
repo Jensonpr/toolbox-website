@@ -1116,6 +1116,92 @@ function useCountUp(target, duration = 1000, startDelay = 750) {
 }
 
 // ─── Landing Page ─────────────────────────────────────────────────────────────
+const HOW_STEPS = [
+  { num: "01", title: "Browse the App", desc: "Search 40+ partner brands by category — workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-savings.png" },
+  { num: "02", title: "Find a Deal Near You", desc: "Locate partner stores near you on the map, or grab your online member code for stores you can't visit in person.", img: "/app-screens/app-map.png" },
+  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done — savings in your pocket.", img: "/app-screens/app-browse.png" },
+  { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/app-promo.png" },
+];
+
+function HowItWorksSection({ onDownload }) {
+  const [activeStep, setActiveStep] = useState(0);
+  const stepRefs = useRef([]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const mid = window.innerHeight * 0.55;
+      let next = 0;
+      stepRefs.current.forEach((el, i) => {
+        if (el && el.getBoundingClientRect().top <= mid) next = i;
+      });
+      setActiveStep(next);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <section id="about" style={{ background: "#0a1940", position: "relative" }}>
+      {/* Header */}
+      <div className="scroll-reveal" style={{ textAlign: "center", padding: "96px 32px 80px" }}>
+        <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 16 }}>Inside the App</p>
+        <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff", lineHeight: 0.9 }}>
+          How It Works<span style={{ color: "#5ba4cf" }}>.</span>
+        </h2>
+      </div>
+
+      {/* Sticky scroll body */}
+      <div className="how-works-body" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 48px 160px", display: "flex", gap: 80, alignItems: "flex-start" }}>
+
+        {/* Left: sticky phone */}
+        <div className="how-works-phone" style={{ flex: "0 0 280px", position: "sticky", top: "calc(50vh - 310px)", alignSelf: "flex-start" }}>
+          {/* Phone shell */}
+          <div style={{ width: 270, height: 560, borderRadius: 48, border: "8px solid rgba(255,255,255,0.1)", background: "#000", position: "relative", overflow: "hidden", boxShadow: "0 48px 96px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05)", margin: "0 auto" }}>
+            {/* Notch */}
+            <div style={{ position: "absolute", top: 14, left: "50%", transform: "translateX(-50%)", width: 72, height: 22, background: "#000", borderRadius: 100, zIndex: 10 }} />
+            {/* Screenshots crossfade */}
+            {HOW_STEPS.map((s, i) => (
+              <img key={i} src={s.img} alt={s.title}
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", opacity: activeStep === i ? 1 : 0, transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1)", borderRadius: 40 }} />
+            ))}
+            {/* Screen glare */}
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 55%)", pointerEvents: "none", zIndex: 5, borderRadius: 40 }} />
+          </div>
+          {/* Step dots */}
+          <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 28 }}>
+            {HOW_STEPS.map((_, i) => (
+              <div key={i} style={{ height: 6, borderRadius: 3, background: activeStep === i ? "#5ba4cf" : "rgba(255,255,255,0.15)", width: activeStep === i ? 28 : 6, transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)" }} />
+            ))}
+          </div>
+        </div>
+
+        {/* Right: scrolling steps */}
+        <div style={{ flex: 1 }}>
+          {HOW_STEPS.map((s, i) => (
+            <div key={i} ref={el => stepRefs.current[i] = el}
+              style={{ minHeight: "80vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "60px 0", borderBottom: i < HOW_STEPS.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
+              {/* Mobile-only screenshot */}
+              <img src={s.img} alt={s.title} className="how-works-step-img" style={{ display: "none", width: "100%", maxWidth: 220, borderRadius: 32, marginBottom: 32, alignSelf: "center" }} />
+              <p style={{ fontSize: "clamp(5rem, 10vw, 8rem)", fontWeight: 900, fontStyle: "italic", letterSpacing: "-0.05em", lineHeight: 1, color: activeStep === i ? "rgba(91,164,207,0.25)" : "rgba(255,255,255,0.04)", transition: "color 0.4s", marginBottom: 12, userSelect: "none" }}>{s.num}</p>
+              <h3 style={{ fontSize: "clamp(1.6rem, 3vw, 2.6rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: activeStep === i ? "#fff" : "rgba(255,255,255,0.3)", transition: "color 0.4s", marginBottom: 20, lineHeight: 1 }}>{s.title}</h3>
+              <p style={{ fontSize: "1.05rem", color: activeStep === i ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.2)", transition: "color 0.4s", fontWeight: 500, lineHeight: 1.7, maxWidth: 420 }}>{s.desc}</p>
+              {i === HOW_STEPS.length - 1 && (
+                <button onClick={onDownload}
+                  style={{ marginTop: 40, display: "inline-flex", alignItems: "center", gap: 10, background: "#5ba4cf", color: "#fff", padding: "16px 32px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", border: "none", cursor: "pointer", transition: "all 0.22s", width: "fit-content", fontFamily: "inherit" }}
+                  onMouseOver={e => e.currentTarget.style.background = "#fff"}
+                  onMouseOut={e => e.currentTarget.style.background = "#5ba4cf"}>
+                  Download Free
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function LandingPage() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -1154,7 +1240,7 @@ function LandingPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
       {showDL && <DownloadModal onClose={() => setShowDL(false)} />}
 
       {/* Nav */}
@@ -1356,47 +1442,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* App Screenshots Strip */}
-      <section id="about" style={{ background: "#5ba4cf", padding: "96px 0", overflow: "hidden", position: "relative" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 1 }}>
-          <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
-            <p style={{ color: "rgba(255,255,255,0.65)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Inside the App</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 0.95 }}>See how it works<span style={{ color: "rgba(255,255,255,0.4)" }}>.</span></h2>
-          </div>
-          <div className="screenshots-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32, alignItems: "end" }}>
-            {[
-              { src: "/app-screens/app-savings.png", label: "Browse", desc: "Search 40+ partner brands by category  -  workwear, fitness, food, golf, and more." },
-              { src: "/app-screens/app-map.png", label: "Find", desc: "Locate partner stores near you on the map, or shop online with a member code." },
-              { src: "/app-screens/app-browse.png", label: "Redeem", desc: "Tap to reveal your promo code. Show staff before payment. Done." },
-            ].map((s, i) => (
-              <div key={i} className="scroll-reveal" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28, transitionDelay: `${i * 0.12}s` }}>
-                <img src={s.src} alt={s.label} style={{ width: "100%", maxWidth: 260, borderRadius: 32, objectFit: "cover" }} />
-                <div style={{ textAlign: "center" }}>
-                  <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 8 }}>{s.label}</p>
-                  <p style={{ color: "rgba(255,255,255,0.75)", fontWeight: 600, lineHeight: 1.6, fontSize: "0.95rem", maxWidth: 260 }}>{s.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* Savings callout */}
-          <div className="scroll-reveal savings-grid" style={{ marginTop: 80, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center", background: "rgba(255,255,255,0.35)", backdropFilter: "blur(10px)", borderRadius: 40, padding: "48px 56px", border: "1px solid rgba(255,255,255,0.2)" }}>
-            <div>
-              <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Real Members, Real Savings</p>
-              <h3 style={{ fontSize: "clamp(1.8rem, 3vw, 2.8rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 0.95, marginBottom: 20 }}>Members track every dollar saved, in real time<span style={{ color: "rgba(255,255,255,0.4)" }}>.</span></h3>
-              <p style={{ color: "rgba(255,255,255,0.75)", fontWeight: 600, lineHeight: 1.7, marginBottom: 32 }}>The app adds up every deal you redeem so you can see exactly what the membership is worth to you. Most members are ahead within their first week.</p>
-              <button onClick={() => setShowDL(true)}
-                style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0d1f4e", color: "#fff", padding: "14px 28px", borderRadius: 12, fontWeight: 900, fontSize: 14, border: "none", cursor: "pointer", transition: "all 0.2s", fontFamily: "inherit" }}
-                onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}
-                onMouseOut={e => { e.currentTarget.style.background = "#0d1f4e"; e.currentTarget.style.color = "#fff"; }}>
-                Download Free
-              </button>
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <img src="/app-screens/app-promo.png" alt="Total Saved screen" style={{ width: "100%", maxWidth: 240, borderRadius: 28 }} />
-            </div>
-          </div>
-        </div>
-      </section>
+      <HowItWorksSection onDownload={() => setShowDL(true)} />
 
       {/* Pricing */}
       <section id="pricing" style={{ background: "#0d1f4e", padding: "96px 0", scrollMarginTop: 80 }}>
@@ -1546,6 +1592,9 @@ export default function App() {
           .vendors-header-right p { text-align: left !important; max-width: 100% !important; }
           .vendors-header-right > div { justify-content: flex-start !important; }
           .mission-image-col { display: none !important; }
+          .how-works-body { flex-direction: column !important; padding: 0 24px 80px !important; gap: 0 !important; }
+          .how-works-phone { display: none !important; }
+          .how-works-step-img { display: block !important; }
         }
         ::selection { background: #5ba4cf; color: #fff; }
         ::-webkit-scrollbar { width: 6px; }
