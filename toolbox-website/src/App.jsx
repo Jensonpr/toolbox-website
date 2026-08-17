@@ -1196,50 +1196,50 @@ function LandingPage() {
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 90% 60% at 50% -5%, rgba(91,164,207,0.2) 0%, transparent 65%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "-10%", left: "50%", transform: "translateX(-50%)", width: 1000, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.06) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
 
-        {/* Content */}
-        <div style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "0 24px", maxWidth: 1000, width: "100%" }}>
+        {/* Content — paddingTop clears the fixed nav (~80px) */}
+        <div className="hero-content" style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "100px 32px 0", maxWidth: 1000, width: "100%" }}>
 
           {/* Live badge */}
-          <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "8px 20px", marginBottom: 44 }}>
+          <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "8px 20px", marginBottom: 28 }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
             <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.2em" }}>Now Live on iOS & Android</span>
           </div>
 
           {/* Headline */}
-          <h1 style={{ marginBottom: 32, lineHeight: 0.88 }}>
+          <h1 style={{ marginBottom: 24, lineHeight: 0.88 }}>
             <span className="anim-hero-line-1" style={{ display: "block", fontSize: "clamp(3.8rem, 11vw, 9.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff" }}>Stop Paying</span>
             <span className="anim-hero-line-2" style={{ display: "block", fontSize: "clamp(3.8rem, 11vw, 9.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#5ba4cf" }}>Full Price.</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.6, maxWidth: 480, margin: "0 auto 52px" }}>
+          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "clamp(1rem, 1.8vw, 1.15rem)", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.6, maxWidth: 460, margin: "0 auto 36px" }}>
             Australia's first discount membership app built for the tradie lifestyle.
           </p>
 
           {/* Store buttons */}
-          <div className="anim-fade-up anim-fade-up-4 hero-store-btns" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginBottom: 16 }}>
+          <div className="anim-fade-up anim-fade-up-4 hero-store-btns" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginBottom: 14 }}>
             <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "17px 36px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", textDecoration: "none", transition: "all 0.22s", boxShadow: "0 0 40px rgba(255,255,255,0.12)", whiteSpace: "nowrap" }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "16px 34px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", textDecoration: "none", transition: "all 0.22s", boxShadow: "0 0 40px rgba(255,255,255,0.12)", whiteSpace: "nowrap" }}
               onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.boxShadow = "0 0 40px rgba(91,164,207,0.45)"; }}
               onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.boxShadow = "0 0 40px rgba(255,255,255,0.12)"; }}>
               <IcoApple size={18} /> Get it on iOS
             </a>
             <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "17px 36px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.18)", transition: "all 0.22s", whiteSpace: "nowrap" }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "16px 34px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.18)", transition: "all 0.22s", whiteSpace: "nowrap" }}
               onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.borderColor = "#5ba4cf"; }}
               onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)"; }}>
               <IcoGoogle size={18} /> Get it on Android
             </a>
           </div>
-          <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 80 }}>Free to download · $4.99/mo membership</p>
+          <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>Free to download · $4.99/mo membership</p>
 
           {/* Stat cards */}
           <div className="anim-fade-up anim-fade-up-5 hero-stat-cards" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Members"]].map(([val, label]) => (
-              <div key={label} className="hero-stat-card" style={{ background: "#fff", borderRadius: 22, padding: "24px 36px", minWidth: 170, textAlign: "center", transition: "transform 0.2s" }}
+              <div key={label} className="hero-stat-card" style={{ background: "#fff", borderRadius: 20, padding: "20px 32px", minWidth: 160, textAlign: "center", transition: "transform 0.2s" }}
                 onMouseOver={e => e.currentTarget.style.transform = "translateY(-4px)"}
                 onMouseOut={e => e.currentTarget.style.transform = "translateY(0)"}>
-                <p style={{ fontSize: "2.6rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 1, marginBottom: 6 }}>{val}</p>
+                <p style={{ fontSize: "2.4rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 1, marginBottom: 6 }}>{val}</p>
                 <p style={{ fontSize: 10, fontWeight: 900, color: "#0d1f4e", textTransform: "uppercase", letterSpacing: "0.2em", opacity: 0.35 }}>{label}</p>
               </div>
             ))}
@@ -1529,7 +1529,8 @@ export default function App() {
         @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
         @media (max-width: 768px) {
           .nav-logo { height: 34px !important; }
-          .hero-section { min-height: 100svh !important; padding: 100px 0 80px !important; }
+          .hero-section { min-height: 100svh !important; justify-content: flex-start !important; }
+          .hero-content { padding-top: 88px !important; padding-bottom: 60px !important; }
           .hero-store-btns { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
           .hero-store-btns a { justify-content: center !important; padding: 16px 24px !important; }
           .hero-stat-cards { gap: 10px !important; padding: 0 8px !important; }
