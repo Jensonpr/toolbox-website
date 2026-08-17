@@ -1125,16 +1125,16 @@ const HOW_STEPS = [
 
 function HowItWorksSection({ onDownload }) {
   const [activeStep, setActiveStep] = useState(0);
-  const stepRefs = useRef([]);
+  const wrapperRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      const mid = window.innerHeight * 0.55;
-      let next = 0;
-      stepRefs.current.forEach((el, i) => {
-        if (el && el.getBoundingClientRect().top <= mid) next = i;
-      });
-      setActiveStep(next);
+      const el = wrapperRef.current;
+      if (!el) return;
+      const scrolled = Math.max(0, -el.getBoundingClientRect().top);
+      const scrollable = el.offsetHeight - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(1, scrolled / scrollable) : 0;
+      setActiveStep(Math.min(HOW_STEPS.length - 1, Math.floor(progress * HOW_STEPS.length)));
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
@@ -1142,60 +1142,79 @@ function HowItWorksSection({ onDownload }) {
   }, []);
 
   return (
-    <section id="about" style={{ background: "#0a1940", position: "relative" }}>
-      {/* Header */}
-      <div className="scroll-reveal" style={{ textAlign: "center", padding: "96px 32px 80px" }}>
-        <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 16 }}>Inside the App</p>
-        <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff", lineHeight: 0.9 }}>
-          How It Works<span style={{ color: "#5ba4cf" }}>.</span>
-        </h2>
-      </div>
+    <section id="about" style={{ background: "#0a1940" }}>
+      {/* Tall scroll container — gives scroll room without leaving the section */}
+      <div ref={wrapperRef} style={{ height: `${HOW_STEPS.length * 100 + 50}vh`, position: "relative" }}>
+        {/* Pinned inner panel */}
+        <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div className="how-works-inner" style={{ maxWidth: 1100, width: "100%", padding: "0 64px", display: "flex", gap: 80, alignItems: "center" }}>
 
-      {/* Sticky scroll body */}
-      <div className="how-works-body" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 48px 160px", display: "flex", gap: 80, alignItems: "flex-start" }}>
+            {/* Left: heading + step list */}
+            <div style={{ flex: 1 }}>
+              <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 16 }}>Inside the App</p>
+              <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff", lineHeight: 0.9, marginBottom: 48 }}>
+                How It<br /><span style={{ color: "#5ba4cf" }}>Works.</span>
+              </h2>
 
-        {/* Left: sticky phone */}
-        <div className="how-works-phone" style={{ flex: "0 0 280px", position: "sticky", top: "calc(50vh - 310px)", alignSelf: "flex-start" }}>
-          {/* Phone shell */}
-          <div style={{ width: 270, height: 560, borderRadius: 48, border: "8px solid rgba(255,255,255,0.1)", background: "#000", position: "relative", overflow: "hidden", boxShadow: "0 48px 96px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05)", margin: "0 auto" }}>
-            {/* Notch */}
-            <div style={{ position: "absolute", top: 14, left: "50%", transform: "translateX(-50%)", width: 72, height: 22, background: "#000", borderRadius: 100, zIndex: 10 }} />
-            {/* Screenshots crossfade */}
-            {HOW_STEPS.map((s, i) => (
-              <img key={i} src={s.img} alt={s.title}
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", opacity: activeStep === i ? 1 : 0, transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1)", borderRadius: 40 }} />
-            ))}
-            {/* Screen glare */}
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 55%)", pointerEvents: "none", zIndex: 5, borderRadius: 40 }} />
-          </div>
-          {/* Step dots */}
-          <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 28 }}>
-            {HOW_STEPS.map((_, i) => (
-              <div key={i} style={{ height: 6, borderRadius: 3, background: activeStep === i ? "#5ba4cf" : "rgba(255,255,255,0.15)", width: activeStep === i ? 28 : 6, transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)" }} />
-            ))}
-          </div>
-        </div>
+              {HOW_STEPS.map((s, i) => (
+                <div key={i} style={{
+                  marginBottom: 12,
+                  padding: "16px 20px",
+                  borderRadius: 16,
+                  background: activeStep === i ? "rgba(91,164,207,0.12)" : "transparent",
+                  border: `1px solid ${activeStep === i ? "rgba(91,164,207,0.25)" : "transparent"}`,
+                  transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                    <div style={{
+                      width: 40, height: 40, borderRadius: "50%", flexShrink: 0,
+                      background: activeStep === i ? "#5ba4cf" : "rgba(255,255,255,0.07)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: "0.85rem", fontWeight: 900, fontStyle: "italic",
+                      color: activeStep === i ? "#fff" : "rgba(255,255,255,0.3)",
+                      transition: "all 0.4s",
+                    }}>{s.num}</div>
+                    <h3 style={{
+                      fontSize: "clamp(1rem, 1.5vw, 1.25rem)", fontWeight: 900, fontStyle: "italic",
+                      textTransform: "uppercase", letterSpacing: "-0.02em", margin: 0,
+                      color: activeStep === i ? "#fff" : "rgba(255,255,255,0.3)",
+                      transition: "color 0.4s",
+                    }}>{s.title}</h3>
+                  </div>
+                  <div style={{ maxHeight: activeStep === i ? 100 : 0, overflow: "hidden", transition: "max-height 0.45s cubic-bezier(0.4,0,0.2,1)" }}>
+                    <p style={{ fontSize: "0.95rem", color: "rgba(255,255,255,0.55)", fontWeight: 500, lineHeight: 1.7, marginTop: 12, paddingLeft: 56 }}>{s.desc}</p>
+                  </div>
+                </div>
+              ))}
 
-        {/* Right: scrolling steps */}
-        <div style={{ flex: 1 }}>
-          {HOW_STEPS.map((s, i) => (
-            <div key={i} ref={el => stepRefs.current[i] = el}
-              style={{ minHeight: "80vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "60px 0", borderBottom: i < HOW_STEPS.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
-              {/* Mobile-only screenshot */}
-              <img src={s.img} alt={s.title} className="how-works-step-img" style={{ display: "none", width: "100%", maxWidth: 220, borderRadius: 32, marginBottom: 32, alignSelf: "center" }} />
-              <p style={{ fontSize: "clamp(5rem, 10vw, 8rem)", fontWeight: 900, fontStyle: "italic", letterSpacing: "-0.05em", lineHeight: 1, color: activeStep === i ? "rgba(91,164,207,0.25)" : "rgba(255,255,255,0.04)", transition: "color 0.4s", marginBottom: 12, userSelect: "none" }}>{s.num}</p>
-              <h3 style={{ fontSize: "clamp(1.6rem, 3vw, 2.6rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: activeStep === i ? "#fff" : "rgba(255,255,255,0.3)", transition: "color 0.4s", marginBottom: 20, lineHeight: 1 }}>{s.title}</h3>
-              <p style={{ fontSize: "1.05rem", color: activeStep === i ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.2)", transition: "color 0.4s", fontWeight: 500, lineHeight: 1.7, maxWidth: 420 }}>{s.desc}</p>
-              {i === HOW_STEPS.length - 1 && (
+              <div style={{ marginTop: 32, paddingLeft: 4 }}>
                 <button onClick={onDownload}
-                  style={{ marginTop: 40, display: "inline-flex", alignItems: "center", gap: 10, background: "#5ba4cf", color: "#fff", padding: "16px 32px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", border: "none", cursor: "pointer", transition: "all 0.22s", width: "fit-content", fontFamily: "inherit" }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#5ba4cf", color: "#fff", padding: "15px 30px", borderRadius: 100, fontWeight: 900, fontSize: "0.95rem", border: "none", cursor: "pointer", transition: "all 0.22s", fontFamily: "inherit" }}
                   onMouseOver={e => e.currentTarget.style.background = "#fff"}
                   onMouseOut={e => e.currentTarget.style.background = "#5ba4cf"}>
                   Download Free
                 </button>
-              )}
+              </div>
             </div>
-          ))}
+
+            {/* Right: phone mockup */}
+            <div className="how-works-phone" style={{ flex: "0 0 260px" }}>
+              <div style={{ width: 260, height: 540, borderRadius: 48, border: "8px solid rgba(255,255,255,0.1)", background: "#000", position: "relative", overflow: "hidden", boxShadow: "0 48px 96px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05)", margin: "0 auto" }}>
+                <div style={{ position: "absolute", top: 14, left: "50%", transform: "translateX(-50%)", width: 72, height: 22, background: "#000", borderRadius: 100, zIndex: 10 }} />
+                {HOW_STEPS.map((s, i) => (
+                  <img key={i} src={s.img} alt={s.title}
+                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", opacity: activeStep === i ? 1 : 0, transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1)", borderRadius: 40 }} />
+                ))}
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 55%)", pointerEvents: "none", zIndex: 5, borderRadius: 40 }} />
+              </div>
+              <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 24 }}>
+                {HOW_STEPS.map((_, i) => (
+                  <div key={i} style={{ height: 6, borderRadius: 3, background: activeStep === i ? "#5ba4cf" : "rgba(255,255,255,0.15)", width: activeStep === i ? 28 : 6, transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)" }} />
+                ))}
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
