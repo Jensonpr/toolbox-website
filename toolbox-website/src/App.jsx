@@ -1132,16 +1132,25 @@ function HowItWorksSection({ onDownload }) {
   useEffect(() => { activeRef.current = activeStep; }, [activeStep]);
 
   useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    let locked = false;
+
+    // Lock as soon as the section fully fills the viewport
+    const io = new IntersectionObserver(([entry]) => {
+      locked = entry.intersectionRatio >= 0.98;
+    }, { threshold: [0.97, 0.98, 1.0] });
+    io.observe(el);
+
     const handleWheel = (e) => {
-      const el = sectionRef.current;
-      if (!el) return;
+      // Also catch fast-scroll entry before IO fires
       const rect = el.getBoundingClientRect();
-      // Only intercept once the section is snapped flush to the viewport
-      if (rect.top > 20 || rect.top < -20) return;
+      const nearlyFull = rect.top > -60 && rect.top < 60 && rect.bottom > window.innerHeight - 60;
+      if (!locked && !nearlyFull) return;
 
       const step = activeRef.current;
+
       if (e.deltaY > 0 && step < HOW_STEPS.length - 1) {
-        // Scroll down + not on last step → advance step, block page scroll
         e.preventDefault();
         if (busy.current) return;
         busy.current = true;
@@ -1150,7 +1159,6 @@ function HowItWorksSection({ onDownload }) {
         setActiveStep(next);
         setTimeout(() => { busy.current = false; }, 700);
       } else if (e.deltaY < 0 && step > 0) {
-        // Scroll up + not on first step → go back, block page scroll
         e.preventDefault();
         if (busy.current) return;
         busy.current = true;
@@ -1159,11 +1167,14 @@ function HowItWorksSection({ onDownload }) {
         setActiveStep(prev);
         setTimeout(() => { busy.current = false; }, 700);
       }
-      // On first step scrolling up, or last step scrolling down → page scrolls normally
+      // Last step scroll down OR first step scroll up → no preventDefault, page scrolls
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      io.disconnect();
+    };
   }, []);
 
   return (
