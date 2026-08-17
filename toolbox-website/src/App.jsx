@@ -1117,10 +1117,10 @@ function useCountUp(target, duration = 1000, startDelay = 750) {
 
 // ─── Landing Page ─────────────────────────────────────────────────────────────
 const HOW_STEPS = [
-  { num: "01", title: "Browse the App", desc: "Search 40+ partner brands by category — workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-savings.png" },
+  { num: "01", title: "Browse the App", desc: "Search 40+ partner brands by category — workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-browse.png" },
   { num: "02", title: "Find a Deal Near You", desc: "Locate partner stores near you on the map, or grab your online member code for stores you can't visit in person.", img: "/app-screens/app-map.png" },
-  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done — savings in your pocket.", img: "/app-screens/app-browse.png" },
-  { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/app-promo.png" },
+  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done — savings in your pocket.", img: "/app-screens/app-promo.png" },
+  { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/app-savings.png" },
 ];
 
 function HowItWorksSection({ onDownload }) {
@@ -1136,8 +1136,8 @@ function HowItWorksSection({ onDownload }) {
       const el = sectionRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      // Only intercept when the section is filling the viewport
-      if (rect.top > 100 || rect.top < -100) return;
+      // Only intercept once the section is snapped flush to the viewport
+      if (rect.top > 20 || rect.top < -20) return;
 
       const step = activeRef.current;
       if (e.deltaY > 0 && step < HOW_STEPS.length - 1) {
@@ -1589,7 +1589,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; background: #0d1f4e; } button, input, textarea, select { font-family: inherit; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; scroll-snap-type: y proximity; } #root { width: 100%; background: #0d1f4e; } button, input, textarea, select { font-family: inherit; } #about { scroll-snap-align: start; scroll-snap-stop: always; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes heroLine { from { opacity: 0; transform: translateY(48px) skewX(-2deg); } to { opacity: 1; transform: translateY(0) skewX(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
