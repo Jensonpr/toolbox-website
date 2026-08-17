@@ -1143,10 +1143,10 @@ function HowItWorksSection({ onDownload }) {
 
   return (
     <section id="about" style={{ background: "#0a1940" }}>
-      {/* Tall scroll container — gives scroll room without leaving the section */}
-      <div ref={wrapperRef} style={{ height: `${HOW_STEPS.length * 100 + 50}vh`, position: "relative" }}>
-        {/* Pinned inner panel */}
-        <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {/* Tall scroll container: 80vh per step gives a good scroll pace */}
+      <div ref={wrapperRef} style={{ height: `${HOW_STEPS.length * 80 + 20}vh`, position: "relative" }}>
+        {/* Pinned inner panel — top:80px clears the fixed nav */}
+        <div style={{ position: "sticky", top: "80px", height: "calc(100vh - 80px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div className="how-works-inner" style={{ maxWidth: 1100, width: "100%", padding: "0 64px", display: "flex", gap: 80, alignItems: "center" }}>
 
             {/* Left: heading + step list */}
