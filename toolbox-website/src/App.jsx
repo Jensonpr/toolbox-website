@@ -34,7 +34,7 @@ const IcoApple = ({ size = 20 }) => (
 );
 const IcoGoogle = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
-    <path d="M3.18 23.76c.35.2.75.24 1.13.11l12.04-6.96-2.56-2.56-10.61 9.41zm-1.5-20.7C1.49 3.37 1.4 3.7 1.4 4.06v15.88c0 .36.09.69.28.98l.07.08 8.9-8.9v-.21L1.75 3.01l-.07.05zm18.05 9.3l-2.57-1.49-2.82 2.82 2.82 2.82 2.59-1.5c.74-.43.74-1.13-.02-1.65zM4.31.24C3.93.12 3.53.15 3.18.35L13.84 11 11.27 13.57 4.31.24z"/>
+    <path d="M4.07 2.18C3.36 1.76 2.5 2.28 2.5 3.1v17.8c0 .82.86 1.34 1.57.92l15-8.9a1.05 1.05 0 000-1.84l-15-8.9z"/>
   </svg>
 );
 
@@ -1207,8 +1207,8 @@ function LandingPage() {
 
           {/* Headline */}
           <h1 style={{ marginBottom: 24, lineHeight: 0.88 }}>
-            <span className="anim-hero-line-1" style={{ display: "block", fontSize: "clamp(3.8rem, 11vw, 9.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff" }}>Stop Paying</span>
-            <span className="anim-hero-line-2" style={{ display: "block", fontSize: "clamp(3.8rem, 11vw, 9.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#5ba4cf" }}>Full Price.</span>
+            <span className="anim-hero-line-1" style={{ display: "block", fontSize: "clamp(3rem, 9vw, 7.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff" }}>Stop Paying</span>
+            <span className="anim-hero-line-2" style={{ display: "block", fontSize: "clamp(3rem, 9vw, 7.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#5ba4cf" }}>Full Price.</span>
           </h1>
 
           {/* Subtitle */}
@@ -1231,11 +1231,11 @@ function LandingPage() {
               <IcoGoogle size={18} /> Get it on Android
             </a>
           </div>
-          <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>Free to download · $4.99/mo membership</p>
+          <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>Free to download · $4.99/mo for Founding 500 members</p>
 
           {/* Stat cards */}
           <div className="anim-fade-up anim-fade-up-5 hero-stat-cards" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            {[["$4.99", "Per Month"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Members"]].map(([val, label]) => (
+            {[["$4.99", "Founding Price/mo"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Spots"]].map(([val, label]) => (
               <div key={label} className="hero-stat-card" style={{ background: "#fff", borderRadius: 20, padding: "20px 32px", minWidth: 160, textAlign: "center", transition: "transform 0.2s" }}
                 onMouseOver={e => e.currentTarget.style.transform = "translateY(-4px)"}
                 onMouseOut={e => e.currentTarget.style.transform = "translateY(0)"}>
@@ -1404,14 +1404,14 @@ function LandingPage() {
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff" }}>Pick your plan.</h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>Join the waitlist now - Founding 500 members lock in this price forever.</p>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>These are <strong style={{ color: "#f4c430" }}>Founding 500 prices</strong> — locked in for life. Once spots fill, pricing goes up.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 960, margin: "0 auto" }}>
             {[
-              { name: "Monthly Pro", price: "$4.99", period: "/ mo", desc: "Cancel Anytime", highlight: false,
+              { name: "Monthly Pro", price: "$4.99", period: "/ mo", desc: "Founding 500 Rate · Cancel Anytime", highlight: false,
                 feats: ["Discounts across 40+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"],
                 badge: null },
-              { name: "Annual Gold Saver", price: "$49.99", period: "/ yr", desc: "Save $10 Per Year", highlight: true,
+              { name: "Annual Gold Saver", price: "$49.99", period: "/ yr", desc: "Founding 500 Rate · Save $10/yr", highlight: true,
                 feats: ["Everything in Monthly, plus 2 months completely free", "Priority access to new vendors and drops", "Members-only giveaways and exclusive deals"],
                 badge: "BEST VALUE" },
             ].map((plan, i) => (
