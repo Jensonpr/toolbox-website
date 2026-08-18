@@ -1134,46 +1134,93 @@ function HowItWorksSection({ onDownload }) {
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
-    let locked = false;
+    let isLocked = false;
+    let savedY = 0;
+    let touchY0 = 0;
 
-    // Lock as soon as the section fully fills the viewport
-    const io = new IntersectionObserver(([entry]) => {
-      locked = entry.intersectionRatio >= 0.98;
-    }, { threshold: [0.97, 0.98, 1.0] });
-    io.observe(el);
-
-    const handleWheel = (e) => {
-      // Also catch fast-scroll entry before IO fires
-      const rect = el.getBoundingClientRect();
-      const nearlyFull = rect.top > -60 && rect.top < 60 && rect.bottom > window.innerHeight - 60;
-      if (!locked && !nearlyFull) return;
-
-      const step = activeRef.current;
-
-      if (e.deltaY > 0 && step < HOW_STEPS.length - 1) {
-        e.preventDefault();
-        if (busy.current) return;
-        busy.current = true;
-        const next = step + 1;
-        activeRef.current = next;
-        setActiveStep(next);
-        setTimeout(() => { busy.current = false; }, 700);
-      } else if (e.deltaY < 0 && step > 0) {
-        e.preventDefault();
-        if (busy.current) return;
-        busy.current = true;
-        const prev = step - 1;
-        activeRef.current = prev;
-        setActiveStep(prev);
-        setTimeout(() => { busy.current = false; }, 700);
-      }
-      // Last step scroll down OR first step scroll up → no preventDefault, page scrolls
+    // Freeze the page: body position:fixed trick used by scroll-lock libraries.
+    // This makes scrolling physically impossible on both desktop and mobile.
+    const lock = () => {
+      if (isLocked) return;
+      isLocked = true;
+      savedY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${savedY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: false });
+    const unlock = (targetY) => {
+      if (!isLocked) return;
+      isLocked = false;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      window.scrollTo({ top: targetY ?? savedY, behavior: 'instant' });
+    };
+
+    const advance = (dir) => {
+      const step = activeRef.current;
+      if (dir > 0) {
+        if (step < HOW_STEPS.length - 1) {
+          if (busy.current) return;
+          busy.current = true;
+          activeRef.current = step + 1;
+          setActiveStep(step + 1);
+          setTimeout(() => { busy.current = false; }, 700);
+        } else {
+          // All steps done — jump to the section immediately below
+          unlock(savedY + el.offsetHeight);
+        }
+      } else {
+        if (step > 0) {
+          if (busy.current) return;
+          busy.current = true;
+          activeRef.current = step - 1;
+          setActiveStep(step - 1);
+          setTimeout(() => { busy.current = false; }, 700);
+        } else {
+          // Back before section
+          unlock(Math.max(0, savedY - 10));
+        }
+      }
+    };
+
+    // Lock the moment section is ≥95% in view (IO fires reliably after snap)
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.intersectionRatio >= 0.95 && !isLocked) lock();
+    }, { threshold: 0.95 });
+    io.observe(el);
+
+    // Wheel: preventDefault is belt-and-suspenders on top of body:fixed
+    const onWheel = (e) => {
+      if (!isLocked) return;
+      e.preventDefault();
+      advance(e.deltaY);
+    };
+
+    // Touch: prevent touchmove entirely while locked, detect swipe direction on end
+    const onTouchStart = (e) => { touchY0 = e.touches[0].clientY; };
+    const onTouchMove = (e) => { if (isLocked) e.preventDefault(); };
+    const onTouchEnd = (e) => {
+      if (!isLocked) return;
+      const dy = touchY0 - e.changedTouches[0].clientY;
+      if (Math.abs(dy) > 40) advance(dy);
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchend', onTouchEnd, { passive: true });
+
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
       io.disconnect();
+      if (isLocked) unlock();
     };
   }, []);
 
