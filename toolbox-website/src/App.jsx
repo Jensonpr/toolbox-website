@@ -892,10 +892,10 @@ function BlogPage() {
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 32 }}>
             {BLOG_POSTS.map(post => (
-              <article key={post.id} onClick={() => navigate(`/blog/${post.slug}`)}
-                style={{ borderRadius: 32, border: "1px solid #e2e8f0", overflow: "hidden", cursor: "pointer", transition: "all 0.3s", display: "flex", flexDirection: "column" }}
-                onMouseOver={e => { e.currentTarget.style.transform = "translateY(-8px)"; e.currentTarget.style.boxShadow = "0 24px 48px rgba(0,0,0,0.1)"; e.currentTarget.style.borderColor = "#5ba4cf"; }}
-                onMouseOut={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "#e2e8f0"; }}>
+              <article key={post.id} className="blog-card" onClick={() => navigate(`/blog/${post.slug}`)}
+                style={{ borderRadius: 32, border: "1px solid #e2e8f0", overflow: "hidden", cursor: "pointer", display: "flex", flexDirection: "column" }}
+                onMouseOver={e => e.currentTarget.style.borderColor = "#5ba4cf"}
+                onMouseOut={e => e.currentTarget.style.borderColor = "#e2e8f0"}>
                 <div style={{ background: "#0d1f4e", height: 200, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
                   <div style={{ position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)", width: 300, height: 300, background: CATEGORY_COLORS[post.category] || "#5ba4cf", borderRadius: "50%", filter: "blur(80px)", opacity: 0.2 }} />
                   <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "0 24px" }}>
@@ -1149,6 +1149,8 @@ function HowItWorksSection({ onDownload }) {
       document.body.style.width = '100%'; // prevents layout shift from scrollbar disappearing
     };
 
+    let exiting = false;
+
     const unlock = (targetY) => {
       if (!isLocked) return;
       isLocked = false;
@@ -1158,6 +1160,11 @@ function HowItWorksSection({ onDownload }) {
       document.body.style.right = '';
       document.body.style.width = '';
       window.scrollTo({ top: targetY ?? savedY, behavior: 'instant' });
+      // Block scroll briefly so momentum doesn't carry past the destination
+      if (targetY != null) {
+        exiting = true;
+        setTimeout(() => { exiting = false; }, 800);
+      }
     };
 
     const advance = (dir) => {
@@ -1197,16 +1204,16 @@ function HowItWorksSection({ onDownload }) {
 
     // Wheel: preventDefault is belt-and-suspenders on top of body:fixed
     const onWheel = (e) => {
+      if (exiting) { e.preventDefault(); return; }
       if (!isLocked) return;
       e.preventDefault();
       advance(e.deltaY);
     };
 
-    // Touch: prevent touchmove entirely while locked, detect swipe direction on end
     const onTouchStart = (e) => { touchY0 = e.touches[0].clientY; };
-    const onTouchMove = (e) => { if (isLocked) e.preventDefault(); };
+    const onTouchMove = (e) => { if (isLocked || exiting) e.preventDefault(); };
     const onTouchEnd = (e) => {
-      if (!isLocked) return;
+      if (!isLocked || exiting) return;
       const dy = touchY0 - e.changedTouches[0].clientY;
       if (Math.abs(dy) > 40) advance(dy);
     };
@@ -1436,7 +1443,7 @@ function LandingPage() {
       </section>
 
       {/* Founding 500 Progress Banner */}
-      <section style={{ background: "#0a1940", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(91,164,207,0.12)", padding: "44px 0" }}>
+      <section className="scroll-reveal" style={{ background: "#0a1940", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(91,164,207,0.12)", padding: "44px 0" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px" }}>
           <div className="founding-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 56px", alignItems: "center" }}>
 
@@ -1489,7 +1496,7 @@ function LandingPage() {
       {/* Mission + Vendors */}
       <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
-          <div>
+          <div className="scroll-reveal-left">
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Story</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 0.9, color: "#0d1f4e", marginBottom: 40 }}>
               Built for the<br />trade lifestyle<span style={{ color: "#5ba4cf" }}>.</span>
@@ -1499,7 +1506,7 @@ function LandingPage() {
               <p>Whether you're on the tools or just live that lifestyle, this app is built to put real money back in your pocket.</p>
             </div>
           </div>
-          <div className="mission-image-col" style={{ position: "relative" }}>
+          <div className="mission-image-col scroll-reveal-right" style={{ position: "relative" }}>
             <div style={{ position: "absolute", inset: -16, background: "rgba(91,164,207,0.05)", borderRadius: 40, transform: "rotate(-2deg)" }} />
             <div style={{ position: "relative" }}>
               <img src="https://res.cloudinary.com/dy4rpazlk/image/upload/f_auto,q_auto/v1777162843/IMG_1781_l8ffof_tp09hu.heic"
@@ -1543,7 +1550,7 @@ function LandingPage() {
       {/* Pricing */}
       <section id="pricing" style={{ background: "#0d1f4e", padding: "96px 0", scrollMarginTop: 80 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff" }}>Pick your plan.</h2>
             <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>These are <strong style={{ color: "#f4c430" }}>Founding 500 prices</strong> — locked in for life. Once spots fill, pricing goes up.</p>
@@ -1557,9 +1564,7 @@ function LandingPage() {
                 feats: ["Everything in Monthly, plus 2 months completely free", "Priority access to new vendors and drops", "Members-only giveaways and exclusive deals"],
                 badge: "BEST VALUE" },
             ].map((plan, i) => (
-              <div key={i} className="scroll-reveal" style={{ background: plan.highlight ? "#5ba4cf" : "#fff", color: "#0d1f4e", padding: 40, borderRadius: 40, boxShadow: "0 30px 60px rgba(0,0,0,0.2)", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden", transition: "all 0.3s", transitionDelay: `${i * 0.15}s` }}
-                onMouseOver={e => e.currentTarget.style.transform = "translateY(-10px)"}
-                onMouseOut={e => e.currentTarget.style.transform = "translateY(0)"}>
+              <div key={i} className={`scroll-reveal pricing-card scroll-reveal-d${i + 1}`} style={{ background: plan.highlight ? "#5ba4cf" : "#fff", color: "#0d1f4e", padding: 40, borderRadius: 40, boxShadow: "0 30px 60px rgba(0,0,0,0.2)", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden", transitionDelay: `${i * 0.15}s` }}>
                 {plan.badge && (
                   <div style={{ position: "absolute", top: 20, right: 20, background: "#0d1f4e", color: "#fff", padding: "6px 14px", borderRadius: 100, fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em" }}>{plan.badge}</div>
                 )}
@@ -1622,7 +1627,7 @@ function LandingPage() {
               { q: "Can I use it anywhere in Australia?", a: "Currently we are focused on Victoria-based vendors and legends, but we are expanding rapidly to other states very soon. Stay tuned!" },
               { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
             ].map((item, i) => (
-              <div key={i} style={{ borderRadius: 24, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+              <div key={i} className="faq-row scroll-reveal" style={{ borderRadius: 24, border: "1px solid #e2e8f0", overflow: "hidden", transitionDelay: `${i * 0.07}s` }}>
                 <button onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ width: "100%", textAlign: "left", padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", background: openFaq === i ? "#f8fafc" : "#fff", border: "none", cursor: "pointer", transition: "background 0.2s" }}>
                   <span style={{ fontSize: "1.1rem", fontWeight: 900, letterSpacing: "-0.02em", color: "#0d1f4e" }}>{item.q}</span>
                   <span style={{ color: "#5ba4cf", flexShrink: 0 }}><IcoChevDown rotate={openFaq === i} /></span>
@@ -1661,6 +1666,19 @@ export default function App() {
         .anim-hero-line-2 { opacity: 0; animation: heroLine 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s forwards; }
         .scroll-reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
         .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+        .scroll-reveal-left { opacity: 0; transform: translateX(-36px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
+        .scroll-reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .scroll-reveal-right { opacity: 0; transform: translateX(36px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
+        .scroll-reveal-right.visible { opacity: 1; transform: translateX(0); }
+        .scroll-reveal-d1 { transition-delay: 0.1s; } .scroll-reveal-d2 { transition-delay: 0.2s; } .scroll-reveal-d3 { transition-delay: 0.3s; } .scroll-reveal-d4 { transition-delay: 0.4s; } .scroll-reveal-d5 { transition-delay: 0.5s; }
+        .pricing-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1) !important; }
+        .pricing-card:hover { transform: translateY(-14px) scale(1.015) !important; box-shadow: 0 56px 90px rgba(0,0,0,0.35) !important; }
+        .faq-row { transition: border-color 0.2s; } .faq-row:hover { border-color: rgba(91,164,207,0.4) !important; }
+        .blog-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1) !important; }
+        .blog-card:hover { transform: translateY(-8px) !important; box-shadow: 0 24px 48px rgba(0,0,0,0.13) !important; }
+        .btn-scale:hover { transform: scale(1.04) !important; } .btn-scale:active { transform: scale(0.97) !important; }
+        button:active { transform: scale(0.97); }
+        .hero-stat-card:hover { transform: translateY(-4px) scale(1.03) !important; box-shadow: 0 16px 40px rgba(0,0,0,0.12) !important; }
         body { background: #0d1f4e; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
