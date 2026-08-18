@@ -1155,7 +1155,7 @@ function HowItWorksSection({ onDownload }) {
       if (targetY != null) {
         // Smooth exit: animate body.top while still fixed, then restore scroll position
         busy.current = true;
-        document.body.style.transition = 'top 0.52s cubic-bezier(0.22,1,0.36,1)';
+        document.body.style.transition = 'top 0.9s cubic-bezier(0.4,0,0.2,1)';
         document.body.style.top = `-${targetY}px`;
         setTimeout(() => {
           isLocked = false;
@@ -1167,7 +1167,7 @@ function HowItWorksSection({ onDownload }) {
           document.body.style.width = '';
           window.scrollTo({ top: targetY, behavior: 'instant' });
           setTimeout(() => { busy.current = false; }, 200);
-        }, 540);
+        }, 920);
       } else {
         isLocked = false;
         document.body.style.position = '';
