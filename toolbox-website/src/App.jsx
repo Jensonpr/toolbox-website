@@ -1149,21 +1149,33 @@ function HowItWorksSection({ onDownload }) {
       document.body.style.width = '100%'; // prevents layout shift from scrollbar disappearing
     };
 
-    let exiting = false;
-
     const unlock = (targetY) => {
       if (!isLocked) return;
-      isLocked = false;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.width = '';
-      window.scrollTo({ top: targetY ?? savedY, behavior: 'instant' });
-      // Block scroll briefly so momentum doesn't carry past the destination
+
       if (targetY != null) {
-        exiting = true;
-        setTimeout(() => { exiting = false; }, 800);
+        // Smooth exit: animate body.top while still fixed, then restore scroll position
+        busy.current = true;
+        document.body.style.transition = 'top 0.52s cubic-bezier(0.22,1,0.36,1)';
+        document.body.style.top = `-${targetY}px`;
+        setTimeout(() => {
+          isLocked = false;
+          document.body.style.transition = '';
+          document.body.style.position = '';
+          document.body.style.top = '';
+          document.body.style.left = '';
+          document.body.style.right = '';
+          document.body.style.width = '';
+          window.scrollTo({ top: targetY, behavior: 'instant' });
+          setTimeout(() => { busy.current = false; }, 200);
+        }, 540);
+      } else {
+        isLocked = false;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        window.scrollTo({ top: savedY, behavior: 'instant' });
       }
     };
 
@@ -1204,16 +1216,15 @@ function HowItWorksSection({ onDownload }) {
 
     // Wheel: preventDefault is belt-and-suspenders on top of body:fixed
     const onWheel = (e) => {
-      if (exiting) { e.preventDefault(); return; }
       if (!isLocked) return;
       e.preventDefault();
       advance(e.deltaY);
     };
 
     const onTouchStart = (e) => { touchY0 = e.touches[0].clientY; };
-    const onTouchMove = (e) => { if (isLocked || exiting) e.preventDefault(); };
+    const onTouchMove = (e) => { if (isLocked) e.preventDefault(); };
     const onTouchEnd = (e) => {
-      if (!isLocked || exiting) return;
+      if (!isLocked) return;
       const dy = touchY0 - e.changedTouches[0].clientY;
       if (Math.abs(dy) > 40) advance(dy);
     };
@@ -1330,7 +1341,7 @@ function LandingPage() {
       (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
       { threshold: 0.15 }
     );
-    document.querySelectorAll(".scroll-reveal").forEach(el => observer.observe(el));
+    document.querySelectorAll(".scroll-reveal, .scroll-reveal-left, .scroll-reveal-right").forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
