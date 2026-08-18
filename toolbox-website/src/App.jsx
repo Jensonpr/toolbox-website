@@ -324,7 +324,7 @@ function Footer() {
           <div>
             <img src={LOGO} alt="The ToolBox" style={{ height: 36, marginBottom: 24, filter: "brightness(0) invert(1)" }} />
             <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, lineHeight: 1.7, maxWidth: 280 }}>
-              Australia's first discount membership app built for the tradie lifestyle. Reclaiming value for the legends rebuilding the country.
+              Australia's first discount membership app built for the trade lifestyle. Real deals for people who earn it.
             </p>
           </div>
           {[
@@ -592,7 +592,7 @@ function VendorPage() {
             <div style={{ position: "sticky", top: 140 }}>
               <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Partner with us</p>
               <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.04em", lineHeight: 0.9, marginBottom: 32 }}>Join the Network<span style={{ color: "#5ba4cf" }}>.</span></h2>
-              <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 500, marginBottom: 24, lineHeight: 1.7 }}>Ready to get your brand in front of thousands of Australian tradies? Fill out the form and we'll be in touch.</p>
+              <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 500, marginBottom: 24, lineHeight: 1.7 }}>Ready to get your brand in front of thousands of people living the trade lifestyle? Fill out the form and we'll be in touch.</p>
               <div style={{ display: "flex", gap: 16, padding: 16, background: "#f8fafc", borderRadius: 16, border: "1px solid #e2e8f0" }}>
                 <IcoInfo />
                 <p style={{ fontSize: 13, color: "rgba(13,31,78,0.6)", fontWeight: 500, margin: 0, fontStyle: "italic" }}>We manually vet all partners to ensure the best value for our members.</p>
@@ -662,7 +662,7 @@ function VendorPage() {
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <img src={LOGO} alt="The ToolBox" style={{ height: 32, filter: "brightness(0) invert(1)", opacity: 0.3 }} />
           <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>
-            &copy; {new Date().getFullYear()} The ToolBox App Pty Ltd. Built for tradies.
+            &copy; {new Date().getFullYear()} The ToolBox App Pty Ltd. Built for the trade lifestyle.
           </p>
         </div>
       </footer>
@@ -883,7 +883,7 @@ function BlogPage() {
             Tips, Trades<br />&amp; the Build Life<span style={{ color: "#5ba4cf" }}>.</span>
           </h1>
           <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, fontSize: "1.1rem", maxWidth: 520, lineHeight: 1.6 }}>
-            Practical advice, vendor spotlights, and stories from the tradie community. Written by people who actually get it.
+            Practical advice, vendor spotlights, and stories from the trade lifestyle community. Written by people who actually get it.
           </p>
         </div>
       </section>
@@ -1309,7 +1309,7 @@ function LandingPage() {
   const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
-    setPageMeta("The ToolBox | Australia's Tradie Discount App", "Save money on workwear, supplements, tools & more. Australia's first discount membership app built for tradies. $4.99/mo.", "/");
+    setPageMeta("The ToolBox | Australia's Trade Lifestyle Discount App", "Save money on workwear, supplements, fitness & more. Australia's first discount membership app built for the trade lifestyle. $4.99/mo.", "/");
   }, []);
 
   useEffect(() => {
@@ -1395,7 +1395,7 @@ function LandingPage() {
 
           {/* Subtitle */}
           <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "clamp(1rem, 1.8vw, 1.15rem)", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.6, maxWidth: 460, margin: "0 auto 36px" }}>
-            Australia's first discount membership app built for the tradie lifestyle.
+            Australia's first discount membership app built for the trade lifestyle.
           </p>
 
           {/* Store buttons */}
@@ -1490,13 +1490,13 @@ function LandingPage() {
       <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div>
-            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Mission</p>
+            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Story</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 0.9, color: "#0d1f4e", marginBottom: 40 }}>
-              Built by the trade<span style={{ color: "#5ba4cf" }}>,</span><br /> for the trade<span style={{ color: "#5ba4cf" }}>.</span>
+              Built for the<br />trade lifestyle<span style={{ color: "#5ba4cf" }}>.</span>
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: "1.1rem", color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.7, maxWidth: 480 }}>
-              <p>The ToolBox wasn't born in a boardroom - it was born on site. We got sick of seeing everyone else get the perks while the ones doing the hard yards got the short end of the stick.</p>
-              <p>We built this app to level the playing field.</p>
+              <p>The ToolBox wasn't born in a boardroom — it was born on site. We got sick of seeing everyone else get the perks while the people doing the hard yards got the short end of the stick.</p>
+              <p>Whether you're on the tools or just live that lifestyle, this app is built to put real money back in your pocket.</p>
             </div>
           </div>
           <div className="mission-image-col" style={{ position: "relative" }}>
@@ -1505,7 +1505,7 @@ function LandingPage() {
               <img src="https://res.cloudinary.com/dy4rpazlk/image/upload/f_auto,q_auto/v1777162843/IMG_1781_l8ffof_tp09hu.heic"
                 alt="On site" style={{ width: "100%", maxHeight: 420, aspectRatio: "1", objectFit: "cover", borderRadius: 40 }} />
               <div style={{ position: "absolute", bottom: 24, left: 24, right: 24, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)", padding: 20, borderRadius: 20, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
-                <p style={{ color: "#0d1f4e", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", fontSize: "1.05rem", marginBottom: 4 }}>"Reclaiming value for Australian tradies."</p>
+                <p style={{ color: "#0d1f4e", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", fontSize: "1.05rem", marginBottom: 4 }}>"Reclaiming value for those who earn it."</p>
                 <p style={{ color: "#5ba4cf", fontWeight: 700, fontSize: 13 }}>Founded in Melbourne, VIC</p>
               </div>
             </div>
