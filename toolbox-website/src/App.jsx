@@ -1309,7 +1309,7 @@ function LandingPage() {
             </div>
           </div>
           <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <button onClick={() => setShowDL(true)}
+            <button className="nav-get-app" onClick={() => setShowDL(true)}
               style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#0d1f4e", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, border: "none", cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.2s", animation: "glowPulseWhite 3s ease-in-out infinite", fontFamily: "inherit" }}
               onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; }}
               onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; }}>
@@ -1633,6 +1633,7 @@ export default function App() {
           .hero-stat-card p:first-child { font-size: 1.8rem !important; }
           .desktop-nav { display: none !important; }
           .vendor-portal-btn { display: none !important; }
+          .nav-get-app { display: none !important; }
           .screenshots-grid { grid-template-columns: 1fr !important; }
           .savings-grid { grid-template-columns: 1fr !important; padding: 32px 24px !important; }
           .founding-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
