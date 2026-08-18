@@ -808,33 +808,33 @@ function submitToMailchimp(email, onSuccess, onError) {
 function DownloadModal({ onClose }) {
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.65)", backdropFilter: "blur(10px)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
-      <div onClick={e => e.stopPropagation()} style={{ background: "#0d1f4e", borderRadius: 28, padding: "40px 36px", maxWidth: 360, width: "100%", border: "1px solid rgba(91,164,207,0.2)", boxShadow: "0 40px 80px rgba(0,0,0,0.5)", position: "relative" }}>
-        <button onClick={onClose} style={{ position: "absolute", top: 16, right: 16, background: "rgba(255,255,255,0.08)", border: "none", color: "#fff", width: 32, height: 32, borderRadius: "50%", cursor: "pointer", fontSize: 18, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
-        <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.4rem", letterSpacing: "-0.03em", marginBottom: 6 }}>Download The ToolBox</p>
-        <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 14, marginBottom: 28 }}>Choose your device to get started.</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: "#0d1f4e", borderRadius: 36, padding: "56px 48px", maxWidth: 480, width: "100%", border: "1px solid rgba(91,164,207,0.2)", boxShadow: "0 40px 80px rgba(0,0,0,0.5)", position: "relative" }}>
+        <button onClick={onClose} style={{ position: "absolute", top: 20, right: 20, background: "rgba(255,255,255,0.08)", border: "none", color: "#fff", width: 38, height: 38, borderRadius: "50%", cursor: "pointer", fontSize: 20, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
+        <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.8rem", letterSpacing: "-0.03em", marginBottom: 8 }}>Download The ToolBox</p>
+        <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 16, marginBottom: 36 }}>Choose your device to get started.</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-            style={{ display: "flex", alignItems: "center", gap: 14, background: "#fff", color: "#0d1f4e", padding: "16px 20px", borderRadius: 16, fontWeight: 900, textDecoration: "none", transition: "all 0.2s" }}
+            style={{ display: "flex", alignItems: "center", gap: 18, background: "#fff", color: "#0d1f4e", padding: "22px 28px", borderRadius: 20, fontWeight: 900, textDecoration: "none", transition: "all 0.2s" }}
             onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
             onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
-            <IcoApple size={24} />
+            <IcoApple size={32} />
             <div>
-              <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1, marginBottom: 3 }}>Download on the</div>
-              <div style={{ fontSize: "1.1rem", fontWeight: 900, lineHeight: 1 }}>App Store</div>
+              <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1, marginBottom: 4 }}>Download on the</div>
+              <div style={{ fontSize: "1.3rem", fontWeight: 900, lineHeight: 1 }}>App Store</div>
             </div>
           </a>
           <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
-            style={{ display: "flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "16px 20px", borderRadius: 16, fontWeight: 900, textDecoration: "none", border: "1px solid rgba(255,255,255,0.12)", transition: "all 0.2s" }}
+            style={{ display: "flex", alignItems: "center", gap: 18, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "22px 28px", borderRadius: 20, fontWeight: 900, textDecoration: "none", border: "1px solid rgba(255,255,255,0.12)", transition: "all 0.2s" }}
             onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
             onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}>
-            <IcoGoogle size={24} />
+            <IcoGoogle size={32} />
             <div>
-              <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1, marginBottom: 3 }}>Get it on</div>
-              <div style={{ fontSize: "1.1rem", fontWeight: 900, lineHeight: 1 }}>Google Play</div>
+              <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1, marginBottom: 4 }}>Get it on</div>
+              <div style={{ fontSize: "1.3rem", fontWeight: 900, lineHeight: 1 }}>Google Play</div>
             </div>
           </a>
         </div>
-        <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", fontWeight: 600, textAlign: "center", marginTop: 20 }}>Free to download · $4.99/mo membership</p>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.25)", fontWeight: 600, textAlign: "center", marginTop: 28 }}>Free to download · $4.99/mo membership</p>
       </div>
     </div>
   );
