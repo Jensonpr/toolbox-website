@@ -1349,7 +1349,7 @@ function LandingPage() {
     position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, height: 88,
     background: scrolled ? "rgba(13,31,78,0.95)" : "transparent",
     backdropFilter: scrolled ? "blur(20px)" : "none",
-    borderBottom: scrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
+    borderBottom: "none",
     transition: "all 0.4s",
   };
 
@@ -1446,11 +1446,6 @@ function LandingPage() {
           </div>
         </div>
 
-        {/* Scroll cue */}
-        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, opacity: 0.3 }}>
-          <div style={{ width: 1, height: 44, background: "linear-gradient(to bottom, transparent, #fff)" }} />
-          <span style={{ fontSize: 9, fontWeight: 900, color: "#fff", textTransform: "uppercase", letterSpacing: "0.25em" }}>Scroll</span>
-        </div>
       </section>
 
       {/* Founding 500 Progress Banner */}
