@@ -1138,16 +1138,15 @@ function HowItWorksSection({ onDownload }) {
     let savedY = 0;
     let touchY0 = 0;
 
-    // Freeze the page: body position:fixed trick used by scroll-lock libraries.
-    // This makes scrolling physically impossible on both desktop and mobile.
     const lock = () => {
       if (isLocked) return;
       isLocked = true;
-      savedY = window.scrollY;
+      savedY = el.offsetTop; // snap to exact section position — avoids mid-scroll white gap
       document.body.style.position = 'fixed';
       document.body.style.top = `-${savedY}px`;
       document.body.style.left = '0';
       document.body.style.right = '0';
+      document.body.style.width = '100%'; // prevents layout shift from scrollbar disappearing
     };
 
     const unlock = (targetY) => {
@@ -1157,6 +1156,7 @@ function HowItWorksSection({ onDownload }) {
       document.body.style.top = '';
       document.body.style.left = '';
       document.body.style.right = '';
+      document.body.style.width = '';
       window.scrollTo({ top: targetY ?? savedY, behavior: 'instant' });
     };
 
@@ -1170,8 +1170,8 @@ function HowItWorksSection({ onDownload }) {
           setActiveStep(step + 1);
           setTimeout(() => { busy.current = false; }, 700);
         } else {
-          // All steps done — jump to the section immediately below
-          unlock(savedY + el.offsetHeight);
+          // All steps done — jump to the section immediately below (use DOM position, not savedY)
+          unlock(el.offsetTop + el.offsetHeight);
         }
       } else {
         if (step > 0) {
@@ -1181,8 +1181,7 @@ function HowItWorksSection({ onDownload }) {
           setActiveStep(step - 1);
           setTimeout(() => { busy.current = false; }, 700);
         } else {
-          // Back before section
-          unlock(Math.max(0, savedY - 10));
+          unlock(Math.max(0, el.offsetTop - 10));
         }
       }
     };
@@ -1276,15 +1275,13 @@ function HowItWorksSection({ onDownload }) {
           </div>
         </div>
 
-        {/* Right: phone mockup */}
-        <div className="how-works-phone" style={{ flex: "0 0 240px" }}>
-          <div style={{ width: 240, height: 500, borderRadius: 44, border: "8px solid rgba(255,255,255,0.1)", background: "#000", position: "relative", overflow: "hidden", boxShadow: "0 48px 96px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05)", margin: "0 auto" }}>
-            <div style={{ position: "absolute", top: 14, left: "50%", transform: "translateX(-50%)", width: 64, height: 20, background: "#000", borderRadius: 100, zIndex: 10 }} />
+        {/* Right: phone screenshots (images already include their own phone frame) */}
+        <div className="how-works-phone" style={{ flex: "0 0 320px" }}>
+          <div style={{ width: 320, position: "relative", margin: "0 auto" }}>
             {HOW_STEPS.map((s, i) => (
               <img key={i} src={s.img} alt={s.title}
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", opacity: activeStep === i ? 1 : 0, transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1)", borderRadius: 36 }} />
+                style={{ position: i === 0 ? "relative" : "absolute", top: 0, left: 0, width: "100%", display: "block", opacity: activeStep === i ? 1 : 0, transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1)", filter: "drop-shadow(0 32px 64px rgba(0,0,0,0.6))" }} />
             ))}
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 55%)", pointerEvents: "none", zIndex: 5, borderRadius: 36 }} />
           </div>
           <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 20 }}>
             {HOW_STEPS.map((_, i) => (
