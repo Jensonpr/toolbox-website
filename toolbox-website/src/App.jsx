@@ -1168,12 +1168,12 @@ function HowItWorksSection({ onDownload }) {
           busy.current = true;
           activeRef.current = step + 1;
           setActiveStep(step + 1);
-          setTimeout(() => { busy.current = false; }, 700);
+          // Longer cooldown when arriving at the last step so momentum can't immediately exit
+          const cooldown = (step + 1 === HOW_STEPS.length - 1) ? 1400 : 700;
+          setTimeout(() => { busy.current = false; }, cooldown);
         } else {
-          // All steps done — respect cooldown so trackpad momentum doesn't exit immediately after reaching step 4
+          // All steps done — exit to Pricing
           if (busy.current) return;
-          busy.current = true;
-          setTimeout(() => { busy.current = false; }, 700);
           unlock(el.offsetTop + el.offsetHeight);
         }
       } else {
