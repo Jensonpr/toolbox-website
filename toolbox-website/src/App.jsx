@@ -1117,10 +1117,10 @@ function useCountUp(target, duration = 1000, startDelay = 750) {
 
 // ─── Landing Page ─────────────────────────────────────────────────────────────
 const HOW_STEPS = [
-  { num: "01", title: "Browse the App", desc: "Search 40+ partner brands by category — workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-browse.png" },
+  { num: "01", title: "Browse the App", desc: "Search 40+ partner brands by category — workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-promo.png" },
   { num: "02", title: "Find a Deal Near You", desc: "Locate partner stores near you on the map, or grab your online member code for stores you can't visit in person.", img: "/app-screens/app-map.png" },
-  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done — savings in your pocket.", img: "/app-screens/app-promo.png" },
-  { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/app-savings.png" },
+  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done — savings in your pocket.", img: "/app-screens/app-savings.png" },
+  { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/app-browse.png" },
 ];
 
 function HowItWorksSection({ onDownload }) {
@@ -1170,7 +1170,10 @@ function HowItWorksSection({ onDownload }) {
           setActiveStep(step + 1);
           setTimeout(() => { busy.current = false; }, 700);
         } else {
-          // All steps done — jump to the section immediately below (use DOM position, not savedY)
+          // All steps done — respect cooldown so trackpad momentum doesn't exit immediately after reaching step 4
+          if (busy.current) return;
+          busy.current = true;
+          setTimeout(() => { busy.current = false; }, 700);
           unlock(el.offsetTop + el.offsetHeight);
         }
       } else {
