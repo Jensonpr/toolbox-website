@@ -1231,8 +1231,8 @@ function LandingPage() {
               ))}
               <button onClick={() => navigate("/blog")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", fontWeight: 900, fontSize: 16, padding: 0, lineHeight: "inherit", fontFamily: "inherit" }}
                 onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>Blog</button>
-              <button onClick={() => navigate("/vendor")} style={{ background: "none", border: "none", cursor: "pointer", color: "#5ba4cf", fontWeight: 900, fontSize: 14 }}
-                onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "#5ba4cf"}>Partner with us</button>
+              <button onClick={() => navigate("/vendor")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", fontWeight: 900, fontSize: 16, padding: 0, lineHeight: "inherit", fontFamily: "inherit" }} className="nav-link-hover"
+                onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>Partner with us</button>
             </div>
           </div>
           <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
@@ -1283,86 +1283,30 @@ function LandingPage() {
           </p>
 
           {/* Store buttons */}
-          <div className="anim-fade-up anim-fade-up-4 hero-store-btns" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginBottom: 14 }}>
-            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "16px 34px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", textDecoration: "none", transition: "all 0.22s", boxShadow: "0 0 40px rgba(255,255,255,0.12)", whiteSpace: "nowrap" }}
-              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.boxShadow = "0 0 40px rgba(91,164,207,0.45)"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.boxShadow = "0 0 40px rgba(255,255,255,0.12)"; }}>
-              <IcoApple size={18} /> Get it on iOS
+          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.28em", marginBottom: 18 }}>↓ Start saving today — free to download</p>
+          <div className="anim-fade-up anim-fade-up-4 hero-store-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 16 }}>
+            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="hero-dl-ios"
+              style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "#fff", color: "#0d1f4e", padding: "20px 44px", borderRadius: 100, fontWeight: 900, fontSize: "1.1rem", textDecoration: "none", whiteSpace: "nowrap" }}>
+              <IcoApple size={22} /> Download on iOS
             </a>
-            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
-              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "16px 34px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.18)", transition: "all 0.22s", whiteSpace: "nowrap" }}
-              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.borderColor = "#5ba4cf"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)"; }}>
-              <IcoGoogle size={18} /> Get it on Android
+            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="hero-dl-android"
+              style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "rgba(255,255,255,0.1)", color: "#fff", padding: "20px 44px", borderRadius: 100, fontWeight: 900, fontSize: "1.1rem", textDecoration: "none", border: "2px solid rgba(255,255,255,0.25)", whiteSpace: "nowrap" }}>
+              <IcoGoogle size={22} /> Download on Android
             </a>
           </div>
-          <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>Free to download · $4.99/mo for Founding 500 members</p>
+          <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>$4.99/mo for Founding 500 members · Price increases after 500 spots fill</p>
 
           {/* Stat cards */}
           <div className="anim-fade-up anim-fade-up-5 hero-stat-cards" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             {[["$4.99", "Founding Price/mo"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Spots"]].map(([val, label]) => (
-              <div key={label} className="hero-stat-card" style={{ background: "#fff", borderRadius: 20, padding: "20px 32px", minWidth: 160, textAlign: "center", transition: "transform 0.2s" }}
-                onMouseOver={e => e.currentTarget.style.transform = "translateY(-4px)"}
-                onMouseOut={e => e.currentTarget.style.transform = "translateY(0)"}>
-                <p style={{ fontSize: "2.4rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 1, marginBottom: 6 }}>{val}</p>
-                <p style={{ fontSize: 10, fontWeight: 900, color: "#0d1f4e", textTransform: "uppercase", letterSpacing: "0.2em", opacity: 0.35 }}>{label}</p>
+              <div key={label} className="hero-stat-card" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 20, padding: "20px 32px", minWidth: 160, textAlign: "center" }}>
+                <p style={{ fontSize: "2.4rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 1, marginBottom: 6 }}>{val}</p>
+                <p style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.2em" }}>{label}</p>
               </div>
             ))}
           </div>
         </div>
 
-      </section>
-
-      {/* Founding 500 Progress Banner */}
-      <section className="scroll-reveal" style={{ background: "#0a1940", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(91,164,207,0.12)", padding: "44px 0" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 32px" }}>
-          <div className="founding-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 56px", alignItems: "center" }}>
-
-            {/* Left: progress + stats */}
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 8 }}>Founding 500 — Limited Spots</p>
-              <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.2rem", letterSpacing: "-0.02em", lineHeight: 1.3, marginBottom: 20 }}>Be part of the first 500. Lock in perks that won't come back.</p>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>247 / 500 claimed</span>
-                <div style={{ textAlign: "right" }}>
-                  <span style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.12em" }}>Remaining </span>
-                  <span style={{ fontWeight: 900, color: "#fff", fontSize: "1.4rem", letterSpacing: "-0.04em" }}>253</span>
-                </div>
-              </div>
-              <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 8, overflow: "hidden", marginBottom: 12 }}>
-                <div style={{ width: "49.4%", height: "100%", background: "linear-gradient(to right, #5ba4cf, #7ec0e8)", borderRadius: 99 }} />
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e" }} />
-                <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>Pre-launch waitlist: <span style={{ color: "#22c55e", fontWeight: 900 }}>FULL</span></span>
-              </div>
-            </div>
-
-            {/* Right: benefits */}
-            <div style={{ borderLeft: "1px solid rgba(255,255,255,0.08)", paddingLeft: 56 }}>
-              <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>What founding members get</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {[
-                  "Locked-in price, forever",
-                  "Exclusive Founding 500 vendor deals",
-                  "First access to every new vendor drop",
-                  "Priority access to member events",
-                  "Numbered Founding Member badge in-app",
-                ].map((perk) => (
-                  <div key={perk} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}>
-                      <circle cx="9" cy="9" r="9" fill="rgba(34,197,94,0.15)" />
-                      <path d="M5.5 9l2.5 2.5 4.5-5" stroke="#22c55e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.8)" }}>{perk}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        </div>
       </section>
 
       {/* Mission + Vendors */}
@@ -1418,6 +1362,134 @@ function LandingPage() {
       </section>
 
       <HowItWorksSection onDownload={() => setShowDL(true)} />
+
+      {/* Savings Proof Section */}
+      <section style={{ background: "#fff", padding: "112px 0", width: "100%", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+          <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 72 }}>
+            <p style={{ color: "#22c55e", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Real Value, Every Use</p>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 0.9, marginBottom: 24 }}>
+              Your first deal pays<br /><span style={{ color: "#5ba4cf" }}>for the year.</span>
+            </h2>
+            <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 600, fontSize: "1.05rem", maxWidth: 540, margin: "0 auto", lineHeight: 1.65 }}>
+              Most members cover their $49.99 annual membership in just 2–3 uses. Everything after that is pure savings in your pocket.
+            </p>
+          </div>
+
+          {/* Savings examples */}
+          <div className="savings-3-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 48 }}>
+            {[
+              { brand: "Anthem Workwear", example: "Work pants + shirt pack", save: "~$45", tag: "per order", col: "#0d1f4e" },
+              { brand: "Elite Supplements", example: "Monthly supplement order", save: "~$38", tag: "per month", col: "#5ba4cf" },
+              { brand: "Hard Hat", example: "Work boots", save: "~$42", tag: "per pair", col: "#22c55e" },
+            ].map((item, i) => (
+              <div key={i} className={`scroll-reveal savings-card scroll-reveal-d${i + 1}`} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 24, padding: "36px 28px", position: "relative", overflow: "hidden" }}>
+                <div style={{ position: "absolute", top: 20, right: 20, width: 10, height: 10, borderRadius: "50%", background: item.col }} />
+                <p style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(13,31,78,0.35)", marginBottom: 10 }}>{item.brand}</p>
+                <p style={{ fontSize: "0.9rem", color: "rgba(13,31,78,0.5)", fontWeight: 600, marginBottom: 20, lineHeight: 1.5 }}>{item.example}</p>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                  <span style={{ fontSize: "3rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 1 }}>{item.save}</span>
+                  <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(13,31,78,0.35)" }}>{item.tag}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Not left to chance callout */}
+          <div className="scroll-reveal savings-callout" style={{ background: "linear-gradient(135deg, #0d1f4e 0%, #0a1940 100%)", borderRadius: 32, padding: "52px 56px", display: "flex", gap: 56, alignItems: "center" }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.15)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "6px 16px", marginBottom: 20 }}>
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
+                <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.2em" }}>Guaranteed Savings</span>
+              </div>
+              <h3 style={{ fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", color: "#fff", marginBottom: 16, lineHeight: 0.95 }}>
+                Real savings.<br /><span style={{ color: "#5ba4cf" }}>Not left to chance.</span>
+              </h3>
+              <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.7, maxWidth: 420, fontSize: "0.95rem" }}>
+                Every deal in The ToolBox is available every single time you open the app. No draws, no waiting, no luck required — just guaranteed discounts on the brands you already buy, ready whenever you are.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14, flexShrink: 0 }}>
+              {["Discounts guaranteed, every single use", "No draws, no waiting, no luck", "Save from the very first redemption", "Pays for the annual fee in 2–3 uses", "40+ brands growing every month"].map((perk, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(34,197,94,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-7" stroke="#22c55e" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                  <span style={{ fontSize: "0.88rem", fontWeight: 700, color: "rgba(255,255,255,0.7)" }}>{perk}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Founding 500 Full Section */}
+      <section style={{ background: "linear-gradient(160deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(244,196,48,0.06) 1px, transparent 1px)", backgroundSize: "32px 32px", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "20%", right: "-10%", width: 600, height: 600, background: "radial-gradient(ellipse, rgba(244,196,48,0.06) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
+
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px", position: "relative" }}>
+          <div className="founding-full-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+
+            {/* Left */}
+            <div className="scroll-reveal-left">
+              <p style={{ color: "#f4c430", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Limited Availability</p>
+              <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", color: "#fff", lineHeight: 0.9, marginBottom: 20 }}>
+                Founding<br /><span style={{ color: "#f4c430" }}>500.</span>
+              </h2>
+              <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.7, fontSize: "1rem", marginBottom: 36 }}>
+                Be part of the first 500 members and lock in $4.99/mo forever — even when pricing goes up. These perks won't come back once the spots are gone.
+              </p>
+
+              {/* Progress bar */}
+              <div style={{ marginBottom: 36 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>247 of 500 claimed</span>
+                  <span style={{ fontSize: 13, fontWeight: 900, color: "#f4c430" }}>253 spots left</span>
+                </div>
+                <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 10, overflow: "hidden", marginBottom: 10 }}>
+                  <div style={{ width: "49.4%", height: "100%", background: "linear-gradient(to right, #f4c430, #fbbf24)", borderRadius: 99 }} />
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>Spots filling fast</span>
+                </div>
+              </div>
+
+              <button onClick={() => setShowDL(true)}
+                style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#f4c430", color: "#0d1f4e", padding: "18px 40px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", border: "none", cursor: "pointer", transition: "all 0.25s", fontFamily: "inherit", boxShadow: "0 0 48px rgba(244,196,48,0.3)" }}
+                onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 48px rgba(255,255,255,0.2)"; }}
+                onMouseOut={e => { e.currentTarget.style.background = "#f4c430"; e.currentTarget.style.boxShadow = "0 0 48px rgba(244,196,48,0.3)"; }}>
+                Claim Your Spot
+              </button>
+            </div>
+
+            {/* Right: perks */}
+            <div className="scroll-reveal-right">
+              <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>What founding members get</p>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                {[
+                  { perk: "Price locked at $4.99/mo, forever", detail: "After 500 spots fill, the price goes up. Founding members keep $4.99/mo for life." },
+                  { perk: "Exclusive Founding 500 vendor deals", detail: "Access to special deals only Founding members ever see." },
+                  { perk: "First access to every new vendor drop", detail: "Be first in line when new partners join each month." },
+                  { perk: "Priority access to member events", detail: "Invites to exclusive trade and lifestyle events." },
+                  { perk: "Numbered Founding Member badge in-app", detail: "A permanent badge showing your founding member status." },
+                ].map((item, i) => (
+                  <div key={i} className="founding-perk" style={{ display: "flex", gap: 16, padding: "18px 8px", borderBottom: "1px solid rgba(255,255,255,0.06)", borderRadius: 8, cursor: "default" }}>
+                    <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(244,196,48,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
+                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-7" stroke="#f4c430" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </div>
+                    <div>
+                      <p style={{ fontWeight: 900, color: "#fff", fontSize: "0.95rem", marginBottom: 4 }}>{item.perk}</p>
+                      <p style={{ color: "rgba(255,255,255,0.38)", fontSize: "0.83rem", fontWeight: 500, lineHeight: 1.55 }}>{item.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Pricing */}
       <section id="pricing" style={{ background: "#0d1f4e", padding: "96px 0", scrollMarginTop: 80 }}>
@@ -1552,7 +1624,6 @@ export default function App() {
         .step-card:hover { transform: translateY(-6px) !important; background: rgba(91,164,207,0.07) !important; border-color: rgba(91,164,207,0.3) !important; box-shadow: 0 24px 56px rgba(0,0,0,0.25), 0 0 0 1px rgba(91,164,207,0.15) !important; }
         .btn-scale:hover { transform: scale(1.04) !important; } .btn-scale:active { transform: scale(0.97) !important; }
         button:active { transform: scale(0.97); }
-        .hero-stat-card:hover { transform: translateY(-4px) scale(1.03) !important; box-shadow: 0 16px 40px rgba(0,0,0,0.12) !important; }
         body { background: #0d1f4e; }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
@@ -1561,6 +1632,24 @@ export default function App() {
         @keyframes float { 0%, 100% { transform: translateX(-50%) translateY(0px); } 50% { transform: translateX(-50%) translateY(-32px); } }
         @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(91,164,207,0.35); } 50% { box-shadow: 0 0 52px rgba(91,164,207,0.7), 0 0 90px rgba(91,164,207,0.2); } }
         @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
+        @keyframes ctaRing { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.45), 0 8px 40px rgba(255,255,255,0.18); } 60% { box-shadow: 0 0 0 18px rgba(255,255,255,0), 0 8px 40px rgba(255,255,255,0.28); } }
+        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        .hero-dl-ios { animation: ctaRing 2.8s ease-in-out infinite; transition: all 0.25s cubic-bezier(0.22,1,0.36,1) !important; }
+        .hero-dl-ios:hover { animation: none !important; transform: translateY(-3px) scale(1.03) !important; background: #5ba4cf !important; color: #fff !important; box-shadow: 0 0 56px rgba(91,164,207,0.6) !important; }
+        .hero-dl-android { transition: all 0.25s cubic-bezier(0.22,1,0.36,1) !important; }
+        .hero-dl-android:hover { transform: translateY(-3px) !important; background: rgba(255,255,255,0.18) !important; border-color: rgba(255,255,255,0.5) !important; }
+        .hero-stat-card { transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), background 0.3s !important; }
+        .hero-stat-card:hover { transform: translateY(-6px) scale(1.05) !important; background: rgba(255,255,255,0.14) !important; }
+        .savings-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s, border-color 0.35s !important; }
+        .savings-card:hover { transform: translateY(-8px) scale(1.01) !important; box-shadow: 0 32px 64px rgba(0,0,0,0.12) !important; border-color: #5ba4cf !important; }
+        .founding-perk { transition: background 0.2s, padding-left 0.2s !important; }
+        .founding-perk:hover { background: rgba(244,196,48,0.05) !important; padding-left: 8px !important; }
+        .nav-link-hover { transition: color 0.2s !important; position: relative; }
+        .nav-link-hover::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #5ba4cf; transition: width 0.25s cubic-bezier(0.22,1,0.36,1); border-radius: 2px; }
+        .nav-link-hover:hover::after { width: 100%; }
+        .img-zoom { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1) !important; overflow: hidden !important; }
+        .img-zoom:hover img { transform: scale(1.05) !important; }
+        img.zoom-target { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1) !important; }
         @media (max-width: 768px) {
           .nav-logo { height: 34px !important; }
           .hero-section { min-height: 100svh !important; justify-content: flex-start !important; }
@@ -1575,13 +1664,14 @@ export default function App() {
           .nav-get-app { display: none !important; }
           .screenshots-grid { grid-template-columns: 1fr !important; }
           .savings-grid { grid-template-columns: 1fr !important; padding: 32px 24px !important; }
-          .founding-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-          .founding-grid > div:last-child { border-left: none !important; border-top: 1px solid rgba(255,255,255,0.08) !important; padding-left: 0 !important; padding-top: 24px !important; }
           .vendors-header { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
           .vendors-header-right p { text-align: left !important; max-width: 100% !important; }
           .vendors-header-right > div { justify-content: flex-start !important; }
           .mission-image-col { display: none !important; }
           .how-steps-grid { grid-template-columns: 1fr !important; }
+          .savings-3-grid { grid-template-columns: 1fr !important; }
+          .founding-full-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+          .savings-callout { flex-direction: column !important; padding: 36px 24px !important; gap: 32px !important; }
         }
         ::selection { background: #5ba4cf; color: #fff; }
         ::-webkit-scrollbar { width: 6px; }
