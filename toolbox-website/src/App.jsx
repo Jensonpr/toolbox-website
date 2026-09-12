@@ -1125,7 +1125,7 @@ const HOW_STEPS = [
 
 function HowItWorksSection({ onDownload }) {
   return (
-    <section id="about" style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
+    <section id="about" style={{ background: "linear-gradient(to bottom, transparent calc(100% - 72px), #fff 100%), linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
       {/* Dot grid texture */}
       <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.12) 1px, transparent 1px)", backgroundSize: "36px 36px", pointerEvents: "none", opacity: 0.7 }} />
       {/* Center glow */}
@@ -1185,7 +1185,7 @@ function LandingPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [showDL, setShowDL] = useState(false);
-  const count25 = useCountUp(40, 900, 800);
+  const count25 = useCountUp(50, 900, 800);
   const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
@@ -1253,7 +1253,7 @@ function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(160deg, #050d1e 0%, #0a1940 40%, #0d1f4e 100%)" }}>
+      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(to bottom, transparent 72%, #fff 100%), linear-gradient(160deg, #050d1e 0%, #0a1940 40%, #0d1f4e 100%)" }}>
         {/* Dot grid texture */}
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
         {/* Background glows */}
@@ -1310,7 +1310,7 @@ function LandingPage() {
       </section>
 
       {/* Mission + Vendors */}
-      <section style={{ background: "#fff", padding: "96px 0", overflow: "hidden", width: "100%", boxSizing: "border-box" }}>
+      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 72px), #060e1f 100%), #fff", padding: "96px 0", overflow: "hidden", width: "100%", boxSizing: "border-box", position: "relative" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div className="scroll-reveal-left">
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Story</p>
@@ -1344,7 +1344,7 @@ function LandingPage() {
                 <h2 style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#0d1f4e", lineHeight: 1 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
               </div>
               <div className="vendors-header-right">
-                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>40+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
+                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>50+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(13,31,78,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end" }}>
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
                   Live Network Updates
@@ -1364,7 +1364,7 @@ function LandingPage() {
       <HowItWorksSection onDownload={() => setShowDL(true)} />
 
       {/* Savings Proof Section */}
-      <section style={{ background: "#fff", padding: "112px 0", width: "100%", boxSizing: "border-box" }}>
+      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 72px), #060e1f 100%), #fff", padding: "112px 0", width: "100%", boxSizing: "border-box", position: "relative" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
           <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 72 }}>
             <p style={{ color: "#22c55e", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Real Value, Every Use</p>
@@ -1381,7 +1381,7 @@ function LandingPage() {
             {[
               { brand: "Anthem Workwear", example: "Work pants + shirt pack", save: "~$45", tag: "per order", col: "#0d1f4e" },
               { brand: "Elite Supplements", example: "Monthly supplement order", save: "~$38", tag: "per month", col: "#5ba4cf" },
-              { brand: "Hard Hat", example: "Work boots", save: "~$42", tag: "per pair", col: "#22c55e" },
+              { brand: "Future Golf", example: "Annual golf membership (20% off)", save: "~$80", tag: "$399 plan · up to $180 saved", col: "#22c55e" },
             ].map((item, i) => (
               <div key={i} className={`scroll-reveal savings-card scroll-reveal-d${i + 1}`} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 24, padding: "36px 28px", position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", top: 20, right: 20, width: 10, height: 10, borderRadius: "50%", background: item.col }} />
@@ -1410,7 +1410,7 @@ function LandingPage() {
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14, flexShrink: 0 }}>
-              {["Discounts guaranteed, every single use", "No draws, no waiting, no luck", "Save from the very first redemption", "Pays for the annual fee in 2–3 uses", "40+ brands growing every month"].map((perk, i) => (
+              {["Discounts guaranteed, every single use", "No draws, no waiting, no luck", "Save from the very first redemption", "Pays for the annual fee in 2–3 uses", "50+ brands growing every month"].map((perk, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(34,197,94,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-7" stroke="#22c55e" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -1424,7 +1424,7 @@ function LandingPage() {
       </section>
 
       {/* Founding 500 Full Section */}
-      <section style={{ background: "linear-gradient(160deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
+      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 56px), #0d1f4e 100%), linear-gradient(160deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(244,196,48,0.06) 1px, transparent 1px)", backgroundSize: "32px 32px", pointerEvents: "none" }} />
         <div style={{ position: "absolute", top: "20%", right: "-10%", width: 600, height: 600, background: "radial-gradient(ellipse, rgba(244,196,48,0.06) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
 
@@ -1492,7 +1492,7 @@ function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" style={{ background: "#0d1f4e", padding: "96px 0", scrollMarginTop: 80 }}>
+      <section id="pricing" style={{ background: "linear-gradient(to bottom, transparent calc(100% - 72px), #fff 100%), #0d1f4e", padding: "96px 0", scrollMarginTop: 80, position: "relative", overflow: "hidden" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
           <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
