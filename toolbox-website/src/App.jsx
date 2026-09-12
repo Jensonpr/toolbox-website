@@ -1124,169 +1124,32 @@ const HOW_STEPS = [
 ];
 
 function HowItWorksSection({ onDownload }) {
-  const [activeStep, setActiveStep] = useState(0);
-  const sectionRef = useRef(null);
-  const activeRef = useRef(0);
-  const busy = useRef(false);
-
-  useEffect(() => { activeRef.current = activeStep; }, [activeStep]);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    let isLocked = false;
-    let savedY = 0;
-    let touchY0 = 0;
-
-    const lock = () => {
-      if (isLocked) return;
-      isLocked = true;
-      savedY = el.offsetTop; // snap to exact section position — avoids mid-scroll white gap
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${savedY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.width = '100%'; // prevents layout shift from scrollbar disappearing
-    };
-
-    const unlock = (targetY) => {
-      if (!isLocked) return;
-
-      if (targetY != null) {
-        // Smooth exit: animate body.top while still fixed, then restore scroll position
-        busy.current = true;
-        document.body.style.transition = 'top 0.9s cubic-bezier(0.4,0,0.2,1)';
-        document.body.style.top = `-${targetY}px`;
-        setTimeout(() => {
-          isLocked = false;
-          document.body.style.transition = '';
-          document.body.style.position = '';
-          document.body.style.top = '';
-          document.body.style.left = '';
-          document.body.style.right = '';
-          document.body.style.width = '';
-          window.scrollTo({ top: targetY, behavior: 'instant' });
-          setTimeout(() => { busy.current = false; }, 200);
-        }, 920);
-      } else {
-        isLocked = false;
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        window.scrollTo({ top: savedY, behavior: 'instant' });
-      }
-    };
-
-    const advance = (dir) => {
-      const step = activeRef.current;
-      if (dir > 0) {
-        if (step < HOW_STEPS.length - 1) {
-          if (busy.current) return;
-          busy.current = true;
-          activeRef.current = step + 1;
-          setActiveStep(step + 1);
-          // Longer cooldown when arriving at the last step so momentum can't immediately exit
-          const cooldown = (step + 1 === HOW_STEPS.length - 1) ? 1400 : 700;
-          setTimeout(() => { busy.current = false; }, cooldown);
-        } else {
-          // All steps done — exit to Pricing
-          if (busy.current) return;
-          unlock(el.offsetTop + el.offsetHeight);
-        }
-      } else {
-        if (step > 0) {
-          if (busy.current) return;
-          busy.current = true;
-          activeRef.current = step - 1;
-          setActiveStep(step - 1);
-          setTimeout(() => { busy.current = false; }, 700);
-        } else {
-          unlock(Math.max(0, el.offsetTop - 10));
-        }
-      }
-    };
-
-    // Lock the moment section is ≥95% in view (IO fires reliably after snap)
-    const io = new IntersectionObserver(([entry]) => {
-      if (entry.intersectionRatio >= 0.95 && !isLocked) lock();
-    }, { threshold: 0.95 });
-    io.observe(el);
-
-    // Wheel: preventDefault is belt-and-suspenders on top of body:fixed
-    const onWheel = (e) => {
-      if (!isLocked) return;
-      e.preventDefault();
-      advance(e.deltaY);
-    };
-
-    const onTouchStart = (e) => { touchY0 = e.touches[0].clientY; };
-    const onTouchMove = (e) => { if (isLocked) e.preventDefault(); };
-    const onTouchEnd = (e) => {
-      if (!isLocked) return;
-      const dy = touchY0 - e.changedTouches[0].clientY;
-      if (Math.abs(dy) > 40) advance(dy);
-    };
-
-    window.addEventListener('wheel', onWheel, { passive: false });
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
-    window.addEventListener('touchend', onTouchEnd, { passive: true });
-
-    return () => {
-      window.removeEventListener('wheel', onWheel);
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('touchend', onTouchEnd);
-      io.disconnect();
-      if (isLocked) unlock();
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} id="about" style={{ height: "100vh", background: "#0a1940", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-      <div className="how-works-inner" style={{ maxWidth: 1100, width: "100%", padding: "80px 64px 40px", display: "flex", gap: 80, alignItems: "center" }}>
+    <section id="about" style={{ background: "#0a1940", padding: "96px 0" }}>
+      <div className="how-works-inner" style={{ maxWidth: 1100, width: "100%", margin: "0 auto", padding: "0 64px", display: "flex", gap: 80, alignItems: "center" }}>
 
-        {/* Left: heading + step list */}
+        {/* Left: heading + steps */}
         <div style={{ flex: 1 }}>
           <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Inside the App</p>
-          <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 4rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff", lineHeight: 0.9, marginBottom: 36 }}>
+          <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 4rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff", lineHeight: 0.9, marginBottom: 40 }}>
             How It<br /><span style={{ color: "#5ba4cf" }}>Works.</span>
           </h2>
 
-          {HOW_STEPS.map((s, i) => (
-            <div key={i} style={{
-              marginBottom: 10,
-              padding: "14px 18px",
-              borderRadius: 14,
-              background: activeStep === i ? "rgba(91,164,207,0.12)" : "transparent",
-              border: `1px solid ${activeStep === i ? "rgba(91,164,207,0.25)" : "transparent"}`,
-              transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
-                  background: activeStep === i ? "#5ba4cf" : "rgba(255,255,255,0.07)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: "0.8rem", fontWeight: 900, fontStyle: "italic",
-                  color: activeStep === i ? "#fff" : "rgba(255,255,255,0.3)",
-                  transition: "all 0.4s",
-                }}>{s.num}</div>
-                <h3 style={{
-                  fontSize: "clamp(0.95rem, 1.4vw, 1.2rem)", fontWeight: 900, fontStyle: "italic",
-                  textTransform: "uppercase", letterSpacing: "-0.02em", margin: 0,
-                  color: activeStep === i ? "#fff" : "rgba(255,255,255,0.3)",
-                  transition: "color 0.4s",
-                }}>{s.title}</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {HOW_STEPS.map((s, i) => (
+              <div key={i} style={{ padding: "16px 18px", borderRadius: 14, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: "50%", flexShrink: 0, background: "#5ba4cf", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem", fontWeight: 900, fontStyle: "italic", color: "#fff" }}>{s.num}</div>
+                  <div>
+                    <h3 style={{ fontSize: "clamp(0.95rem, 1.4vw, 1.1rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", margin: "0 0 6px", color: "#fff" }}>{s.title}</h3>
+                    <p style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.65, margin: 0 }}>{s.desc}</p>
+                  </div>
+                </div>
               </div>
-              <div style={{ maxHeight: activeStep === i ? 90 : 0, overflow: "hidden", transition: "max-height 0.45s cubic-bezier(0.4,0,0.2,1)" }}>
-                <p style={{ fontSize: "0.9rem", color: "rgba(255,255,255,0.55)", fontWeight: 500, lineHeight: 1.65, marginTop: 10, paddingLeft: 50 }}>{s.desc}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
-          <div style={{ marginTop: 28, paddingLeft: 4 }}>
+          <div style={{ marginTop: 32 }}>
             <button onClick={onDownload}
               style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#5ba4cf", color: "#fff", padding: "14px 28px", borderRadius: 100, fontWeight: 900, fontSize: "0.9rem", border: "none", cursor: "pointer", transition: "all 0.22s", fontFamily: "inherit" }}
               onMouseOver={e => e.currentTarget.style.background = "#fff"}
@@ -1296,19 +1159,9 @@ function HowItWorksSection({ onDownload }) {
           </div>
         </div>
 
-        {/* Right: phone screenshots (images already include their own phone frame) */}
-        <div className="how-works-phone" style={{ flex: "0 0 320px" }}>
-          <div style={{ width: 320, position: "relative", margin: "0 auto" }}>
-            {HOW_STEPS.map((s, i) => (
-              <img key={i} src={s.img} alt={s.title}
-                style={{ position: i === 0 ? "relative" : "absolute", top: 0, left: 0, width: "100%", display: "block", opacity: activeStep === i ? 1 : 0, transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1)", filter: "drop-shadow(0 32px 64px rgba(0,0,0,0.6))" }} />
-            ))}
-          </div>
-          <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 20 }}>
-            {HOW_STEPS.map((_, i) => (
-              <div key={i} style={{ height: 5, borderRadius: 3, background: activeStep === i ? "#5ba4cf" : "rgba(255,255,255,0.15)", width: activeStep === i ? 24 : 5, transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)" }} />
-            ))}
-          </div>
+        {/* Right: phone screenshot */}
+        <div className="how-works-phone" style={{ flex: "0 0 300px" }}>
+          <img src={HOW_STEPS[0].img} alt="App screenshot" style={{ width: "100%", display: "block", filter: "drop-shadow(0 32px 64px rgba(0,0,0,0.6))" }} />
         </div>
 
       </div>
@@ -1658,7 +1511,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; scroll-snap-type: y proximity; } #root { width: 100%; background: #0d1f4e; } button, input, textarea, select { font-family: inherit; } #about { scroll-snap-align: start; scroll-snap-stop: always; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; background: #0d1f4e; } button, input, textarea, select { font-family: inherit; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes heroLine { from { opacity: 0; transform: translateY(48px) skewX(-2deg); } to { opacity: 1; transform: translateY(0) skewX(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
