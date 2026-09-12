@@ -1,6 +1,11 @@
 // Postbuild prerender: spins up vite preview, loads / in Puppeteer after
 // React mounts, writes the populated HTML back to dist/index.html.
-import puppeteer from 'puppeteer';
+//
+// On Linux (Vercel build container): uses @sparticuz/chromium, which ships a
+// statically-compiled Chromium that works without system libs like libnspr4.
+// On macOS (local dev): uses PUPPETEER_EXECUTABLE_PATH (point at system Chrome).
+import { default as chromium } from '@sparticuz/chromium';
+import puppeteer from 'puppeteer-core';
 import { spawn } from 'child_process';
 import { writeFileSync } from 'fs';
 import { resolve, dirname } from 'path';
@@ -11,6 +16,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const PORT = 4173;
 const BASE = `http://localhost:${PORT}`;
+const IS_LINUX = process.platform === 'linux';
 
 function waitForServer(timeout = 20_000) {
   return new Promise((ok, fail) => {
@@ -37,18 +43,20 @@ try {
   await waitForServer();
   console.log('[prerender] preview ready');
 
+  const executablePath = IS_LINUX
+    ? await chromium.executablePath()
+    : process.env.PUPPETEER_EXECUTABLE_PATH;
+
+  if (!executablePath) throw new Error(
+    'No Chrome found. On macOS set PUPPETEER_EXECUTABLE_PATH to your Chrome path.'
+  );
+
   const browser = await puppeteer.launch({
+    executablePath,
     headless: true,
-    // PUPPETEER_EXECUTABLE_PATH lets local dev point at system Chrome when
-    // puppeteer's own Chromium download is unavailable (e.g. SSL restrictions).
-    // Unset on Vercel, where npm install downloads Chrome normally.
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-    ],
+    args: IS_LINUX
+      ? chromium.args
+      : ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
   const page = await browser.newPage();
