@@ -1253,7 +1253,7 @@ function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(to bottom, transparent 72%, #fff 100%), linear-gradient(160deg, #050d1e 0%, #0a1940 40%, #0d1f4e 100%)" }}>
+      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(to bottom, transparent 82%, rgba(255,255,255,0.55) 93%, #fff 100%), linear-gradient(160deg, #050d1e 0%, #0a1940 40%, #0d1f4e 100%)" }}>
         {/* Dot grid texture */}
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
         {/* Background glows */}
@@ -1263,7 +1263,7 @@ function LandingPage() {
         <div style={{ position: "absolute", bottom: "-10%", left: "50%", transform: "translateX(-50%)", width: 1000, height: 500, background: "radial-gradient(ellipse, rgba(91,164,207,0.08) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
 
         {/* Content — paddingTop clears the fixed nav (~80px) */}
-        <div className="hero-content" style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "100px 32px 0", maxWidth: 1000, width: "100%" }}>
+        <div className="hero-content" style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "100px 32px 80px", maxWidth: 1000, width: "100%" }}>
 
           {/* Live badge */}
           <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "8px 20px", marginBottom: 28 }}>
@@ -1310,7 +1310,7 @@ function LandingPage() {
       </section>
 
       {/* Mission + Vendors */}
-      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 72px), #060e1f 100%), #fff", padding: "96px 0", overflow: "hidden", width: "100%", boxSizing: "border-box", position: "relative" }}>
+      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 72px), #060e1f 100%), #fff", padding: "128px 0 96px", overflow: "hidden", width: "100%", boxSizing: "border-box", position: "relative" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div className="scroll-reveal-left">
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Story</p>
