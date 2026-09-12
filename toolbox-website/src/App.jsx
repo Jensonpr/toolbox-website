@@ -1189,7 +1189,7 @@ function LandingPage() {
   const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
-    setPageMeta("The ToolBox | Australia's Trade Lifestyle Discount App", "Save money on workwear, supplements, fitness & more. Australia's first discount membership app built for the trade lifestyle. $4.99/mo.", "/");
+    setPageMeta("The ToolBox | Discounts for the Australian Trade Lifestyle", "Save on workwear, supplements, fitness, golf and more. Australia's first discount membership app for the trade lifestyle. From $4.99/mo.", "/");
   }, []);
 
   useEffect(() => {
