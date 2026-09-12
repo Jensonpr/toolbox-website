@@ -1125,45 +1125,54 @@ const HOW_STEPS = [
 
 function HowItWorksSection({ onDownload }) {
   return (
-    <section id="about" style={{ background: "#0a1940", padding: "96px 0" }}>
-      <div className="how-works-inner" style={{ maxWidth: 1100, width: "100%", margin: "0 auto", padding: "0 64px", display: "flex", gap: 80, alignItems: "center" }}>
+    <section id="about" style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
+      {/* Dot grid texture */}
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.12) 1px, transparent 1px)", backgroundSize: "36px 36px", pointerEvents: "none", opacity: 0.7 }} />
+      {/* Center glow */}
+      <div style={{ position: "absolute", top: "40%", left: "50%", transform: "translate(-50%,-50%)", width: 900, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.08) 0%, transparent 65%)", pointerEvents: "none" }} />
 
-        {/* Left: heading + steps */}
-        <div style={{ flex: 1 }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px", position: "relative" }}>
+
+        {/* Centered heading */}
+        <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 72 }}>
           <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Inside the App</p>
-          <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 4rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff", lineHeight: 0.9, marginBottom: 40 }}>
-            How It<br /><span style={{ color: "#5ba4cf" }}>Works.</span>
+          <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff", lineHeight: 0.9 }}>
+            How it <span style={{ color: "#5ba4cf" }}>Works.</span>
           </h2>
+        </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {HOW_STEPS.map((s, i) => (
-              <div key={i} style={{ padding: "16px 18px", borderRadius: 14, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: "50%", flexShrink: 0, background: "#5ba4cf", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem", fontWeight: 900, fontStyle: "italic", color: "#fff" }}>{s.num}</div>
-                  <div>
-                    <h3 style={{ fontSize: "clamp(0.95rem, 1.4vw, 1.1rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", margin: "0 0 6px", color: "#fff" }}>{s.title}</h3>
-                    <p style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.65, margin: 0 }}>{s.desc}</p>
-                  </div>
-                </div>
+        {/* 2×2 step grid */}
+        <div className="how-steps-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20, marginBottom: 64 }}>
+          {HOW_STEPS.map((s, i) => (
+            <div key={i} className={`scroll-reveal step-card scroll-reveal-d${i + 1}`} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 24, padding: "36px 32px 32px", position: "relative", overflow: "hidden" }}>
+              {/* Faded giant number */}
+              <span style={{ position: "absolute", top: -2, right: 14, fontSize: "5.5rem", fontWeight: 900, fontStyle: "italic", letterSpacing: "-0.06em", color: "rgba(255,255,255,0.05)", lineHeight: 1, userSelect: "none", pointerEvents: "none" }}>{s.num}</span>
+
+              {/* Step pill */}
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.22)", borderRadius: 100, padding: "5px 13px", marginBottom: 22 }}>
+                <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#5ba4cf", flexShrink: 0 }} />
+                <span style={{ fontSize: 10, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.18em" }}>Step {s.num}</span>
               </div>
-            ))}
-          </div>
 
-          <div style={{ marginTop: 32 }}>
-            <button onClick={onDownload}
-              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#5ba4cf", color: "#fff", padding: "14px 28px", borderRadius: 100, fontWeight: 900, fontSize: "0.9rem", border: "none", cursor: "pointer", transition: "all 0.22s", fontFamily: "inherit" }}
-              onMouseOver={e => e.currentTarget.style.background = "#fff"}
-              onMouseOut={e => e.currentTarget.style.background = "#5ba4cf"}>
-              Download Free
-            </button>
-          </div>
+              <h3 style={{ fontSize: "1.15rem", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", color: "#fff", marginBottom: 12 }}>{s.title}</h3>
+              <p style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.45)", fontWeight: 500, lineHeight: 1.75, margin: 0 }}>{s.desc}</p>
+
+              {/* Bottom glow line */}
+              <div style={{ position: "absolute", bottom: 0, left: "20%", right: "20%", height: 1, background: "linear-gradient(to right, transparent, rgba(91,164,207,0.4), transparent)" }} />
+            </div>
+          ))}
         </div>
 
-        {/* Right: phone screenshot */}
-        <div className="how-works-phone" style={{ flex: "0 0 300px" }}>
-          <img src={HOW_STEPS[0].img} alt="App screenshot" style={{ width: "100%", display: "block", filter: "drop-shadow(0 32px 64px rgba(0,0,0,0.6))" }} />
+        {/* CTA */}
+        <div className="scroll-reveal" style={{ textAlign: "center" }}>
+          <button onClick={onDownload}
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#5ba4cf", color: "#fff", padding: "16px 44px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", border: "none", cursor: "pointer", transition: "all 0.25s", fontFamily: "inherit", boxShadow: "0 0 48px rgba(91,164,207,0.35)" }}
+            onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.boxShadow = "0 0 48px rgba(255,255,255,0.2)"; }}
+            onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.boxShadow = "0 0 48px rgba(91,164,207,0.35)"; }}>
+            Download Free
+          </button>
+          <p style={{ marginTop: 14, fontSize: 12, color: "rgba(255,255,255,0.25)", fontWeight: 600 }}>iOS & Android · $4.99/mo membership</p>
         </div>
-
       </div>
     </section>
   );
@@ -1244,10 +1253,14 @@ function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "#0a1940" }}>
+      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(160deg, #050d1e 0%, #0a1940 40%, #0d1f4e 100%)" }}>
+        {/* Dot grid texture */}
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
         {/* Background glows */}
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 90% 60% at 50% -5%, rgba(91,164,207,0.2) 0%, transparent 65%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: "-10%", left: "50%", transform: "translateX(-50%)", width: 1000, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.06) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 55% at 50% -10%, rgba(91,164,207,0.32) 0%, transparent 65%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "30%", left: "-5%", width: 500, height: 500, background: "radial-gradient(ellipse, rgba(91,164,207,0.1) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "20%", right: "-5%", width: 500, height: 500, background: "radial-gradient(ellipse, rgba(91,164,207,0.1) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "-10%", left: "50%", transform: "translateX(-50%)", width: 1000, height: 500, background: "radial-gradient(ellipse, rgba(91,164,207,0.08) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
 
         {/* Content — paddingTop clears the fixed nav (~80px) */}
         <div className="hero-content" style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "100px 32px 0", maxWidth: 1000, width: "100%" }}>
@@ -1523,8 +1536,8 @@ export default function App() {
         .anim-fade-up-5 { animation-delay: 0.7s; }
         .anim-hero-line-1 { opacity: 0; animation: heroLine 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards; }
         .anim-hero-line-2 { opacity: 0; animation: heroLine 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s forwards; }
-        .scroll-reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
-        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+        .scroll-reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .scroll-reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
         .scroll-reveal-left { opacity: 0; transform: translateX(-36px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
         .scroll-reveal-left.visible { opacity: 1; transform: translateX(0); }
         .scroll-reveal-right { opacity: 0; transform: translateX(36px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
@@ -1535,6 +1548,8 @@ export default function App() {
         .faq-row { transition: border-color 0.2s; } .faq-row:hover { border-color: rgba(91,164,207,0.4) !important; }
         .blog-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1) !important; }
         .blog-card:hover { transform: translateY(-8px) !important; box-shadow: 0 24px 48px rgba(0,0,0,0.13) !important; }
+        .step-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), border-color 0.35s, background 0.35s, box-shadow 0.35s !important; }
+        .step-card:hover { transform: translateY(-6px) !important; background: rgba(91,164,207,0.07) !important; border-color: rgba(91,164,207,0.3) !important; box-shadow: 0 24px 56px rgba(0,0,0,0.25), 0 0 0 1px rgba(91,164,207,0.15) !important; }
         .btn-scale:hover { transform: scale(1.04) !important; } .btn-scale:active { transform: scale(0.97) !important; }
         button:active { transform: scale(0.97); }
         .hero-stat-card:hover { transform: translateY(-4px) scale(1.03) !important; box-shadow: 0 16px 40px rgba(0,0,0,0.12) !important; }
@@ -1566,9 +1581,7 @@ export default function App() {
           .vendors-header-right p { text-align: left !important; max-width: 100% !important; }
           .vendors-header-right > div { justify-content: flex-start !important; }
           .mission-image-col { display: none !important; }
-          .how-works-body { flex-direction: column !important; padding: 0 24px 80px !important; gap: 0 !important; }
-          .how-works-phone { display: none !important; }
-          .how-works-step-img { display: block !important; }
+          .how-steps-grid { grid-template-columns: 1fr !important; }
         }
         ::selection { background: #5ba4cf; color: #fff; }
         ::-webkit-scrollbar { width: 6px; }
