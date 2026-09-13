@@ -1110,7 +1110,7 @@ const HOW_STEPS = [
 
 function HowItWorksSection({ onDownload }) {
   return (
-    <section id="about" style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #fff 100%), linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
+    <section id="about" style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
       {/* Dot grid texture */}
       <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.12) 1px, transparent 1px)", backgroundSize: "36px 36px", pointerEvents: "none", opacity: 0.7 }} />
       {/* Center glow */}
@@ -1168,16 +1168,10 @@ function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
-  const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [showDL, setShowDL] = useState(false);
 
   useEffect(() => {
     setPageMeta("The ToolBox | Discounts for the Australian Trade Lifestyle", "Save on workwear, supplements, fitness, golf and more. Australia's first discount membership app for the trade lifestyle. From $4.99/mo.", "/");
-  }, []);
-
-  useEffect(() => {
-    const t = setInterval(() => setTestimonialIdx(i => (i + 1) % APP_REVIEWS.length), 5000);
-    return () => clearInterval(t);
   }, []);
 
   useEffect(() => {
@@ -1241,7 +1235,7 @@ function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(to bottom, transparent calc(100% - 480px), rgba(255,255,255,0.35) calc(100% - 110px), #fff 100%), linear-gradient(160deg, #050d1e 0%, #0a1940 40%, #0d1f4e 100%)" }}>
+      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(160deg, #050d1e 0%, #0a1940 40%, #0d1f4e 100%)" }}>
         {/* Dot grid texture */}
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
         {/* Background glows */}
@@ -1284,31 +1278,23 @@ function LandingPage() {
           </div>
           <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>$4.99/mo for Founding 500 members · Price increases after 500 spots fill</p>
 
-          {/* App review carousel */}
-          <div className="anim-fade-up anim-fade-up-5 hero-review-carousel" style={{ maxWidth: 560, margin: "0 auto" }}>
-            <div style={{ overflow: "hidden", borderRadius: 24, background: "#fff", boxShadow: "0 24px 60px rgba(0,0,0,0.3)" }}>
-              <div style={{ display: "flex", transform: `translateX(-${testimonialIdx * 100}%)`, transition: "transform 0.6s cubic-bezier(0.65,0,0.35,1)" }}>
-                {APP_REVIEWS.map((r, i) => (
-                  <div key={i} className="hero-review-card" style={{ flex: "0 0 100%", boxSizing: "border-box", padding: "28px 32px", textAlign: "left" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 10 }}>
-                      <p style={{ fontWeight: 900, fontSize: "1.05rem", color: "#0d1f4e", lineHeight: 1.3 }}>{r.title}</p>
-                      <div style={{ textAlign: "right", flexShrink: 0 }}>
-                        <p style={{ fontSize: 12, color: "#94a3b8", fontWeight: 700 }}>{r.date}</p>
-                        <p style={{ fontSize: 12, color: "#94a3b8", fontWeight: 700 }}>{r.author}</p>
-                      </div>
+          {/* App review marquee — 3-wide, slow continuous rotation */}
+          <div className="anim-fade-up anim-fade-up-5 hero-review-marquee" style={{ maxWidth: 1040, margin: "0 auto", overflow: "hidden", maskImage: "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)" }}>
+            <div className="hero-review-track" style={{ display: "flex", gap: 20, width: "max-content", animation: "marquee 60s linear infinite" }}>
+              {[...APP_REVIEWS, ...APP_REVIEWS].map((r, i) => (
+                <div key={i} className="hero-review-card" style={{ width: 320, flexShrink: 0, boxSizing: "border-box", background: "#fff", borderRadius: 24, padding: "24px 26px", textAlign: "left", boxShadow: "0 20px 50px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column", height: 210 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
+                    <p style={{ fontWeight: 900, fontSize: "0.98rem", color: "#0d1f4e", lineHeight: 1.25 }}>{r.title}</p>
+                    <div style={{ textAlign: "right", flexShrink: 0 }}>
+                      <p style={{ fontSize: 11, color: "#94a3b8", fontWeight: 700 }}>{r.date}</p>
+                      <p style={{ fontSize: 11, color: "#94a3b8", fontWeight: 700 }}>{r.author}</p>
                     </div>
-                    <div style={{ display: "flex", gap: 3, marginBottom: 14 }}>
-                      {Array.from({ length: r.rating }).map((_, s) => <IcoStar key={s} size={15} />)}
-                    </div>
-                    <p style={{ fontSize: 14, color: "#475569", fontWeight: 500, lineHeight: 1.65 }}>{r.text}</p>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 18 }}>
-              {APP_REVIEWS.map((_, i) => (
-                <button key={i} onClick={() => setTestimonialIdx(i)} aria-label={`Show review ${i + 1}`}
-                  style={{ width: i === testimonialIdx ? 20 : 6, height: 6, borderRadius: 3, border: "none", padding: 0, cursor: "pointer", background: i === testimonialIdx ? "#fff" : "rgba(255,255,255,0.3)", transition: "all 0.3s" }} />
+                  <div style={{ display: "flex", gap: 3, marginBottom: 10 }}>
+                    {Array.from({ length: r.rating }).map((_, s) => <IcoStar key={s} size={13} />)}
+                  </div>
+                  <p style={{ fontSize: 13, color: "#475569", fontWeight: 500, lineHeight: 1.55, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical" }}>{r.text}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -1317,14 +1303,14 @@ function LandingPage() {
       </section>
 
       {/* Mission + Vendors */}
-      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #fff", padding: "128px 0 96px", overflow: "hidden", width: "100%", boxSizing: "border-box", position: "relative" }}>
+      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #0d1f4e", padding: "128px 0 96px", overflow: "hidden", width: "100%", boxSizing: "border-box", position: "relative" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div className="scroll-reveal-left">
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Story</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 0.9, color: "#0d1f4e", marginBottom: 40 }}>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 0.9, color: "#fff", marginBottom: 40 }}>
               Built for the<br />trade lifestyle<span style={{ color: "#5ba4cf" }}>.</span>
             </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: "1.1rem", color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.7, maxWidth: 480 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: "1.1rem", color: "rgba(255,255,255,0.6)", fontWeight: 500, lineHeight: 1.7, maxWidth: 480 }}>
               <p>The ToolBox wasn't born in a boardroom — it was born on site. We got sick of seeing everyone else get the perks while the people doing the hard yards got the short end of the stick.</p>
               <p>Whether you're on the tools or just live that lifestyle, this app is built to put real money back in your pocket.</p>
             </div>
@@ -1348,11 +1334,11 @@ function LandingPage() {
             <div className="vendors-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
               <div>
                 <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 12, marginBottom: 12 }}>Our Network</p>
-                <h2 style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#0d1f4e", lineHeight: 1 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
+                <h2 style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
               </div>
               <div className="vendors-header-right">
-                <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>50+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(13,31,78,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end" }}>
+                <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>50+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end" }}>
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
                   Live Network Updates
                 </div>
@@ -1362,8 +1348,8 @@ function LandingPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 24, position: "relative" }}>
             <Marquee items={VENDORS.slice(0, 7)} speed={70} />
             <Marquee items={VENDORS.slice(7)} reverse speed={90} />
-            <div style={{ position: "absolute", inset: "0 auto 0 0", width: 160, background: "linear-gradient(to right, #fff, transparent)", pointerEvents: "none", zIndex: 2 }} />
-            <div style={{ position: "absolute", inset: "0 0 0 auto", width: 160, background: "linear-gradient(to left, #fff, transparent)", pointerEvents: "none", zIndex: 2 }} />
+            <div style={{ position: "absolute", inset: "0 auto 0 0", width: 160, background: "linear-gradient(to right, #0d1f4e, transparent)", pointerEvents: "none", zIndex: 2 }} />
+            <div style={{ position: "absolute", inset: "0 0 0 auto", width: 160, background: "linear-gradient(to left, #0d1f4e, transparent)", pointerEvents: "none", zIndex: 2 }} />
           </div>
         </div>
       </section>
@@ -1371,14 +1357,14 @@ function LandingPage() {
       <HowItWorksSection onDownload={() => setShowDL(true)} />
 
       {/* Savings Proof Section */}
-      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #fff", padding: "112px 0", width: "100%", boxSizing: "border-box", position: "relative" }}>
+      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #0d1f4e", padding: "112px 0", width: "100%", boxSizing: "border-box", position: "relative" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
           <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 72 }}>
             <p style={{ color: "#22c55e", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Real Value, Every Use</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 0.9, marginBottom: 24 }}>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.04em", color: "#fff", lineHeight: 0.9, marginBottom: 24 }}>
               Your first deal pays<br /><span style={{ color: "#5ba4cf" }}>for the year.</span>
             </h2>
-            <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 600, fontSize: "1.05rem", maxWidth: 540, margin: "0 auto", lineHeight: 1.65 }}>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, fontSize: "1.05rem", maxWidth: 540, margin: "0 auto", lineHeight: 1.65 }}>
               Most members cover their $49.99 annual membership in just 2–3 uses. Everything after that is pure savings in your pocket.
             </p>
           </div>
@@ -1386,24 +1372,24 @@ function LandingPage() {
           {/* Savings examples */}
           <div className="savings-3-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 48 }}>
             {[
-              { brand: "Anthem Workwear", example: "Work pants + shirt pack", save: "~$45", tag: "per order", col: "#0d1f4e" },
+              { brand: "Anthem Workwear", example: "Work pants + shirt pack", save: "~$45", tag: "per order", col: "#f4c430" },
               { brand: "Elite Supplements", example: "Monthly supplement order", save: "~$38", tag: "per month", col: "#5ba4cf" },
               { brand: "Future Golf", example: "Annual golf membership (20% off)", save: "~$80", tag: "$399 plan · up to $180 saved", col: "#22c55e" },
             ].map((item, i) => (
-              <div key={i} className={`scroll-reveal savings-card scroll-reveal-d${i + 1}`} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 24, padding: "36px 28px", position: "relative", overflow: "hidden" }}>
+              <div key={i} className={`scroll-reveal savings-card scroll-reveal-d${i + 1}`} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 24, padding: "36px 28px", position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", top: 20, right: 20, width: 10, height: 10, borderRadius: "50%", background: item.col }} />
-                <p style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(13,31,78,0.35)", marginBottom: 10 }}>{item.brand}</p>
-                <p style={{ fontSize: "0.9rem", color: "rgba(13,31,78,0.5)", fontWeight: 600, marginBottom: 20, lineHeight: 1.5 }}>{item.example}</p>
+                <p style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)", marginBottom: 10 }}>{item.brand}</p>
+                <p style={{ fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 20, lineHeight: 1.5 }}>{item.example}</p>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                  <span style={{ fontSize: "3rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 1 }}>{item.save}</span>
-                  <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(13,31,78,0.35)" }}>{item.tag}</span>
+                  <span style={{ fontSize: "3rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 1 }}>{item.save}</span>
+                  <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>{item.tag}</span>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Not left to chance callout */}
-          <div className="scroll-reveal savings-callout" style={{ background: "linear-gradient(135deg, #0d1f4e 0%, #0a1940 100%)", borderRadius: 32, padding: "52px 56px", display: "flex", gap: 56, alignItems: "center" }}>
+          <div className="scroll-reveal savings-callout" style={{ background: "linear-gradient(135deg, #0d1f4e 0%, #0a1940 100%)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 32, padding: "52px 56px", display: "flex", gap: 56, alignItems: "center" }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.15)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "6px 16px", marginBottom: 20 }}>
                 <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
@@ -1431,7 +1417,7 @@ function LandingPage() {
       </section>
 
       {/* Founding 500 Full Section */}
-      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 200px), #0d1f4e 100%), linear-gradient(160deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
+      <section style={{ background: "linear-gradient(160deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(244,196,48,0.06) 1px, transparent 1px)", backgroundSize: "32px 32px", pointerEvents: "none" }} />
         <div style={{ position: "absolute", top: "20%", right: "-10%", width: 600, height: 600, background: "radial-gradient(ellipse, rgba(244,196,48,0.06) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
 
@@ -1499,7 +1485,7 @@ function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #fff 100%), #0d1f4e", padding: "96px 0", scrollMarginTop: 80, position: "relative", overflow: "hidden" }}>
+      <section id="pricing" style={{ background: "#0d1f4e", padding: "96px 0", scrollMarginTop: 80, position: "relative", overflow: "hidden" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
           <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
@@ -1550,23 +1536,23 @@ function LandingPage() {
 
       {/* FAQ */}
       {/* Savings Calculator */}
-      <section style={{ background: "#fff", padding: "96px 0", width: "100%", boxSizing: "border-box" }}>
+      <section style={{ background: "#0d1f4e", padding: "96px 0", width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 12 }}>See For Yourself</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#0d1f4e", lineHeight: 0.9, fontStyle: "italic", textTransform: "uppercase" }}>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 0.9, fontStyle: "italic", textTransform: "uppercase" }}>
               How much will<br />you save<span style={{ color: "#5ba4cf" }}>?</span>
             </h2>
-            <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 600, marginTop: 20, fontSize: "1.05rem" }}>Slide to match your monthly spend and see your savings.</p>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 20, fontSize: "1.05rem" }}>Slide to match your monthly spend and see your savings.</p>
           </div>
           <SavingsCalculator onJoin={() => setShowDL(true)} />
         </div>
       </section>
 
-      <section id="faq" style={{ background: "#fff", padding: "96px 0", scrollMarginTop: 80, width: "100%", boxSizing: "border-box" }}>
+      <section id="faq" style={{ background: "#0d1f4e", padding: "96px 0", scrollMarginTop: 80, width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#0d1f4e" }}>
+            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#fff" }}>
               <span style={{ color: "#5ba4cf" }}>Got questions?</span>
             </h2>
           </div>
@@ -1578,13 +1564,13 @@ function LandingPage() {
               { q: "Can I use it anywhere in Australia?", a: "Currently we are focused on Victoria-based vendors and legends, but we are expanding rapidly to other states very soon. Stay tuned!" },
               { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
             ].map((item, i) => (
-              <div key={i} className="faq-row scroll-reveal" style={{ borderRadius: 24, border: "1px solid #e2e8f0", overflow: "hidden", transitionDelay: `${i * 0.07}s` }}>
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ width: "100%", textAlign: "left", padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", background: openFaq === i ? "#f8fafc" : "#fff", border: "none", cursor: "pointer", transition: "background 0.2s" }}>
-                  <span style={{ fontSize: "1.1rem", fontWeight: 900, letterSpacing: "-0.02em", color: "#0d1f4e" }}>{item.q}</span>
+              <div key={i} className="faq-row scroll-reveal" style={{ borderRadius: 24, border: "1px solid rgba(255,255,255,0.08)", overflow: "hidden", transitionDelay: `${i * 0.07}s` }}>
+                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ width: "100%", textAlign: "left", padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", background: openFaq === i ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)", border: "none", cursor: "pointer", transition: "background 0.2s" }}>
+                  <span style={{ fontSize: "1.1rem", fontWeight: 900, letterSpacing: "-0.02em", color: "#fff" }}>{item.q}</span>
                   <span style={{ color: "#5ba4cf", flexShrink: 0 }}><IcoChevDown rotate={openFaq === i} /></span>
                 </button>
                 {openFaq === i && (
-                  <div style={{ padding: "0 32px 28px", color: "rgba(13,31,78,0.6)", fontWeight: 600, fontSize: "1.05rem", lineHeight: 1.7 }}>{item.a}</div>
+                  <div style={{ padding: "0 32px 28px", color: "rgba(255,255,255,0.55)", fontWeight: 600, fontSize: "1.05rem", lineHeight: 1.7 }}>{item.a}</div>
                 )}
               </div>
             ))}
@@ -1641,6 +1627,7 @@ export default function App() {
         @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
         @keyframes ctaRing { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.45), 0 8px 40px rgba(255,255,255,0.18); } 60% { box-shadow: 0 0 0 18px rgba(255,255,255,0), 0 8px 40px rgba(255,255,255,0.28); } }
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        .hero-review-marquee:hover .hero-review-track { animation-play-state: paused; }
         .hero-dl-ios { animation: ctaRing 2.8s ease-in-out infinite; transition: all 0.25s cubic-bezier(0.22,1,0.36,1) !important; }
         .hero-dl-ios:hover { animation: none !important; transform: translateY(-3px) scale(1.03) !important; background: #5ba4cf !important; color: #fff !important; box-shadow: 0 0 56px rgba(91,164,207,0.6) !important; }
         .hero-dl-android { transition: all 0.25s cubic-bezier(0.22,1,0.36,1) !important; }
@@ -1661,8 +1648,7 @@ export default function App() {
           .hero-content { padding-top: 88px !important; padding-bottom: 60px !important; }
           .hero-store-btns { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
           .hero-store-btns a { justify-content: center !important; padding: 16px 24px !important; }
-          .hero-review-carousel { padding: 0 8px !important; }
-          .hero-review-card { padding: 22px 20px !important; }
+          .hero-review-card { width: 260px !important; height: 230px !important; padding: 20px 22px !important; }
           .desktop-nav { display: none !important; }
           .vendor-portal-btn { display: none !important; }
           .nav-get-app { display: none !important; }
