@@ -1136,7 +1136,7 @@ function HowItWorksSection({ onDownload }) {
           <div className="how-steps-list">
             {HOW_STEPS.map((s, i) => (
               <div key={i} ref={el => stepRefs.current[i] = el} data-step-index={i}
-                style={{ minHeight: "56vh", display: "flex", flexDirection: "column", justifyContent: "center", opacity: activeStep === i ? 1 : 0.35, transition: "opacity 0.4s ease" }}>
+                style={{ minHeight: "32vh", display: "flex", flexDirection: "column", justifyContent: "center", opacity: activeStep === i ? 1 : 0.35, transition: "opacity 0.4s ease" }}>
                 <span style={{ fontSize: "4rem", fontWeight: 900, fontStyle: "italic", letterSpacing: "-0.06em", color: "rgba(255,255,255,0.08)", lineHeight: 1, userSelect: "none", marginBottom: 8 }}>{s.num}</span>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.22)", borderRadius: 100, padding: "5px 13px", marginBottom: 18, width: "fit-content" }}>
                   <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#5ba4cf", flexShrink: 0 }} />
