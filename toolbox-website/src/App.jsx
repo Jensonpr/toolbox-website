@@ -1006,7 +1006,7 @@ function BlogPostPage() {
 }
 
 // ─── Founding 500 scramble progress ────────────────────────────────────────────
-const FOUNDING_CLAIMED = 247, FOUNDING_TOTAL = 500, FOUNDING_LEFT = FOUNDING_TOTAL - FOUNDING_CLAIMED;
+const FOUNDING_CLAIMED = 267, FOUNDING_TOTAL = 500, FOUNDING_LEFT = FOUNDING_TOTAL - FOUNDING_CLAIMED;
 function FoundingProgress() {
   const ref = useRef(null);
   const started = useRef(false);
@@ -1048,7 +1048,7 @@ function FoundingProgress() {
         <span style={{ fontSize: 13, fontWeight: 900, color: "#f4c430", fontVariantNumeric: "tabular-nums" }}>{left} spots left</span>
       </div>
       <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 10, overflow: "hidden", marginBottom: 10 }}>
-        <div style={{ width: "49.4%", height: "100%", background: "linear-gradient(to right, #f4c430, #fbbf24)", borderRadius: 99 }} />
+        <div style={{ width: `${(FOUNDING_CLAIMED / FOUNDING_TOTAL * 100).toFixed(1)}%`, height: "100%", background: "linear-gradient(to right, #f4c430, #fbbf24)", borderRadius: 99 }} />
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
@@ -1301,10 +1301,6 @@ function LandingPage() {
       <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(180deg, #0a1526 0%, #0a1940 45%, #0d1f4e 100%)" }}>
         {/* Dot grid texture */}
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
-        {/* Background glows */}
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 100% 60% at 50% -10%, rgba(91,164,207,0.32) 0%, transparent 70%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(91,164,207,0.3) 0%, transparent 32%, transparent 68%, rgba(91,164,207,0.3) 100%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: "-10%", left: "50%", transform: "translateX(-50%)", width: 1200, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.1) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
 
         {/* Content - paddingTop clears the fixed nav (~80px) */}
         <div className="hero-content" style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "100px 32px 80px", maxWidth: 1000, width: "100%" }}>
@@ -1518,7 +1514,7 @@ function LandingPage() {
                   { perk: "Priority access to member events", detail: "Invites to exclusive trade and lifestyle events." },
                   { perk: "Numbered Founding Member badge in-app", detail: "A permanent badge showing your founding member status." },
                 ].map((item, i) => (
-                  <div key={i} className="founding-perk" style={{ display: "flex", gap: 16, padding: "18px 8px", borderBottom: "1px solid rgba(255,255,255,0.06)", borderRadius: 8, cursor: "default" }}>
+                  <div key={i} className="founding-perk" style={{ display: "flex", gap: 16, padding: "18px 8px", borderBottom: "1px solid rgba(255,255,255,0.06)", borderRadius: 8, cursor: "default", transformOrigin: "left center" }}>
                     <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(244,196,48,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
                       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-7" stroke="#f4c430" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </div>
@@ -1694,8 +1690,8 @@ export default function App() {
         .hero-dl-android:hover { transform: translateY(-3px) !important; background: rgba(255,255,255,0.18) !important; border-color: rgba(255,255,255,0.5) !important; }
         .savings-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s, border-color 0.35s !important; }
         .savings-card:hover { transform: translateY(-8px) scale(1.01) !important; box-shadow: 0 32px 64px rgba(0,0,0,0.12) !important; border-color: #5ba4cf !important; }
-        .founding-perk { transition: background 0.2s, padding-left 0.2s !important; }
-        .founding-perk:hover { background: rgba(244,196,48,0.05) !important; padding-left: 8px !important; }
+        .founding-perk { transition: background 0.2s, padding-left 0.2s, transform 0.25s cubic-bezier(0.22,1,0.36,1) !important; }
+        .founding-perk:hover { background: rgba(244,196,48,0.06) !important; padding-left: 8px !important; transform: scale(1.05) !important; position: relative !important; z-index: 2 !important; }
         .nav-link-hover { transition: color 0.2s !important; position: relative; }
         .nav-link-hover::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #5ba4cf; transition: width 0.25s cubic-bezier(0.22,1,0.36,1); border-radius: 2px; }
         .nav-link-hover:hover::after { width: 100%; }
