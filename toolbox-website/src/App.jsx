@@ -27,6 +27,7 @@ const IcoBriefcase = () => <Icon d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0
 const IcoBuilding = () => <Icon d="M3 21h18M9 21V7l7-4v18M3 21V11l6-4" />;
 const IcoInfo = () => <Icon d="M12 22a10 10 0 100-20 10 10 0 000 20zM12 8h.01M11 12h1v4h1" />;
 const IcoArrowLeft = () => <Icon d="M19 12H5M12 19l-7-7 7-7" />;
+const IcoBook = () => <Icon d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />;
 const IcoApple = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
@@ -1163,6 +1164,15 @@ function HowItWorksSection({ onDownload }) {
   );
 }
 
+const MOBILE_NAV_ITEMS = [
+  { label: "How it works", sub: "See the app step by step", href: "#about", icon: IcoSmartphone },
+  { label: "Vendors", sub: "Browse 50+ partner brands", href: "#vendors", icon: IcoTag },
+  { label: "Pricing", sub: "Plans from $4.99/mo", href: "#pricing", icon: IcoCreditCard },
+  { label: "FAQ", sub: "Got a question?", href: "#faq", icon: IcoInfo },
+  { label: "Blog", sub: "Tips & savings guides", page: "blog", icon: IcoBook },
+  { label: "Partner with us", sub: "List your brand", page: "vendor", icon: IcoBriefcase },
+];
+
 function LandingPage() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -1173,6 +1183,11 @@ function LandingPage() {
   useEffect(() => {
     setPageMeta("The ToolBox | Discounts for the Australian Trade Lifestyle", "Save on workwear, supplements, fitness, golf and more. Australia's first discount membership app for the trade lifestyle. From $4.99/mo.", "/");
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -1230,9 +1245,57 @@ function LandingPage() {
               onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
               Vendor Portal
             </a>
+            <button className="mobile-menu-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu"
+              style={{ display: "none", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff", width: 44, height: 44, borderRadius: 12, cursor: "pointer", alignItems: "center", justifyContent: "center" }}>
+              <IcoMenu />
+            </button>
           </div>
         </div>
       </nav>
+
+      {/* Full-screen mobile nav */}
+      <div className={`mobile-nav-overlay ${menuOpen ? "open" : ""}`} style={{ position: "fixed", inset: 0, zIndex: 200, background: "linear-gradient(160deg, #050d1e 0%, #0a1940 45%, #0d1f4e 100%)", display: "flex", flexDirection: "column", visibility: menuOpen ? "visible" : "hidden", opacity: menuOpen ? 1 : 0, transition: "opacity 0.3s ease, visibility 0.3s ease" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px", height: 80, flexShrink: 0 }}>
+          <img src={LOGO} alt="The ToolBox" style={{ height: 40, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+          <button onClick={() => setMenuOpen(false)} aria-label="Close menu"
+            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff", width: 44, height: 44, borderRadius: 12, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <IcoX />
+          </button>
+        </div>
+        <div style={{ flex: 1, overflowY: "auto", padding: "12px 24px" }}>
+          <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, fontSize: "1.1rem", marginBottom: 20 }}>Where do you want to go?</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
+            {MOBILE_NAV_ITEMS.map(item => {
+              const ItemIcon = item.icon;
+              const content = (
+                <>
+                  <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(91,164,207,0.15)", color: "#5ba4cf", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
+                    <ItemIcon />
+                  </div>
+                  <p style={{ color: "#fff", fontWeight: 900, fontSize: "0.95rem", marginBottom: 4 }}>{item.label}</p>
+                  <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: "0.78rem", lineHeight: 1.4 }}>{item.sub}</p>
+                </>
+              );
+              const tileStyle = { background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: "20px 18px", textDecoration: "none", textAlign: "left", cursor: "pointer", display: "block", fontFamily: "inherit" };
+              return item.page ? (
+                <button key={item.label} onClick={() => { setMenuOpen(false); navigate(`/${item.page}`); }} style={tileStyle}>{content}</button>
+              ) : (
+                <a key={item.label} href={item.href} onClick={() => setMenuOpen(false)} style={tileStyle}>{content}</a>
+              );
+            })}
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 10, padding: 20, borderTop: "1px solid rgba(255,255,255,0.08)", flexShrink: 0 }}>
+          <button onClick={() => { setMenuOpen(false); setShowDL(true); }}
+            style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "#fff", color: "#0d1f4e", padding: "16px 20px", borderRadius: 14, fontWeight: 900, fontSize: 15, border: "none", cursor: "pointer", fontFamily: "inherit" }}>
+            Get the App
+          </button>
+          <a href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}
+            style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "16px 20px", borderRadius: 14, fontWeight: 900, fontSize: 15, textDecoration: "none", border: "1px solid rgba(255,255,255,0.15)" }}>
+            Vendor Portal
+          </a>
+        </div>
+      </div>
 
       {/* Hero */}
       <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(160deg, #050d1e 0%, #0a1940 40%, #0d1f4e 100%)" }}>
@@ -1531,6 +1594,32 @@ function LandingPage() {
               </div>
             ))}
           </div>
+
+          {/* Membership Momentum */}
+          <div className="scroll-reveal momentum-card" style={{ maxWidth: 760, margin: "64px auto 0", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 32, padding: "40px 44px" }}>
+            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 12 }}>Membership Momentum</p>
+            <h3 style={{ fontSize: "clamp(1.4rem, 3vw, 1.9rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", color: "#fff", marginBottom: 14, lineHeight: 1.1 }}>
+              Stay a member. Keep stacking savings.
+            </h3>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 500, fontSize: "0.95rem", lineHeight: 1.65, marginBottom: 32, maxWidth: 580 }}>
+              Based on an average member spending $330/mo across workwear, supplements and gear at ~15% off — the same assumption used in the savings calculator below. Your membership rate stays locked while the savings keep adding up.
+            </p>
+            {(() => {
+              const avgMonthlySpend = 330, avgDiscount = 0.15, annualMembership = 49.99;
+              const netPerYear = avgMonthlySpend * 12 * avgDiscount - annualMembership;
+              return (
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+                  {[1, 2, 3].map(year => (
+                    <div key={year} style={{ textAlign: "center", padding: "22px 12px", borderRadius: 18, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                      <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 10 }}>Year {year}</p>
+                      <p style={{ fontSize: "2rem", fontWeight: 900, color: "#fff", letterSpacing: "-0.03em" }}>${(netPerYear * year).toFixed(0)}</p>
+                      <p style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", fontWeight: 700, marginTop: 4 }}>net savings</p>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
         </div>
       </section>
 
@@ -1652,6 +1741,7 @@ export default function App() {
           .desktop-nav { display: none !important; }
           .vendor-portal-btn { display: none !important; }
           .nav-get-app { display: none !important; }
+          .mobile-menu-btn { display: inline-flex !important; }
           .screenshots-grid { grid-template-columns: 1fr !important; }
           .savings-grid { grid-template-columns: 1fr !important; padding: 32px 24px !important; }
           .vendors-header { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
@@ -1660,6 +1750,7 @@ export default function App() {
           .mission-image-col { display: none !important; }
           .how-steps-grid { grid-template-columns: 1fr !important; }
           .savings-3-grid { grid-template-columns: 1fr !important; }
+          .momentum-card { padding: 28px 24px !important; }
           .founding-full-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
           .savings-callout { flex-direction: column !important; padding: 36px 24px !important; gap: 32px !important; }
         }
