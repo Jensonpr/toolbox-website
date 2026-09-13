@@ -1298,7 +1298,7 @@ function LandingPage() {
       </div>
 
       {/* Hero */}
-      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(160deg, #050d1e 0%, #0a1940 40%, #0d1f4e 100%)" }}>
+      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(180deg, #0a1526 0%, #0a1940 45%, #0d1f4e 100%)" }}>
         {/* Dot grid texture */}
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
         {/* Background glows */}
@@ -1342,7 +1342,7 @@ function LandingPage() {
           <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>$4.99/mo for Founding 500 members · Price increases after 500 spots fill</p>
 
           {/* App review marquee — 3-wide, slow continuous rotation */}
-          <div className="anim-fade-up anim-fade-up-5 hero-review-marquee" style={{ maxWidth: 1040, margin: "0 auto", overflow: "hidden", maskImage: "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)" }}>
+          <div className="anim-fade-up anim-fade-up-5 hero-review-marquee" style={{ maxWidth: 1040, margin: "0 auto", overflow: "hidden", maskImage: "linear-gradient(to right, transparent, #000 22%, #000 78%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, #000 22%, #000 78%, transparent)" }}>
             <div className="hero-review-track" style={{ display: "flex", gap: 20, width: "max-content", animation: "marquee 60s linear infinite" }}>
               {[...APP_REVIEWS, ...APP_REVIEWS].map((r, i) => (
                 <div key={i} className="hero-review-card" style={{ width: 320, flexShrink: 0, boxSizing: "border-box", background: "#fff", borderRadius: 24, padding: "24px 26px", textAlign: "left", boxShadow: "0 20px 50px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column", height: 210 }}>
@@ -1480,7 +1480,7 @@ function LandingPage() {
       </section>
 
       {/* Founding 500 Full Section */}
-      <section style={{ background: "linear-gradient(160deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
+      <section style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(244,196,48,0.06) 1px, transparent 1px)", backgroundSize: "32px 32px", pointerEvents: "none" }} />
         <div style={{ position: "absolute", top: "20%", right: "-10%", width: 600, height: 600, background: "radial-gradient(ellipse, rgba(244,196,48,0.06) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
 
