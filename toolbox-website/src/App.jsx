@@ -1206,10 +1206,10 @@ function LandingPage() {
         {/* Dot grid texture */}
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
         {/* Background glows */}
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 55% at 50% -10%, rgba(91,164,207,0.32) 0%, transparent 65%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: "30%", left: "-5%", width: 500, height: 500, background: "radial-gradient(ellipse, rgba(91,164,207,0.1) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: "20%", right: "-5%", width: 500, height: 500, background: "radial-gradient(ellipse, rgba(91,164,207,0.1) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: "-10%", left: "50%", transform: "translateX(-50%)", width: 1000, height: 500, background: "radial-gradient(ellipse, rgba(91,164,207,0.08) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 100% 60% at 50% -10%, rgba(91,164,207,0.32) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "20%", left: "-15%", width: 900, height: 900, background: "radial-gradient(ellipse, rgba(91,164,207,0.16) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "10%", right: "-15%", width: 900, height: 900, background: "radial-gradient(ellipse, rgba(91,164,207,0.16) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "-10%", left: "50%", transform: "translateX(-50%)", width: 1200, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.1) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
 
         {/* Content — paddingTop clears the fixed nav (~80px) */}
         <div className="hero-content" style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "100px 32px 80px", maxWidth: 1000, width: "100%" }}>
