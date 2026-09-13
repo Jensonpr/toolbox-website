@@ -1005,102 +1005,6 @@ function BlogPostPage() {
   );
 }
 
-// ─── Savings Calculator ───────────────────────────────────────────────────────
-const calcSliderStyle = (value, min, max) => ({
-  width: "100%", height: 6, borderRadius: 99, display: "block",
-  WebkitAppearance: "none", appearance: "none", outline: "none", cursor: "pointer",
-  background: `linear-gradient(to right, #5ba4cf ${((value - min) / (max - min) * 100).toFixed(1)}%, #e2e8f0 ${((value - min) / (max - min) * 100).toFixed(1)}%)`,
-});
-
-function SavingsCalculator({ onJoin }) {
-  const [workwear, setWorkwear] = useState(100);
-  const [supps, setSupps] = useState(80);
-  const [gear, setGear] = useState(150);
-
-  const DISCOUNT = 0.15;
-  const MEMBERSHIP = 4.99;
-  const totalSpend = workwear + supps + gear;
-  const monthlySavings = totalSpend * DISCOUNT;
-  const annualSavings = monthlySavings * 12;
-  const netAnnual = annualSavings - (MEMBERSHIP * 12);
-
-  const labelRow = (label, value) => (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-      <span style={{ fontWeight: 700, fontSize: 15, color: "rgba(13,31,78,0.7)" }}>{label}</span>
-      <span style={{ fontWeight: 900, fontSize: 18, color: "#0d1f4e", letterSpacing: "-0.03em" }}>${value}</span>
-    </div>
-  );
-  const minMax = (min, max) => (
-    <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6 }}>
-      <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(13,31,78,0.3)" }}>${min}</span>
-      <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(13,31,78,0.3)" }}>${max}</span>
-    </div>
-  );
-
-  return (
-    <>
-      <style>{`
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #0d1f4e; cursor: grab; border: 3px solid #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.3); margin-top: -9px; }
-        input[type=range]::-webkit-slider-thumb:active { cursor: grabbing; background: #5ba4cf; }
-        input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 99px; }
-        input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #0d1f4e; cursor: grab; border: 3px solid #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        input[type=range]::-moz-range-track { height: 6px; border-radius: 99px; }
-        .calc-number { transition: all 0.15s ease; }
-      `}</style>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 40, alignItems: "start" }}>
-        <div style={{ background: "#f8fafc", borderRadius: 32, padding: 40, border: "1px solid #e2e8f0" }}>
-          <div style={{ marginBottom: 32 }}>
-            {labelRow("Monthly workwear spend", workwear)}
-            <input type="range" min={0} max={500} step={10} value={workwear} onChange={e => setWorkwear(Number(e.target.value))} style={calcSliderStyle(workwear, 0, 500)} />
-            {minMax(0, 500)}
-          </div>
-          <div style={{ marginBottom: 32 }}>
-            {labelRow("Monthly supplement spend", supps)}
-            <input type="range" min={0} max={300} step={10} value={supps} onChange={e => setSupps(Number(e.target.value))} style={calcSliderStyle(supps, 0, 300)} />
-            {minMax(0, 300)}
-          </div>
-          <div style={{ marginBottom: 32 }}>
-            {labelRow("Monthly tools & gear spend", gear)}
-            <input type="range" min={0} max={500} step={10} value={gear} onChange={e => setGear(Number(e.target.value))} style={calcSliderStyle(gear, 0, 500)} />
-            {minMax(0, 500)}
-          </div>
-          <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(13,31,78,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Total monthly spend</span>
-            <span className="calc-number" style={{ fontSize: 20, fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em" }}>${totalSpend}</span>
-          </div>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div style={{ background: "#0d1f4e", borderRadius: 28, padding: 36 }}>
-            <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 10 }}>Monthly savings</p>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 6, marginBottom: 8 }}>
-              <span className="calc-number" style={{ fontSize: "3.5rem", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>${monthlySavings.toFixed(0)}</span>
-              <span style={{ fontSize: "1.1rem", color: "rgba(255,255,255,0.4)", fontWeight: 700, paddingBottom: 6 }}>/mo</span>
-            </div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontWeight: 600, fontSize: 13 }}>At ~15% avg discount across partner brands</p>
-          </div>
-
-          <div style={{ background: "#5ba4cf", borderRadius: 28, padding: 36 }}>
-            <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 10 }}>Annual savings</p>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 6, marginBottom: 8 }}>
-              <span className="calc-number" style={{ fontSize: "3.5rem", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>${annualSavings.toFixed(0)}</span>
-              <span style={{ fontSize: "1.1rem", color: "rgba(255,255,255,0.6)", fontWeight: 700, paddingBottom: 6 }}>/yr</span>
-            </div>
-            <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: 13 }}>After $4.99/mo membership: <strong style={{ color: "#fff" }}>${netAnnual.toFixed(0)} net</strong></p>
-          </div>
-
-          <button onClick={onJoin}
-            style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "#0d1f4e", color: "#fff", padding: "20px", borderRadius: 20, fontWeight: 900, fontSize: "1.05rem", fontStyle: "italic", border: "none", cursor: "pointer", transition: "background 0.2s", boxSizing: "border-box", fontFamily: "inherit" }}
-            onMouseOver={e => e.currentTarget.style.background = "#5ba4cf"}
-            onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
-            Download Free
-          </button>
-        </div>
-      </div>
-    </>
-  );
-}
-
 // ─── Landing Page ─────────────────────────────────────────────────────────────
 const HOW_STEPS = [
   { num: "01", title: "Browse the App", desc: "Search 40+ partner brands by category — workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-promo.png" },
@@ -1111,7 +1015,7 @@ const HOW_STEPS = [
 
 function HowItWorksSection({ onDownload }) {
   return (
-    <section id="about" style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
+    <section id="about" style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "80px 0", position: "relative", overflow: "hidden" }}>
       {/* Dot grid texture */}
       <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.12) 1px, transparent 1px)", backgroundSize: "36px 36px", pointerEvents: "none", opacity: 0.7 }} />
       {/* Center glow */}
@@ -1366,7 +1270,7 @@ function LandingPage() {
       </section>
 
       {/* Mission + Vendors */}
-      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #0d1f4e", padding: "128px 0 96px", overflow: "hidden", width: "100%", boxSizing: "border-box", position: "relative" }}>
+      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #0d1f4e", padding: "88px 0 64px", overflow: "hidden", width: "100%", boxSizing: "border-box", position: "relative" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
           <div className="scroll-reveal-left">
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Story</p>
@@ -1420,7 +1324,7 @@ function LandingPage() {
       <HowItWorksSection onDownload={() => setShowDL(true)} />
 
       {/* Savings Proof Section */}
-      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #0d1f4e", padding: "112px 0", width: "100%", boxSizing: "border-box", position: "relative" }}>
+      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #0d1f4e", padding: "80px 0", width: "100%", boxSizing: "border-box", position: "relative" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
           <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 72 }}>
             <p style={{ color: "#22c55e", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Real Value, Every Use</p>
@@ -1480,7 +1384,7 @@ function LandingPage() {
       </section>
 
       {/* Founding 500 Full Section */}
-      <section style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "112px 0", position: "relative", overflow: "hidden" }}>
+      <section style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "80px 0", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(244,196,48,0.06) 1px, transparent 1px)", backgroundSize: "32px 32px", pointerEvents: "none" }} />
         <div style={{ position: "absolute", top: "20%", right: "-10%", width: 600, height: 600, background: "radial-gradient(ellipse, rgba(244,196,48,0.06) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
 
@@ -1548,7 +1452,7 @@ function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" style={{ background: "#0d1f4e", padding: "96px 0", scrollMarginTop: 80, position: "relative", overflow: "hidden" }}>
+      <section id="pricing" style={{ background: "#0d1f4e", padding: "72px 0", scrollMarginTop: 80, position: "relative", overflow: "hidden" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
           <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
@@ -1624,21 +1528,7 @@ function LandingPage() {
       </section>
 
       {/* FAQ */}
-      {/* Savings Calculator */}
-      <section style={{ background: "#0d1f4e", padding: "96px 0", width: "100%", boxSizing: "border-box" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 12 }}>See For Yourself</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 0.9, fontStyle: "italic", textTransform: "uppercase" }}>
-              How much will<br />you save<span style={{ color: "#5ba4cf" }}>?</span>
-            </h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 20, fontSize: "1.05rem" }}>Slide to match your monthly spend and see your savings.</p>
-          </div>
-          <SavingsCalculator onJoin={() => setShowDL(true)} />
-        </div>
-      </section>
-
-      <section id="faq" style={{ background: "#0d1f4e", padding: "96px 0", scrollMarginTop: 80, width: "100%", boxSizing: "border-box" }}>
+      <section id="faq" style={{ background: "#0d1f4e", padding: "72px 0", scrollMarginTop: 80, width: "100%", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#fff" }}>
@@ -1649,8 +1539,8 @@ function LandingPage() {
             {[
               { q: "How do I use my discount?", a: "Once you're a member, simply open the app and show your digital membership card in-store at any of our partner vendors, or use the provided promo code for online orders." },
               { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
-              { q: "Which brands are included?", a: "We have 40+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
-              { q: "Can I use it anywhere in Australia?", a: "Currently we are focused on Victoria-based vendors and legends, but we are expanding rapidly to other states very soon. Stay tuned!" },
+              { q: "Which brands are included?", a: "We have 50+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
+              { q: "Can I use it anywhere in Australia?", a: "We're actively scoping out vendors across every state in Australia. If there's a business near you that should be on The ToolBox, let us know — we'd love to add them!" },
               { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
             ].map((item, i) => (
               <div key={i} className="faq-row scroll-reveal" style={{ borderRadius: 24, border: "1px solid rgba(255,255,255,0.08)", overflow: "hidden", transitionDelay: `${i * 0.07}s` }}>
