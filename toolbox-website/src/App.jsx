@@ -37,6 +37,11 @@ const IcoGoogle = ({ size = 20 }) => (
     <path d="M4.07 2.18C3.36 1.76 2.5 2.28 2.5 3.1v17.8c0 .82.86 1.34 1.57.92l15-8.9a1.05 1.05 0 000-1.84l-15-8.9z"/>
   </svg>
 );
+const IcoStar = ({ size = 16, color = "#f4c430" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} style={{ flexShrink: 0 }}>
+    <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 7.1-1.01L12 2z"/>
+  </svg>
+);
 
 const APP_STORE_URL = "https://apps.apple.com/au/app/id6757898214";
 const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.the.tool.box.app";
@@ -58,13 +63,13 @@ const VENDORS = [
   { name: "Sunday Fairway", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_16_irf3fo.png" },
 ];
 
-const TESTIMONIALS = [
-  { text: "Finally, an app that actually looks after the blokes on the tools. Paid for itself in one shop.", author: "Mick R.", trade: "Carpenter (VIC)", seed: "tradie1" },
-  { text: "The savings on workwear alone are insane. The Anthem and Hard Hat deals are top notch.", author: "Sarah L.", trade: "Sparky (VIC)", seed: "tradie2" },
-  { text: "Showing the digital card in-store is so easy. No messing around with physical vouchers.", author: "Dave K.", trade: "Plumber (VIC)", seed: "tradie3" },
-  { text: "Best $4.99 I spend every month. The supplement discounts keep me going through the week.", author: "Jason B.", trade: "Bricky (VIC)", seed: "tradie4" },
-  { text: "Membership support is actual humans. Had a question and got a reply in minutes.", author: "Tom H.", trade: "Apprentice (VIC)", seed: "tradie5" },
-  { text: "Every apprentice should have this. Makes the weekly budget go way further.", author: "Luke M.", trade: "Landscaper (TAS)", seed: "tradie6" },
+const APP_REVIEWS = [
+  { rating: 5, title: "The Best Discount App I've Used", date: "25 July", author: "JTurnbulll", text: "Such a brilliant idea! The Toolbox app has honestly helped me save so much money on things I already buy all the time. The range of discounts is fantastic, especially the tradie discounts, but there are heaps of other offers across everyday brands and services too. It's easy to use, the savings add up quickly, and it's much better than wasting time searching for discount codes online. If you're looking to save money on your regular purchases, I'd definitely recommend giving it a go!" },
+  { rating: 5, title: "So Much Value", date: "25 July", author: "Hbbbrown", text: "Heaps of great deals at some of my favourite stores. The app itself is easy to use and I can also track how much I've saved in total!" },
+  { rating: 5, title: "10/10", date: "25 July", author: "MJH26016", text: "Extremely functional and easy for all to use, helps me to save money on so many essential things!" },
+  { rating: 5, title: "Everyone NEEDS this app!!", date: "25 July", author: "EJP1705", text: "10/10! Can't recommend this app enough!!! Saving so much money on the things I want and love. Everyone needs this 💪" },
+  { rating: 5, title: "Ease of use!", date: "29 July", author: "Jjjay78", text: "Such a clean and easy to use app, membership price pays itself back in a couple of purchases." },
+  { rating: 5, title: "Great app", date: "31 July", author: "Tomthorn4", text: "Amazing app so easy to use and saving me so much money already, honestly feels like a life hack" },
 ];
 
 const LOGO = "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016811/TheToolbox-White_2x_iqjf8y.png";
@@ -1095,26 +1100,6 @@ function SavingsCalculator({ onJoin }) {
   );
 }
 
-function useCountUp(target, duration = 1000, startDelay = 750) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    const t = setTimeout(() => {
-      let start = null;
-      const step = (ts) => {
-        if (!start) start = ts;
-        const progress = Math.min((ts - start) / duration, 1);
-        const ease = 1 - Math.pow(1 - progress, 3);
-        setCount(Math.floor(ease * target));
-        if (progress < 1) requestAnimationFrame(step);
-        else setCount(target);
-      };
-      requestAnimationFrame(step);
-    }, startDelay);
-    return () => clearTimeout(t);
-  }, [target]);
-  return count;
-}
-
 // ─── Landing Page ─────────────────────────────────────────────────────────────
 const HOW_STEPS = [
   { num: "01", title: "Browse the App", desc: "Search 40+ partner brands by category — workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-promo.png" },
@@ -1185,11 +1170,14 @@ function LandingPage() {
   const [openFaq, setOpenFaq] = useState(null);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [showDL, setShowDL] = useState(false);
-  const count25 = useCountUp(50, 900, 800);
-  const count500 = useCountUp(500, 1100, 800);
 
   useEffect(() => {
     setPageMeta("The ToolBox | Discounts for the Australian Trade Lifestyle", "Save on workwear, supplements, fitness, golf and more. Australia's first discount membership app for the trade lifestyle. From $4.99/mo.", "/");
+  }, []);
+
+  useEffect(() => {
+    const t = setInterval(() => setTestimonialIdx(i => (i + 1) % APP_REVIEWS.length), 5000);
+    return () => clearInterval(t);
   }, []);
 
   useEffect(() => {
@@ -1296,14 +1284,33 @@ function LandingPage() {
           </div>
           <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>$4.99/mo for Founding 500 members · Price increases after 500 spots fill</p>
 
-          {/* Stat cards */}
-          <div className="anim-fade-up anim-fade-up-5 hero-stat-cards" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            {[["$4.99", "Founding Price/mo"], [`${count25}+`, "Partner Brands"], [`${count500}`, "Founding Spots"]].map(([val, label]) => (
-              <div key={label} className="hero-stat-card" style={{ background: "#5ba4cf", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 20, padding: "20px 32px", minWidth: 160, textAlign: "center" }}>
-                <p style={{ fontSize: "2.4rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 1, marginBottom: 6 }}>{val}</p>
-                <p style={{ fontSize: 10, fontWeight: 900, color: "rgba(255,255,255,0.75)", textTransform: "uppercase", letterSpacing: "0.2em" }}>{label}</p>
+          {/* App review carousel */}
+          <div className="anim-fade-up anim-fade-up-5 hero-review-carousel" style={{ maxWidth: 560, margin: "0 auto" }}>
+            <div style={{ overflow: "hidden", borderRadius: 24, background: "#fff", boxShadow: "0 24px 60px rgba(0,0,0,0.3)" }}>
+              <div style={{ display: "flex", transform: `translateX(-${testimonialIdx * 100}%)`, transition: "transform 0.6s cubic-bezier(0.65,0,0.35,1)" }}>
+                {APP_REVIEWS.map((r, i) => (
+                  <div key={i} className="hero-review-card" style={{ flex: "0 0 100%", boxSizing: "border-box", padding: "28px 32px", textAlign: "left" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 10 }}>
+                      <p style={{ fontWeight: 900, fontSize: "1.05rem", color: "#0d1f4e", lineHeight: 1.3 }}>{r.title}</p>
+                      <div style={{ textAlign: "right", flexShrink: 0 }}>
+                        <p style={{ fontSize: 12, color: "#94a3b8", fontWeight: 700 }}>{r.date}</p>
+                        <p style={{ fontSize: 12, color: "#94a3b8", fontWeight: 700 }}>{r.author}</p>
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", gap: 3, marginBottom: 14 }}>
+                      {Array.from({ length: r.rating }).map((_, s) => <IcoStar key={s} size={15} />)}
+                    </div>
+                    <p style={{ fontSize: 14, color: "#475569", fontWeight: 500, lineHeight: 1.65 }}>{r.text}</p>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+            <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 18 }}>
+              {APP_REVIEWS.map((_, i) => (
+                <button key={i} onClick={() => setTestimonialIdx(i)} aria-label={`Show review ${i + 1}`}
+                  style={{ width: i === testimonialIdx ? 20 : 6, height: 6, borderRadius: 3, border: "none", padding: 0, cursor: "pointer", background: i === testimonialIdx ? "#fff" : "rgba(255,255,255,0.3)", transition: "all 0.3s" }} />
+              ))}
+            </div>
           </div>
         </div>
 
@@ -1638,8 +1645,6 @@ export default function App() {
         .hero-dl-ios:hover { animation: none !important; transform: translateY(-3px) scale(1.03) !important; background: #5ba4cf !important; color: #fff !important; box-shadow: 0 0 56px rgba(91,164,207,0.6) !important; }
         .hero-dl-android { transition: all 0.25s cubic-bezier(0.22,1,0.36,1) !important; }
         .hero-dl-android:hover { transform: translateY(-3px) !important; background: rgba(255,255,255,0.18) !important; border-color: rgba(255,255,255,0.5) !important; }
-        .hero-stat-card { transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), background 0.3s !important; }
-        .hero-stat-card:hover { transform: translateY(-6px) scale(1.05) !important; background: #4a92bd !important; }
         .savings-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s, border-color 0.35s !important; }
         .savings-card:hover { transform: translateY(-8px) scale(1.01) !important; box-shadow: 0 32px 64px rgba(0,0,0,0.12) !important; border-color: #5ba4cf !important; }
         .founding-perk { transition: background 0.2s, padding-left 0.2s !important; }
@@ -1656,9 +1661,8 @@ export default function App() {
           .hero-content { padding-top: 88px !important; padding-bottom: 60px !important; }
           .hero-store-btns { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
           .hero-store-btns a { justify-content: center !important; padding: 16px 24px !important; }
-          .hero-stat-cards { gap: 10px !important; padding: 0 8px !important; }
-          .hero-stat-card { padding: 18px 12px !important; min-width: 0 !important; flex: 1 !important; }
-          .hero-stat-card p:first-child { font-size: 1.8rem !important; }
+          .hero-review-carousel { padding: 0 8px !important; }
+          .hero-review-card { padding: 22px 20px !important; }
           .desktop-nav { display: none !important; }
           .vendor-portal-btn { display: none !important; }
           .nav-get-app { display: none !important; }
