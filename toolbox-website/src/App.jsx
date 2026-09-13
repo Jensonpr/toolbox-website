@@ -1005,52 +1005,148 @@ function BlogPostPage() {
   );
 }
 
+// ─── Founding 500 scramble progress ────────────────────────────────────────────
+const FOUNDING_CLAIMED = 247, FOUNDING_TOTAL = 500, FOUNDING_LEFT = FOUNDING_TOTAL - FOUNDING_CLAIMED;
+function FoundingProgress() {
+  const ref = useRef(null);
+  const started = useRef(false);
+  const [claimed, setClaimed] = useState(0);
+  const [left, setLeft] = useState(0);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || started.current) return;
+      started.current = true;
+      if (reduceMotion) { setClaimed(FOUNDING_CLAIMED); setLeft(FOUNDING_LEFT); return; }
+      const duration = 900;
+      let start = null;
+      const step = (ts) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        if (progress < 1) {
+          setClaimed(Math.floor(Math.random() * FOUNDING_TOTAL));
+          setLeft(Math.floor(Math.random() * FOUNDING_TOTAL));
+          requestAnimationFrame(step);
+        } else {
+          setClaimed(FOUNDING_CLAIMED);
+          setLeft(FOUNDING_LEFT);
+        }
+      };
+      requestAnimationFrame(step);
+    }, { threshold: 0.5 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} style={{ marginBottom: 36 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+        <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)", fontVariantNumeric: "tabular-nums" }}>{claimed} of {FOUNDING_TOTAL} claimed</span>
+        <span style={{ fontSize: 13, fontWeight: 900, color: "#f4c430", fontVariantNumeric: "tabular-nums" }}>{left} spots left</span>
+      </div>
+      <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 10, overflow: "hidden", marginBottom: 10 }}>
+        <div style={{ width: "49.4%", height: "100%", background: "linear-gradient(to right, #f4c430, #fbbf24)", borderRadius: 99 }} />
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
+        <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>Spots filling fast</span>
+      </div>
+    </div>
+  );
+}
+
 // ─── Landing Page ─────────────────────────────────────────────────────────────
 const HOW_STEPS = [
-  { num: "01", title: "Browse the App", desc: "Search 50+ partner brands by category - workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-promo.png" },
+  { num: "01", title: "Browse the App", desc: "Search 50+ partner brands by category - workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-savings.png" },
   { num: "02", title: "Find a Deal Near You", desc: "Locate partner stores near you on the map, or grab your online member code for stores you can't visit in person.", img: "/app-screens/app-map.png" },
-  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done - savings in your pocket.", img: "/app-screens/app-savings.png" },
-  { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/app-browse.png" },
+  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done - savings in your pocket.", img: "/app-screens/app-browse.png" },
+  { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/app-promo.png" },
 ];
 
 function HowItWorksSection({ onDownload }) {
+  const [activeStep, setActiveStep] = useState(0);
+  const stepRefs = useRef([]);
+
+  useEffect(() => {
+    let ticking = false;
+    const pickClosest = () => {
+      const viewportCenter = window.innerHeight / 2;
+      let closestIdx = 0, closestDist = Infinity;
+      stepRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const dist = Math.abs(rect.top + rect.height / 2 - viewportCenter);
+        if (dist < closestDist) { closestDist = dist; closestIdx = i; }
+      });
+      setActiveStep(closestIdx);
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) { requestAnimationFrame(pickClosest); ticking = true; }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    pickClosest();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <section id="about" style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "80px 0", position: "relative", overflow: "hidden" }}>
-      {/* Dot grid texture */}
-      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.12) 1px, transparent 1px)", backgroundSize: "36px 36px", pointerEvents: "none", opacity: 0.7 }} />
-      {/* Center glow */}
-      <div style={{ position: "absolute", top: "40%", left: "50%", transform: "translate(-50%,-50%)", width: 900, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.08) 0%, transparent 65%)", pointerEvents: "none" }} />
+    <section id="about" style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "80px 0", position: "relative" }}>
+      {/* Decorative background layer (clipped separately so it doesn't break position:sticky below) */}
+      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+        {/* Dot grid texture */}
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.12) 1px, transparent 1px)", backgroundSize: "36px 36px", opacity: 0.7 }} />
+        {/* Center glow */}
+        <div style={{ position: "absolute", top: "40%", left: "50%", transform: "translate(-50%,-50%)", width: 900, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.08) 0%, transparent 65%)" }} />
+      </div>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px", position: "relative" }}>
 
         {/* Centered heading */}
-        <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 72 }}>
+        <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 56 }}>
           <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Inside the App</p>
           <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff", lineHeight: 0.9 }}>
             How it <span style={{ color: "#5ba4cf" }}>Works.</span>
           </h2>
         </div>
 
-        {/* 2×2 step grid */}
-        <div className="how-steps-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20, marginBottom: 64 }}>
-          {HOW_STEPS.map((s, i) => (
-            <div key={i} className={`scroll-reveal step-card scroll-reveal-d${i + 1}`} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 24, padding: "36px 32px 32px", position: "relative", overflow: "hidden" }}>
-              {/* Faded giant number */}
-              <span style={{ position: "absolute", top: -2, right: 14, fontSize: "5.5rem", fontWeight: 900, fontStyle: "italic", letterSpacing: "-0.06em", color: "rgba(255,255,255,0.05)", lineHeight: 1, userSelect: "none", pointerEvents: "none" }}>{s.num}</span>
-
-              {/* Step pill */}
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.22)", borderRadius: 100, padding: "5px 13px", marginBottom: 22 }}>
-                <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#5ba4cf", flexShrink: 0 }} />
-                <span style={{ fontSize: 10, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.18em" }}>Step {s.num}</span>
-              </div>
-
-              <h3 style={{ fontSize: "1.15rem", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", color: "#fff", marginBottom: 12 }}>{s.title}</h3>
-              <p style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.45)", fontWeight: 500, lineHeight: 1.75, margin: 0 }}>{s.desc}</p>
-
-              {/* Bottom glow line */}
-              <div style={{ position: "absolute", bottom: 0, left: "20%", right: "20%", height: 1, background: "linear-gradient(to right, transparent, rgba(91,164,207,0.4), transparent)" }} />
+        {/* Pinned screenshot + scrolling steps */}
+        <div className="how-steps-pinned" style={{ display: "grid", gridTemplateColumns: "0.85fr 1fr", gap: 64, marginBottom: 32 }}>
+          {/* Sticky phone visual */}
+          <div className="how-steps-visual" style={{ position: "sticky", top: 120, alignSelf: "start", display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+            <div style={{ position: "relative", width: "100%", maxWidth: 280, aspectRatio: "293 / 600" }}>
+              {HOW_STEPS.map((s, i) => (
+                <img key={i} src={s.img} alt={s.title}
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", opacity: activeStep === i ? 1 : 0, transition: "opacity 0.5s ease" }} />
+              ))}
             </div>
-          ))}
+            {/* Progress dots (also a skip cue - click to jump) */}
+            <div style={{ display: "flex", gap: 8 }}>
+              {HOW_STEPS.map((s, i) => (
+                <button key={i} onClick={() => stepRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" })}
+                  aria-label={`Jump to step ${s.num}`}
+                  style={{ width: activeStep === i ? 22 : 7, height: 7, borderRadius: 4, border: "none", padding: 0, cursor: "pointer", background: activeStep === i ? "#5ba4cf" : "rgba(255,255,255,0.15)", transition: "all 0.3s" }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Step narrative */}
+          <div className="how-steps-list">
+            {HOW_STEPS.map((s, i) => (
+              <div key={i} ref={el => stepRefs.current[i] = el} data-step-index={i}
+                style={{ minHeight: "56vh", display: "flex", flexDirection: "column", justifyContent: "center", opacity: activeStep === i ? 1 : 0.35, transition: "opacity 0.4s ease" }}>
+                <span style={{ fontSize: "4rem", fontWeight: 900, fontStyle: "italic", letterSpacing: "-0.06em", color: "rgba(255,255,255,0.08)", lineHeight: 1, userSelect: "none", marginBottom: 8 }}>{s.num}</span>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.22)", borderRadius: 100, padding: "5px 13px", marginBottom: 18, width: "fit-content" }}>
+                  <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#5ba4cf", flexShrink: 0 }} />
+                  <span style={{ fontSize: 10, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.18em" }}>Step {s.num}</span>
+                </div>
+                <h3 style={{ fontSize: "1.8rem", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", color: "#fff", marginBottom: 14 }}>{s.title}</h3>
+                <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.75, margin: 0, maxWidth: 420 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* CTA */}
@@ -1401,19 +1497,7 @@ function LandingPage() {
               </p>
 
               {/* Progress bar */}
-              <div style={{ marginBottom: 36 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>247 of 500 claimed</span>
-                  <span style={{ fontSize: 13, fontWeight: 900, color: "#f4c430" }}>253 spots left</span>
-                </div>
-                <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 10, overflow: "hidden", marginBottom: 10 }}>
-                  <div style={{ width: "49.4%", height: "100%", background: "linear-gradient(to right, #f4c430, #fbbf24)", borderRadius: 99 }} />
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
-                  <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>Spots filling fast</span>
-                </div>
-              </div>
+              <FoundingProgress />
 
               <button onClick={() => setShowDL(true)}
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#f4c430", color: "#0d1f4e", padding: "18px 40px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", border: "none", cursor: "pointer", transition: "all 0.25s", fontFamily: "inherit", boxShadow: "0 0 48px rgba(244,196,48,0.3)" }}
@@ -1567,7 +1651,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; background: #0d1f4e; } button, input, textarea, select { font-family: inherit; }
+        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; max-width: 100%; background: #0d1f4e; } button, input, textarea, select { font-family: inherit; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes heroLine { from { opacity: 0; transform: translateY(48px) skewX(-2deg); } to { opacity: 1; transform: translateY(0) skewX(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -1591,8 +1675,6 @@ export default function App() {
         .faq-row { transition: border-color 0.2s; } .faq-row:hover { border-color: rgba(91,164,207,0.4) !important; }
         .blog-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1) !important; }
         .blog-card:hover { transform: translateY(-8px) !important; box-shadow: 0 24px 48px rgba(0,0,0,0.13) !important; }
-        .step-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), border-color 0.35s, background 0.35s, box-shadow 0.35s !important; }
-        .step-card:hover { transform: translateY(-6px) !important; background: rgba(91,164,207,0.07) !important; border-color: rgba(91,164,207,0.3) !important; box-shadow: 0 24px 56px rgba(0,0,0,0.25), 0 0 0 1px rgba(91,164,207,0.15) !important; }
         .btn-scale:hover { transform: scale(1.04) !important; } .btn-scale:active { transform: scale(0.97) !important; }
         button:active { transform: scale(0.97); }
         body { background: #0d1f4e; }
@@ -1637,7 +1719,9 @@ export default function App() {
           .vendors-header-right p { text-align: left !important; max-width: 100% !important; }
           .vendors-header-right > div { justify-content: flex-start !important; }
           .mission-image-col { display: none !important; }
-          .how-steps-grid { grid-template-columns: 1fr !important; }
+          .how-steps-pinned { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .how-steps-visual { position: static !important; margin-bottom: 8px !important; }
+          .how-steps-list > div { min-height: 0 !important; opacity: 1 !important; padding: 24px 0 !important; }
           .savings-3-grid { grid-template-columns: 1fr !important; }
           .momentum-card { padding: 28px 24px !important; }
           .founding-full-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
