@@ -150,7 +150,7 @@ const BLOG_POSTS = [
       { type: "h2", text: "What ToolBox Members Get" },
       { type: "p", text: "As a ToolBox member, you get an exclusive discount at Elite Supplements  -  in-store and online. Whether you're picking up your usual protein tub or trying something new for recovery, the savings add up across the year. For members who buy supps regularly, this deal alone covers the membership cost multiple times over." },
       { type: "h2", text: "Find Them in the App" },
-      { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 40+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
+      { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 50+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
     ],
   },
   {
@@ -161,12 +161,12 @@ const BLOG_POSTS = [
     date: "July 25, 2026",
     readTime: "3 min read",
     author: "The ToolBox Team",
-    excerpt: "After months of building, testing, and signing up 40+ partner brands  -  The ToolBox is officially live on the App Store and Google Play. Here's what that means for Australian tradies.",
+    excerpt: "After months of building, testing, and signing up 50+ partner brands  -  The ToolBox is officially live on the App Store and Google Play. Here's what that means for Australian tradies.",
     content: [
       { type: "p", text: "It's here. The ToolBox  -  Australia's first discount membership app built specifically for tradies  -  is now available to download on the App Store and Google Play. For $4.99 a month, members get instant access to exclusive deals across workwear, supplements, fitness, grooming, food, tech, and more." },
       { type: "h2", text: "What We Built and Why" },
       { type: "p", text: "The idea behind The ToolBox is simple: tradies spend serious money on the gear, food, and lifestyle that keeps them going  -  but they never get the bulk buying power that corporate memberships or big brands take for granted. We fixed that." },
-      { type: "p", text: "We went out and negotiated directly with 40+ Australian brands to lock in real discounts  -  not token offers, but genuine savings on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
+      { type: "p", text: "We went out and negotiated directly with 50+ Australian brands to lock in real discounts  -  not token offers, but genuine savings on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
       { type: "h2", text: "200 Founding Members Before We Even Launched" },
       { type: "p", text: "One of the things that made this launch special: over 200 people joined the waitlist before we went live. That's 200 tradies who saw the value before a single deal was redeemable. Those are our Founding Members  -  they're locked in at $4.99/mo for life, no matter where pricing goes." },
       { type: "p", text: "There are still 253 founding member spots available for the first people who download and subscribe. Once those are gone, they're gone." },
@@ -255,14 +255,14 @@ const BLOG_POSTS = [
   {
     id: 8,
     slug: "30-vendor-partners-toolbox-network",
-    title: "40+ Brand Partnerships: How The ToolBox Built Australia's Best Tradie Deal Network",
+    title: "50+ Brand Partnerships: How The ToolBox Built Australia's Best Tradie Deal Network",
     category: "Vendor Spotlight",
     date: "June 25, 2026",
     readTime: "5 min read",
     author: "The ToolBox Team",
-    excerpt: "Getting 40+ brands on board before launch wasn't easy. Here's how The ToolBox built a deal network that actually works for tradies  -  and what it means for members.",
+    excerpt: "Getting 50+ brands on board before launch wasn't easy. Here's how The ToolBox built a deal network that actually works for tradies  -  and what it means for members.",
     content: [
-      { type: "p", text: "Building a discount network that tradies would actually use meant doing two things most apps don't bother with: finding brands tradies already love, and negotiating deals that are genuinely worth redeeming. Here's how we got to 40+ partners before we even launched." },
+      { type: "p", text: "Building a discount network that tradies would actually use meant doing two things most apps don't bother with: finding brands tradies already love, and negotiating deals that are genuinely worth redeeming. Here's how we got to 50+ partners before we even launched." },
       { type: "h2", text: "Why Vendor Partnerships Matter" },
       { type: "p", text: "A discount app is only as good as its partners. Generic 5%-off vouchers at brands nobody uses don't save anyone money. From the start, we focused on building relationships with brands that already had tradie audiences  -  and negotiating minimums that made the membership worth carrying." },
       { type: "p", text: "The result: real deals across categories that cover the full tradie lifestyle  -  not token offers, but savings members actually notice." },
@@ -1007,9 +1007,9 @@ function BlogPostPage() {
 
 // ─── Landing Page ─────────────────────────────────────────────────────────────
 const HOW_STEPS = [
-  { num: "01", title: "Browse the App", desc: "Search 40+ partner brands by category — workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-promo.png" },
+  { num: "01", title: "Browse the App", desc: "Search 50+ partner brands by category - workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-promo.png" },
   { num: "02", title: "Find a Deal Near You", desc: "Locate partner stores near you on the map, or grab your online member code for stores you can't visit in person.", img: "/app-screens/app-map.png" },
-  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done — savings in your pocket.", img: "/app-screens/app-savings.png" },
+  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done - savings in your pocket.", img: "/app-screens/app-savings.png" },
   { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/app-browse.png" },
 ];
 
@@ -1207,11 +1207,10 @@ function LandingPage() {
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
         {/* Background glows */}
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 100% 60% at 50% -10%, rgba(91,164,207,0.32) 0%, transparent 70%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: "20%", left: "-15%", width: 900, height: 900, background: "radial-gradient(ellipse, rgba(91,164,207,0.16) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: "10%", right: "-15%", width: 900, height: 900, background: "radial-gradient(ellipse, rgba(91,164,207,0.16) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(91,164,207,0.3) 0%, transparent 32%, transparent 68%, rgba(91,164,207,0.3) 100%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "-10%", left: "50%", transform: "translateX(-50%)", width: 1200, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.1) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
 
-        {/* Content — paddingTop clears the fixed nav (~80px) */}
+        {/* Content - paddingTop clears the fixed nav (~80px) */}
         <div className="hero-content" style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "100px 32px 80px", maxWidth: 1000, width: "100%" }}>
 
           {/* Live badge */}
@@ -1232,7 +1231,7 @@ function LandingPage() {
           </p>
 
           {/* Store buttons */}
-          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.28em", marginBottom: 18 }}>↓ Start saving today — free to download</p>
+          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.28em", marginBottom: 18 }}>↓ Start saving today - free to download</p>
           <div className="anim-fade-up anim-fade-up-4 hero-store-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 16 }}>
             <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="hero-dl-ios"
               style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "#fff", color: "#0d1f4e", padding: "20px 44px", borderRadius: 100, fontWeight: 900, fontSize: "1.1rem", textDecoration: "none", whiteSpace: "nowrap" }}>
@@ -1245,7 +1244,7 @@ function LandingPage() {
           </div>
           <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>$4.99/mo for Founding 500 members · Price increases after 500 spots fill</p>
 
-          {/* App review marquee — 3-wide, slow continuous rotation */}
+          {/* App review marquee - 3-wide, slow continuous rotation */}
           <div className="anim-fade-up anim-fade-up-5 hero-review-marquee" style={{ maxWidth: 1040, margin: "0 auto", overflow: "hidden", maskImage: "linear-gradient(to right, transparent, #000 22%, #000 78%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, #000 22%, #000 78%, transparent)" }}>
             <div className="hero-review-track" style={{ display: "flex", gap: 20, width: "max-content", animation: "marquee 60s linear infinite" }}>
               {[...APP_REVIEWS, ...APP_REVIEWS].map((r, i) => (
@@ -1278,7 +1277,7 @@ function LandingPage() {
               Built for the<br />trade lifestyle<span style={{ color: "#5ba4cf" }}>.</span>
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: "1.1rem", color: "rgba(255,255,255,0.6)", fontWeight: 500, lineHeight: 1.7, maxWidth: 480 }}>
-              <p>The ToolBox wasn't born in a boardroom — it was born on site. We got sick of seeing everyone else get the perks while the people doing the hard yards got the short end of the stick.</p>
+              <p>The ToolBox wasn't born in a boardroom - it was born on site. We got sick of seeing everyone else get the perks while the people doing the hard yards got the short end of the stick.</p>
               <p>Whether you're on the tools or just live that lifestyle, this app is built to put real money back in your pocket.</p>
             </div>
           </div>
@@ -1366,7 +1365,7 @@ function LandingPage() {
                 Real savings.<br /><span style={{ color: "#5ba4cf" }}>Not left to chance.</span>
               </h3>
               <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.7, maxWidth: 420, fontSize: "0.95rem" }}>
-                Every deal in The ToolBox is available every single time you open the app. No draws, no waiting, no luck required — just guaranteed discounts on the brands you already buy, ready whenever you are.
+                Every deal in The ToolBox is available every single time you open the app. No draws, no waiting, no luck required - just guaranteed discounts on the brands you already buy, ready whenever you are.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14, flexShrink: 0 }}>
@@ -1398,7 +1397,7 @@ function LandingPage() {
                 Founding<br /><span style={{ color: "#f4c430" }}>500.</span>
               </h2>
               <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.7, fontSize: "1rem", marginBottom: 36 }}>
-                Be part of the first 500 members and lock in $4.99/mo forever — even when pricing goes up. These perks won't come back once the spots are gone.
+                Be part of the first 500 members and lock in $4.99/mo forever - even when pricing goes up. These perks won't come back once the spots are gone.
               </p>
 
               {/* Progress bar */}
@@ -1457,12 +1456,12 @@ function LandingPage() {
           <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff" }}>Pick your plan.</h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>These are <strong style={{ color: "#f4c430" }}>Founding 500 prices</strong> — locked in for life. Once spots fill, pricing goes up.</p>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>These are <strong style={{ color: "#f4c430" }}>Founding 500 prices</strong> - locked in for life. Once spots fill, pricing goes up.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 960, margin: "0 auto" }}>
             {[
               { name: "Monthly Pro", price: "$4.99", period: "/ mo", desc: "Founding 500 Rate · Cancel Anytime", highlight: false,
-                feats: ["Discounts across 40+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"],
+                feats: ["Discounts across 50+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"],
                 badge: null },
               { name: "Annual Gold Saver", price: "$49.99", period: "/ yr", desc: "Founding 500 Rate · Save $10/yr", highlight: true,
                 feats: ["Everything in Monthly, plus 2 months completely free", "Priority access to new vendors and drops", "Members-only giveaways and exclusive deals"],
@@ -1506,7 +1505,7 @@ function LandingPage() {
               Stay a member. Keep stacking savings.
             </h3>
             <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 500, fontSize: "0.95rem", lineHeight: 1.65, marginBottom: 32, maxWidth: 580 }}>
-              Based on an average member spending $330/mo across workwear, supplements and gear at ~15% off — the same assumption used in the savings calculator below. Your membership rate stays locked while the savings keep adding up.
+              Based on an average member spending $330/mo across workwear, supplements and gear at ~15% off - the same assumption used in the savings calculator below. Your membership rate stays locked while the savings keep adding up.
             </p>
             {(() => {
               const avgMonthlySpend = 330, avgDiscount = 0.15, annualMembership = 49.99;
@@ -1540,7 +1539,7 @@ function LandingPage() {
               { q: "How do I use my discount?", a: "Once you're a member, simply open the app and show your digital membership card in-store at any of our partner vendors, or use the provided promo code for online orders." },
               { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
               { q: "Which brands are included?", a: "We have 50+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
-              { q: "Can I use it anywhere in Australia?", a: "We're actively scoping out vendors across every state in Australia. If there's a business near you that should be on The ToolBox, let us know — we'd love to add them!" },
+              { q: "Can I use it anywhere in Australia?", a: "We're actively scoping out vendors across every state in Australia. If there's a business near you that should be on The ToolBox, let us know - we'd love to add them!" },
               { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
             ].map((item, i) => (
               <div key={i} className="faq-row scroll-reveal" style={{ borderRadius: 24, border: "1px solid rgba(255,255,255,0.08)", overflow: "hidden", transitionDelay: `${i * 0.07}s` }}>
