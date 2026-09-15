@@ -641,7 +641,7 @@ function VendorPage() {
                         <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.4)", fontStyle: "italic", display: "block", marginBottom: 8 }}>{f.label}</label>
                         <div style={{ position: "relative" }}>
                           <span style={{ position: "absolute", left: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(13,31,78,0.2)" }}>{f.icon}</span>
-                          <input type={f.type} placeholder={f.placeholder} required={f.required} style={inp} />
+                          <input type={f.type} name={f.name} placeholder={f.placeholder} required={f.required} style={inp} />
                         </div>
                       </div>
                     ))}
