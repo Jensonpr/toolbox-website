@@ -1,5 +1,14 @@
-// Postbuild prerender: spins up vite preview, loads / in Puppeteer after
-// React mounts, writes the populated HTML back to dist/index.html.
+// Postbuild prerender: spins up vite preview, loads every route in the
+// sitemap through Puppeteer after React mounts, and writes each one's
+// fully-rendered HTML to its own dist/<route>/index.html.
+//
+// This matters because vercel.json rewrites every path to /index.html for
+// the SPA fallback, but Vercel serves a matching static file over that
+// rewrite when one exists. Without a prerendered file per route, every
+// blog post (and every other page) was served the HOME PAGE's title,
+// meta description, OG/Twitter tags and JSON-LD to any crawler or link
+// preview bot that doesn't execute JS - only client-side React ever
+// corrected it, which is invisible to those bots.
 //
 // On Linux (Vercel build container): uses @sparticuz/chromium, which ships a
 // statically-compiled Chromium that works without system libs like libnspr4.
@@ -7,7 +16,7 @@
 import { default as chromium } from '@sparticuz/chromium';
 import puppeteer from 'puppeteer-core';
 import { spawn } from 'child_process';
-import { writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import http from 'http';
@@ -29,6 +38,22 @@ function waitForServer(timeout = 20_000) {
         });
     })();
   });
+}
+
+// Single source of truth for which routes exist: the sitemap already lists
+// every real page, so read paths back out of it instead of duplicating them.
+function getRoutesFromSitemap() {
+  const xml = readFileSync(resolve(ROOT, 'public', 'sitemap.xml'), 'utf8');
+  const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]);
+  return locs.map(loc => {
+    const path = new URL(loc).pathname;
+    return path === '' ? '/' : path;
+  });
+}
+
+function outputPathFor(route) {
+  if (route === '/') return resolve(ROOT, 'dist', 'index.html');
+  return resolve(ROOT, 'dist', `.${route}`, 'index.html');
 }
 
 const preview = spawn('npx', ['vite', 'preview', '--port', String(PORT)], {
@@ -59,20 +84,44 @@ try {
       : ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
+  const routes = getRoutesFromSitemap();
+  console.log(`[prerender] ${routes.length} routes from sitemap.xml`);
+
   const page = await browser.newPage();
-  await page.goto(BASE, { waitUntil: 'domcontentloaded', timeout: 30_000 });
+  let failures = 0;
 
-  // Wait for React to populate #root (confirms JS executed)
-  await page.waitForFunction(
-    () => document.getElementById('root')?.children.length > 0,
-    { timeout: 15_000 }
-  );
+  for (const route of routes) {
+    try {
+      await page.goto(`${BASE}${route}`, { waitUntil: 'domcontentloaded', timeout: 30_000 });
 
-  const html = await page.content();
+      // Wait for React to populate #root (confirms JS executed) and for
+      // this route's own <title> to differ from the raw index.html shell,
+      // which is our signal that this route's useEffect(setPageMeta) ran.
+      await page.waitForFunction(
+        () => document.getElementById('root')?.children.length > 0,
+        { timeout: 15_000 }
+      );
+      // Small settle delay: effects (meta tags, JSON-LD injection) run
+      // synchronously after mount, but give animations/observers a beat.
+      await new Promise(r => setTimeout(r, 150));
+
+      const html = await page.content();
+      const outPath = outputPathFor(route);
+      mkdirSync(dirname(outPath), { recursive: true });
+      writeFileSync(outPath, html, 'utf8');
+      console.log(`[prerender] wrote ${route === '/' ? 'dist/index.html' : `dist${route}/index.html`}`);
+    } catch (err) {
+      failures++;
+      console.error(`[prerender] FAILED for ${route}:`, err.message);
+    }
+  }
+
   await browser.close();
 
-  writeFileSync(resolve(ROOT, 'dist', 'index.html'), html, 'utf8');
-  console.log('[prerender] dist/index.html written');
+  if (failures > 0) {
+    console.error(`[prerender] ${failures} of ${routes.length} routes failed`);
+    exitCode = 1;
+  }
 } catch (err) {
   console.error('[prerender] FAILED:', err.message);
   exitCode = 1;

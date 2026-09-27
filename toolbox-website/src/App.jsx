@@ -79,6 +79,7 @@ const CATEGORY_COLORS = {
   "Tradie Tips": "#5ba4cf",
   "Health & Fitness": "#22c55e",
   "Vendor Spotlight": "#f4c430",
+  "News": "#f97316",
 };
 
 const BLOG_POSTS = [
@@ -169,7 +170,7 @@ const BLOG_POSTS = [
       { type: "p", text: "We went out and negotiated directly with 50+ Australian brands to lock in real discounts  -  not token offers, but genuine savings on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
       { type: "h2", text: "200 Founding Members Before We Even Launched" },
       { type: "p", text: "One of the things that made this launch special: over 200 people joined the waitlist before we went live. That's 200 tradies who saw the value before a single deal was redeemable. Those are our Founding Members  -  they're locked in at $4.99/mo for life, no matter where pricing goes." },
-      { type: "p", text: "There are still 253 founding member spots available for the first people who download and subscribe. Once those are gone, they're gone." },
+      { type: "p", text: "Founding Member spots are still available for the first people who download and subscribe, but they're limited to the first 500 - check the app for real-time availability. Once those are gone, they're gone." },
       { type: "h2", text: "What's Available Right Now" },
       { type: "p", text: "From day one, the app includes deals across a huge range of categories: workwear from Anthem Workwear and Ruff Supplied, supplements from Elite Supplements and Nutrition Warehouse, energy from Kamikaze Energy, fitness at Industrial Strength and Fitness, Reps Fitness Bayswater, and Fitspace Training, recovery at Resilient Recovery, grooming at Jukes Grooming and The Barber Club, tech from BitPocket and Hard Hat Smartwatches, golf at Future Golf, Sundayfairway, and Maroondah Golf Park, and a lot more." },
       { type: "h2", text: "Download It Now" },
@@ -283,14 +284,45 @@ const BLOG_POSTS = [
 
 // ─── SEO Helper ──────────────────────────────────────────────────────────────
 const BASE_URL = "https://thetoolboxapp.com.au";
-function setPageMeta(title, description, path) {
+const DEFAULT_OG_IMAGE = "https://res.cloudinary.com/awdppzgh/image/upload/v1789191420/Start_saving_today.png";
+function setPageMeta(title, description, path, opts = {}) {
+  const { type = "website", image = DEFAULT_OG_IMAGE, publishedTime = null } = opts;
   document.title = title;
   const url = `${BASE_URL}${path}`;
   document.querySelector('meta[name="description"]')?.setAttribute("content", description);
   document.querySelector('link[rel="canonical"]')?.setAttribute("href", url);
   document.querySelector('meta[property="og:url"]')?.setAttribute("content", url);
+  document.querySelector('meta[property="og:type"]')?.setAttribute("content", type);
   document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
   document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
+  document.querySelector('meta[property="og:image"]')?.setAttribute("content", image);
+  document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", title);
+  document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
+  document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", image);
+
+  let publishedMeta = document.querySelector('meta[property="article:published_time"]');
+  if (publishedTime) {
+    if (!publishedMeta) {
+      publishedMeta = document.createElement("meta");
+      publishedMeta.setAttribute("property", "article:published_time");
+      document.head.appendChild(publishedMeta);
+    }
+    publishedMeta.setAttribute("content", publishedTime);
+  } else if (publishedMeta) {
+    publishedMeta.remove();
+  }
+}
+
+function setJsonLd(id, data) {
+  let script = document.getElementById(id);
+  if (data == null) { script?.remove(); return; }
+  if (!script) {
+    script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = id;
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify(data);
 }
 
 // ─── Marquee Carousel ─────────────────────────────────────────────────────────
@@ -938,7 +970,26 @@ function BlogPostPage() {
   const post = BLOG_POSTS.find(p => p.slug === slug);
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
   useEffect(() => {
-    if (post) setPageMeta(`${post.title} | The ToolBox`, post.excerpt, `/blog/${post.slug}`);
+    if (!post) return;
+    const publishedTime = new Date(post.date).toISOString();
+    setPageMeta(`${post.title} | The ToolBox`, post.excerpt, `/blog/${post.slug}`, { type: "article", publishedTime });
+    setJsonLd("blogposting-jsonld", {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.excerpt,
+      image: DEFAULT_OG_IMAGE,
+      datePublished: publishedTime,
+      dateModified: publishedTime,
+      author: { "@type": "Organization", name: post.author },
+      publisher: {
+        "@type": "Organization",
+        name: "The ToolBox",
+        logo: { "@type": "ImageObject", url: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016811/TheToolbox-White_2x_iqjf8y.png" },
+      },
+      mainEntityOfPage: { "@type": "WebPage", "@id": `${BASE_URL}/blog/${post.slug}` },
+    });
+    return () => setJsonLd("blogposting-jsonld", null);
   }, [post]);
   if (!post) { navigate("/blog", { replace: true }); return null; }
 

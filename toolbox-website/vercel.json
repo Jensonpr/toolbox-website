@@ -7,6 +7,62 @@
       "destination": "/sitemap.xml"
     },
     {
+      "source": "/blog",
+      "destination": "/blog/index.html"
+    },
+    {
+      "source": "/blog/5-ways-tradies-save-money-on-gear",
+      "destination": "/blog/5-ways-tradies-save-money-on-gear/index.html"
+    },
+    {
+      "source": "/blog/fuelling-your-body-on-site",
+      "destination": "/blog/fuelling-your-body-on-site/index.html"
+    },
+    {
+      "source": "/blog/elite-supps-vendor-spotlight",
+      "destination": "/blog/elite-supps-vendor-spotlight/index.html"
+    },
+    {
+      "source": "/blog/the-toolbox-is-now-live",
+      "destination": "/blog/the-toolbox-is-now-live/index.html"
+    },
+    {
+      "source": "/blog/best-tradie-workwear-deals-australia",
+      "destination": "/blog/best-tradie-workwear-deals-australia/index.html"
+    },
+    {
+      "source": "/blog/tradie-fitness-recovery-guide",
+      "destination": "/blog/tradie-fitness-recovery-guide/index.html"
+    },
+    {
+      "source": "/blog/tradie-lifestyle-perks-toolbox-partners",
+      "destination": "/blog/tradie-lifestyle-perks-toolbox-partners/index.html"
+    },
+    {
+      "source": "/blog/30-vendor-partners-toolbox-network",
+      "destination": "/blog/30-vendor-partners-toolbox-network/index.html"
+    },
+    {
+      "source": "/vendor",
+      "destination": "/vendor/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy/index.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms/index.html"
+    },
+    {
+      "source": "/refunds",
+      "destination": "/refunds/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
