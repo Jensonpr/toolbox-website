@@ -1006,7 +1006,7 @@ function BlogPostPage() {
 }
 
 // ─── Founding 500 scramble progress ────────────────────────────────────────────
-const FOUNDING_CLAIMED = 267, FOUNDING_TOTAL = 500, FOUNDING_LEFT = FOUNDING_TOTAL - FOUNDING_CLAIMED;
+const FOUNDING_CLAIMED = 285, FOUNDING_TOTAL = 500, FOUNDING_LEFT = FOUNDING_TOTAL - FOUNDING_CLAIMED;
 function FoundingProgress() {
   const ref = useRef(null);
   const started = useRef(false);
