@@ -49,19 +49,26 @@ const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.the.to
 const VENDOR_PORTAL_URL = "https://admin-vendor-sync.lovable.app";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
+// NOTE: every `description` below is null - we don't have real per-vendor
+// copy (what the deal is, why it's worth it) anywhere in the codebase, and
+// inventing it would misrepresent the partner's actual offer. VendorProfilePage
+// falls back to a generic "coming soon" line when description is null, so the
+// live site never shows a literal placeholder. TODO (Jenson): write a 2-3
+// sentence description for each of these 12 vendors - what members get, why
+// it's worth it - then fill them in here.
 const VENDORS = [
-  { name: "Elite Supplements", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016410/Copy_of_Elite_Supplements_Logo_RGB_-_Elite_Supps_Chapel_St_brjj39.png" },
-  { name: "Anthem Workwear", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016355/Black_logo_1_-_Danna_Campos_mnrq6z.png" },
-  { name: "BSCO", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016354/Untitled_design_6_b9hlh5.png" },
-  { name: "Zilly Gear", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_9_qvhaav.png" },
-  { name: "Hard Hat", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_8_qgxiky.png" },
-  { name: "Tradie Frames", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_13_uyvpqx.png" },
-  { name: "Nutrition Warehouse", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_12_ej4hui.png" },
-  { name: "Edge Endurance", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_10_qmifzi.png" },
-  { name: "Recovery Lab", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_11_ykhwa4.png" },
-  { name: "Fitspace", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_15_wit0ju.png" },
-  { name: "REPS Fitness", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_17_sf5u7m.png", scale: 1.4 },
-  { name: "Sunday Fairway", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_16_irf3fo.png" },
+  { name: "Elite Supplements", slug: "elite-supplements", category: "Supplements", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016410/Copy_of_Elite_Supplements_Logo_RGB_-_Elite_Supps_Chapel_St_brjj39.png" },
+  { name: "Anthem Workwear", slug: "anthem-workwear", category: "Workwear", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016355/Black_logo_1_-_Danna_Campos_mnrq6z.png" },
+  { name: "BSCO", slug: "bsco", category: "Partner Brand", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016354/Untitled_design_6_b9hlh5.png" },
+  { name: "Zilly Gear", slug: "zilly-gear", category: "Partner Brand", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_9_qvhaav.png" },
+  { name: "Hard Hat", slug: "hard-hat", category: "Tech", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_8_qgxiky.png" },
+  { name: "Tradie Frames", slug: "tradie-frames", category: "Eyewear", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_13_uyvpqx.png" },
+  { name: "Nutrition Warehouse", slug: "nutrition-warehouse", category: "Supplements", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_12_ej4hui.png" },
+  { name: "Edge Endurance", slug: "edge-endurance", category: "Fitness", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_10_qmifzi.png" },
+  { name: "Recovery Lab", slug: "recovery-lab", category: "Recovery", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_11_ykhwa4.png" },
+  { name: "Fitspace", slug: "fitspace", category: "Fitness", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_15_wit0ju.png" },
+  { name: "REPS Fitness", slug: "reps-fitness", category: "Fitness", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_17_sf5u7m.png", scale: 1.4 },
+  { name: "Sunday Fairway", slug: "sunday-fairway", category: "Golf", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_16_irf3fo.png" },
 ];
 
 const APP_REVIEWS = [
@@ -152,6 +159,7 @@ const BLOG_POSTS = [
       { type: "p", text: "As a ToolBox member, you get an exclusive discount at Elite Supplements  -  in-store and online. Whether you're picking up your usual protein tub or trying something new for recovery, the savings add up across the year. For members who buy supps regularly, this deal alone covers the membership cost multiple times over." },
       { type: "h2", text: "Find Them in the App" },
       { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 50+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
+      { type: "link", text: "View Elite Supplements on The ToolBox", to: "/vendors/elite-supplements" },
     ],
   },
   {
@@ -375,6 +383,7 @@ function Footer() {
               { label: "Blog", page: "blog" },
             ]},
             { title: "Partners", links: [
+              { label: "Vendor Directory", page: "vendors" },
               { label: "Partner With Us", page: "vendor" },
               { label: "Vendor Portal", href: VENDOR_PORTAL_URL },
             ]},
@@ -631,6 +640,7 @@ function VendorPage() {
               <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Partner with us</p>
               <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.04em", lineHeight: 0.9, marginBottom: 32 }}>Join the Network<span style={{ color: "#5ba4cf" }}>.</span></h2>
               <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 500, marginBottom: 24, lineHeight: 1.7 }}>Ready to get your brand in front of thousands of people living the trade lifestyle? Fill out the form and we'll be in touch.</p>
+              <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 500, marginBottom: 24, lineHeight: 1.7, fontSize: "0.92rem" }}>How vendors join: submit the application, and our team reviews it and gets in touch. We manually vet every partner before their offer goes live in the app.</p>
               <div style={{ display: "flex", gap: 16, padding: 16, background: "#f8fafc", borderRadius: 16, border: "1px solid #e2e8f0" }}>
                 <IcoInfo />
                 <p style={{ fontSize: 13, color: "rgba(13,31,78,0.6)", fontWeight: 500, margin: 0, fontStyle: "italic" }}>We manually vet all partners to ensure the best value for our members.</p>
@@ -1003,6 +1013,12 @@ function BlogPostPage() {
         {block.items.map((item, j) => <li key={j} style={{ ...pStyle, marginBottom: 10 }}>{item}</li>)}
       </ul>
     );
+    if (block.type === "link") return (
+      <button key={i} onClick={() => navigate(block.to)}
+        style={{ background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, color: "#5ba4cf", fontWeight: 900, fontSize: "1.05rem", marginBottom: 24, fontFamily: "inherit" }}>
+        {block.text} <IcoChevRight />
+      </button>
+    );
     return null;
   };
 
@@ -1035,6 +1051,147 @@ function BlogPostPage() {
 
       <article style={{ maxWidth: 800, margin: "0 auto", padding: "64px 32px" }}>
         {post.content.map(renderBlock)}
+      </article>
+
+      <section style={{ background: "#0d1f4e", padding: "80px 32px", textAlign: "center" }}>
+        <p style={{ color: "#22c55e", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Now Live</p>
+        <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
+          Start Saving Today<span style={{ color: "#5ba4cf" }}>.</span>
+        </h2>
+        <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 36, maxWidth: 400, margin: "0 auto 36px" }}>Download The ToolBox and start saving on workwear, supplements, tools and more. $4.99/mo, cancel anytime.</p>
+        <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
+          style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "18px 40px", borderRadius: 16, fontWeight: 900, fontSize: "1rem", fontStyle: "italic", textDecoration: "none", transition: "all 0.2s" }}
+          onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
+          onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
+          <IcoApple size={18} /> Download on the App Store
+        </a>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
+
+function VendorsPage() {
+  const navigate = useNavigate();
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => {
+    setPageMeta("Vendor Directory | The ToolBox", "Browse 50+ partner brands on The ToolBox across workwear, supplements, fitness, recovery, golf and more.", "/vendors");
+  }, []);
+  return (
+    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.95)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+            <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
+          </button>
+          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}
+            onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.6)"}>
+            Back to Home
+          </button>
+        </div>
+      </nav>
+
+      <section style={{ background: "#0d1f4e", paddingTop: 140, paddingBottom: 80 }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
+          <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Our Network</p>
+          <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
+            Partnered Vendors<span style={{ color: "#5ba4cf" }}>.</span>
+          </h1>
+          <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, fontSize: "1.1rem", maxWidth: 560, lineHeight: 1.6 }}>
+            50+ brands across tools, workwear, supplements, fitness and more, growing every week. Every one is manually vetted before it goes live in the app.
+          </p>
+        </div>
+      </section>
+
+      <section style={{ background: "#fff", padding: "80px 0" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 24, marginBottom: 56 }}>
+            {VENDORS.map(v => (
+              <article key={v.slug} className="blog-card" onClick={() => navigate(`/vendors/${v.slug}`)}
+                style={{ borderRadius: 24, border: "1px solid #e2e8f0", overflow: "hidden", cursor: "pointer", display: "flex", flexDirection: "column" }}
+                onMouseOver={e => e.currentTarget.style.borderColor = "#5ba4cf"}
+                onMouseOut={e => e.currentTarget.style.borderColor = "#e2e8f0"}>
+                <div style={{ background: "#f8fafc", height: 140, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
+                  <img src={v.logo} alt={v.name} referrerPolicy="no-referrer" style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain", mixBlendMode: "multiply" }} />
+                </div>
+                <div style={{ padding: 24 }}>
+                  <p style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "#5ba4cf", marginBottom: 8 }}>{v.category}</p>
+                  <h2 style={{ fontSize: "1.1rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.02em", marginBottom: 12 }}>{v.name}</h2>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#5ba4cf", fontWeight: 900, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.15em" }}>
+                    View Partner <IcoChevRight />
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div style={{ textAlign: "center", padding: "40px 32px", background: "#f8fafc", borderRadius: 32, border: "1px solid #e2e8f0" }}>
+            <p style={{ color: "#0d1f4e", fontWeight: 900, fontSize: "1.2rem", marginBottom: 8 }}>Don't see your brand here?</p>
+            <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 500, marginBottom: 20 }}>We're always looking for genuine deals to add. Fill out the partner application and we'll be in touch.</p>
+            <button onClick={() => navigate("/vendor")}
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0d1f4e", color: "#fff", padding: "14px 32px", borderRadius: 100, fontWeight: 900, fontSize: 14, border: "none", cursor: "pointer" }}>
+              Partner With Us
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
+
+function VendorProfilePage() {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const vendor = VENDORS.find(v => v.slug === slug);
+  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+  useEffect(() => {
+    if (!vendor) return;
+    const description = vendor.description || `${vendor.name} is a ToolBox partner brand in the ${vendor.category} category. Full offer details are coming soon inside the app.`;
+    setPageMeta(`${vendor.name} | The ToolBox`, description, `/vendors/${vendor.slug}`);
+    setJsonLd("vendor-jsonld", {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: vendor.name,
+      logo: vendor.logo,
+      description,
+    });
+    return () => setJsonLd("vendor-jsonld", null);
+  }, [vendor]);
+  if (!vendor) { navigate("/vendors", { replace: true }); return null; }
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", borderBottom: "1px solid #f1f5f9", height: 72, display: "flex", alignItems: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <button onClick={() => navigate("/vendors")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, color: "#0d1f4e", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>
+            <IcoArrowLeft /> Back to Directory
+          </button>
+          <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 32, objectFit: "contain", mixBlendMode: "multiply" }} />
+        </div>
+      </nav>
+
+      <section style={{ background: "#0d1f4e", paddingTop: 120, paddingBottom: 64 }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
+          <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 20 }}>{vendor.category}</p>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 12 }}>
+            {vendor.name}<span style={{ color: "#5ba4cf" }}>.</span>
+          </h1>
+          <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, fontSize: 13 }}>ToolBox Partner Brand</p>
+        </div>
+      </section>
+
+      <article style={{ maxWidth: 800, margin: "0 auto", padding: "64px 32px" }}>
+        <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 32, padding: 40, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 40, minHeight: 160 }}>
+          <img src={vendor.logo} alt={vendor.name} referrerPolicy="no-referrer" style={{ maxHeight: 100, maxWidth: "80%", objectFit: "contain", mixBlendMode: "multiply" }} />
+        </div>
+        <p style={{ color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.85, fontSize: "1.05rem", marginBottom: 24 }}>
+          {vendor.description || `Full details on ${vendor.name}'s offer are coming soon inside the app. Download The ToolBox to see what's live right now, and check back here soon.`}
+        </p>
+        <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 500, lineHeight: 1.7, fontSize: "0.95rem" }}>
+          Not listed yet but think you should be? <button onClick={() => navigate("/vendor")} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "#5ba4cf", fontWeight: 900, textDecoration: "underline" }}>Partner with us</button>.
+        </p>
       </article>
 
       <section style={{ background: "#0d1f4e", padding: "80px 32px", textAlign: "center" }}>
@@ -1370,7 +1527,7 @@ function LandingPage() {
 
           {/* Subtitle */}
           <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "clamp(1rem, 1.8vw, 1.15rem)", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.6, maxWidth: 460, margin: "0 auto 36px" }}>
-            Australia's first discount membership app built for the trade lifestyle.
+            Australia's trade lifestyle membership app. Join for $4.99/mo and save at 50+ partner brands across workwear, supplements, fitness and more.
           </p>
 
           {/* Store buttons */}
@@ -1447,10 +1604,13 @@ function LandingPage() {
               </div>
               <div className="vendors-header-right">
                 <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>50+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end", marginBottom: 12 }}>
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
                   Live Network Updates
                 </div>
+                <button onClick={() => navigate("/vendors")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: "#5ba4cf", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: 6, justifyContent: "flex-end", width: "100%" }}>
+                  See all 50+ partners <IcoChevRight />
+                </button>
               </div>
             </div>
           </div>
@@ -1588,6 +1748,7 @@ function LandingPage() {
             <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
             <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff" }}>Pick your plan.</h2>
             <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>These are <strong style={{ color: "#f4c430" }}>Founding 500 prices</strong> - locked in for life. Once spots fill, pricing goes up.</p>
+            <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500, marginTop: 12, fontSize: "0.95rem", maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>How membership works: pick a plan, and your digital membership card unlocks every partner deal in the app straight away. No lock-in contract on Monthly Pro.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 960, margin: "0 auto" }}>
             {[
@@ -1667,6 +1828,9 @@ function LandingPage() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {[
+              { q: "What is The ToolBox?", a: "The ToolBox is a trade lifestyle membership app for Australia. For $4.99/mo, members get real discounts at 50+ partner brands across workwear, supplements, fitness, recovery, food and tech." },
+              { q: "How does membership work?", a: "Download the app, pick Monthly Pro ($4.99/mo) or Annual Gold Saver ($49.99/yr), and your digital membership card unlocks every partner deal straight away. No lock-in contract on the monthly plan." },
+              { q: "How do vendors join?", a: "Fill out the partner application on our vendor page and our team will be in touch. We manually vet every partner to make sure the discount is worth a member's time before it goes live in the app." },
               { q: "How do I use my discount?", a: "Once you're a member, simply open the app and show your digital membership card in-store at any of our partner vendors, or use the provided promo code for online orders." },
               { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
               { q: "Which brands are included?", a: "We have 50+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
@@ -1787,6 +1951,8 @@ export default function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/vendor" element={<VendorPage />} />
+        <Route path="/vendors" element={<VendorsPage />} />
+        <Route path="/vendors/:slug" element={<VendorProfilePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />

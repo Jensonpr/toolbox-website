@@ -47,6 +47,58 @@
       "destination": "/vendor/index.html"
     },
     {
+      "source": "/vendors",
+      "destination": "/vendors/index.html"
+    },
+    {
+      "source": "/vendors/elite-supplements",
+      "destination": "/vendors/elite-supplements/index.html"
+    },
+    {
+      "source": "/vendors/anthem-workwear",
+      "destination": "/vendors/anthem-workwear/index.html"
+    },
+    {
+      "source": "/vendors/bsco",
+      "destination": "/vendors/bsco/index.html"
+    },
+    {
+      "source": "/vendors/zilly-gear",
+      "destination": "/vendors/zilly-gear/index.html"
+    },
+    {
+      "source": "/vendors/hard-hat",
+      "destination": "/vendors/hard-hat/index.html"
+    },
+    {
+      "source": "/vendors/tradie-frames",
+      "destination": "/vendors/tradie-frames/index.html"
+    },
+    {
+      "source": "/vendors/nutrition-warehouse",
+      "destination": "/vendors/nutrition-warehouse/index.html"
+    },
+    {
+      "source": "/vendors/edge-endurance",
+      "destination": "/vendors/edge-endurance/index.html"
+    },
+    {
+      "source": "/vendors/recovery-lab",
+      "destination": "/vendors/recovery-lab/index.html"
+    },
+    {
+      "source": "/vendors/fitspace",
+      "destination": "/vendors/fitspace/index.html"
+    },
+    {
+      "source": "/vendors/reps-fitness",
+      "destination": "/vendors/reps-fitness/index.html"
+    },
+    {
+      "source": "/vendors/sunday-fairway",
+      "destination": "/vendors/sunday-fairway/index.html"
+    },
+    {
       "source": "/contact",
       "destination": "/contact/index.html"
     },
