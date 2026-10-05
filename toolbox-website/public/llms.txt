@@ -1,0 +1,38 @@
+# The ToolBox
+
+> The ToolBox is a trade lifestyle membership app for Australia. For $4.99/mo (Founding 500 rate), members get real discounts at 50+ partner brands across workwear, supplements, fitness, recovery, food and tech, shown in the app as a digital membership card or promo code and redeemable in-store or online.
+
+The ToolBox App Pty Ltd is based in Melbourne, VIC, Australia.
+
+## Membership
+
+- Monthly Pro: $4.99/mo (Founding 500 rate), cancel anytime.
+- Annual Gold Saver: $49.99/yr (Founding 500 rate), saves $10/yr over monthly.
+- Founding 500: the first 500 members lock in $4.99/mo for life, even after the rate goes up for new members.
+- [Pricing](https://thetoolboxapp.com.au/#pricing)
+
+## For vendors
+
+Brands can apply to become a ToolBox partner and get their offer in front of members living the trade lifestyle. Every partner is manually vetted before being added, no token 5% deals.
+
+- [Partner with us](https://thetoolboxapp.com.au/vendor)
+- [Browse current partners](https://thetoolboxapp.com.au/vendors)
+
+## Key pages
+
+- [Home](https://thetoolboxapp.com.au/)
+- [Blog](https://thetoolboxapp.com.au/blog)
+- [Vendor directory](https://thetoolboxapp.com.au/vendors)
+- [Partner with us](https://thetoolboxapp.com.au/vendor)
+- [Contact](https://thetoolboxapp.com.au/contact)
+
+## Download
+
+- [iOS](https://apps.apple.com/au/app/id6757898214)
+- [Android](https://play.google.com/store/apps/details?id=com.the.tool.box.app)
+
+## Optional
+
+- [Privacy Policy](https://thetoolboxapp.com.au/privacy)
+- [Terms of Service](https://thetoolboxapp.com.au/terms)
+- [Refund Policy](https://thetoolboxapp.com.au/refunds)
