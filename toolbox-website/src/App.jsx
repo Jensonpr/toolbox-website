@@ -55,16 +55,16 @@ const VENDOR_PORTAL_URL = "https://admin-vendor-sync.lovable.app";
 // them out since it only shows real brand marks.
 const VENDORS = [
   // Existing partners
-  { name: "Elite Supplements", slug: "elite-supplements", category: "Supplements", featured: true, description: "Elite Supplements is our anchor vendor and one of the biggest supplement retailers in the country, with 20 stores across Victoria. ToolBox members get 10% off storewide in-store with a unique code, every time.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016410/Copy_of_Elite_Supplements_Logo_RGB_-_Elite_Supps_Chapel_St_brjj39.png" },
-  { name: "Anthem Workwear", slug: "anthem-workwear", category: "Workwear", featured: true, description: "Anthem Workwear is a Melbourne-based performance workwear brand built for the trade lifestyle. ToolBox members get 20% off storewide, in-store and online, with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016355/Black_logo_1_-_Danna_Campos_mnrq6z.png" },
-  { name: "BSCO", slug: "bsco", category: "Apparel", description: "BSCO makes men's underwear and socks from bamboo and modal fabric, built for comfort through a full day on the tools. ToolBox members get 15% off storewide online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016354/Untitled_design_6_b9hlh5.png" },
+  { name: "Elite Supplements", slug: "elite-supplements", category: "Supplements", featured: true, curated: true, description: "Elite Supplements is our anchor vendor and one of the biggest supplement retailers in the country, with 20 stores across Victoria. ToolBox members get 10% off storewide in-store with a unique code, every time.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016410/Copy_of_Elite_Supplements_Logo_RGB_-_Elite_Supps_Chapel_St_brjj39.png" },
+  { name: "Anthem Workwear", slug: "anthem-workwear", category: "Workwear", featured: true, curated: true, description: "Anthem Workwear is a Melbourne-based performance workwear brand built for the trade lifestyle. ToolBox members get 20% off storewide, in-store and online, with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016355/Black_logo_1_-_Danna_Campos_mnrq6z.png" },
+  { name: "BSCO", slug: "bsco", category: "Apparel", curated: true, description: "BSCO makes men's underwear and socks from bamboo and modal fabric, built for comfort through a full day on the tools. ToolBox members get 15% off storewide online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016354/Untitled_design_6_b9hlh5.png" },
   { name: "Hard Hat", slug: "hard-hat", category: "Tech", description: "Hard Hat Smartwatches makes rugged, Australian-owned smartwatches rated IP68/IP69K, built to survive life on site. ToolBox members get 20% off storewide online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_8_qgxiky.png" },
-  { name: "Tradie Frames", slug: "tradie-frames", category: "Eyewear", description: "Tradie Frames makes AS/NZS certified safety glasses that don't look like safety glasses. ToolBox members get 20% off storewide online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_13_uyvpqx.png" },
+  { name: "Tradie Frames", slug: "tradie-frames", category: "Eyewear", curated: true, description: "Tradie Frames makes AS/NZS certified safety glasses that don't look like safety glasses. ToolBox members get 20% off storewide online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_13_uyvpqx.png" },
   { name: "Nutrition Warehouse", slug: "nutrition-warehouse", category: "Supplements", description: "Nutrition Warehouse members get $10 off in-store with a unique code, plus a $10 voucher when you sign up to Active Rewards and free samples while you're in store.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_12_ej4hui.png" },
-  { name: "Recovery Lab", slug: "recovery-lab", category: "Recovery", description: "Recovery Lab is a recovery clinic based in Maribyrnong. ToolBox members get 15% off in-store at the Maribyrnong location.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_11_ykhwa4.png" },
+  { name: "Recovery Lab", slug: "recovery-lab", category: "Recovery", curated: true, description: "Recovery Lab is a recovery clinic based in Maribyrnong. ToolBox members get 15% off in-store at the Maribyrnong location.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_11_ykhwa4.png" },
   { name: "Fitspace", slug: "fitspace", category: "Fitness", description: "ToolBox members get $9 off the $50 Unlimited membership at Fitspace Training online with a set code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_15_wit0ju.png" },
   { name: "REPS Fitness", slug: "reps-fitness", category: "Fitness", description: "REPS Fitness Bayswater gives ToolBox members 10% off online, with a new code each month.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_17_sf5u7m.png", scale: 1.4 },
-  { name: "Sunday Fairway", slug: "sunday-fairway", category: "Golf", description: "ToolBox members get 15% off storewide at Sunday Fairway online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_16_irf3fo.png" },
+  { name: "Sunday Fairway", slug: "sunday-fairway", category: "Golf", curated: true, description: "ToolBox members get 15% off storewide at Sunday Fairway online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_16_irf3fo.png" },
   // New partners (no logo - see note above)
   { name: "Kamikaze Energy", slug: "kamikaze-energy", category: "Energy Drinks", description: "Kamikaze Energy members get 15% off online with a set code.", logo: null },
   { name: "The Trade Shade", slug: "the-trade-shade", category: "Partner Brand", description: "The Trade Shade members get 20% off online.", logo: null },
@@ -77,14 +77,22 @@ const VENDORS = [
   { name: "The Work Pit", slug: "the-work-pit", category: "Partner Brand", description: "The Work Pit members get 10% off in-store and online with a unique code.", logo: null },
   { name: "Tradesman Nutrition", slug: "tradesman-nutrition", category: "Supplements", featured: true, description: "Tradesman Nutrition members get 10% off online with a set code.", logo: null },
   { name: "Industrial Strength and Fitness", slug: "industrial-strength-and-fitness", category: "Fitness", description: "New members get 15% off memberships at Industrial Strength and Fitness, in-store, one per member.", logo: null },
-  { name: "BitPocket", slug: "bitpocket", category: "Tech", description: "BitPocket makes a magnetic drill bit holder for tool belts. ToolBox members get 25% off online with a unique code.", logo: null },
-  { name: "Straight Mate", slug: "straight-mate", category: "Energy Drinks", featured: true, description: "Straight Mate is an Australian energy drink with no caffeine. ToolBox members get 15% off online with a set code.", logo: null },
+  { name: "BitPocket", slug: "bitpocket", category: "Tech", curated: true, description: "BitPocket makes a magnetic drill bit holder for tool belts. ToolBox members get 25% off online with a unique code.", logo: null },
+  { name: "Straight Mate", slug: "straight-mate", category: "Energy Drinks", featured: true, curated: true, description: "Straight Mate is an Australian energy drink with no caffeine. ToolBox members get 15% off online with a set code.", logo: null },
   { name: "Maroondah Golf Park", slug: "maroondah-golf-park", category: "Golf", description: "ToolBox members get $3 off 100 range balls ($16 instead of the regular price) at Maroondah Golf Park, in-store.", logo: null },
-  { name: "Sigma Movement", slug: "sigma-movement", category: "Fitness", description: "Sigma Movement in South Croydon offers ToolBox members 15% off gym membership and casual recovery visits, in-store.", logo: null },
+  { name: "Sigma Movement", slug: "sigma-movement", category: "Fitness", curated: true, description: "Sigma Movement in South Croydon offers ToolBox members 15% off gym membership and casual recovery visits, in-store.", logo: null },
   { name: "Future Golf", slug: "future-golf", category: "Golf", description: "ToolBox members get 20% off all annual memberships at Future Golf online with a set code.", logo: null },
   { name: "Jukes Grooming", slug: "jukes-grooming", category: "Grooming", description: "Jukes Grooming members get 20% off online with a set code, one per member.", logo: null },
-  { name: "The Barber Club", slug: "the-barber-club", category: "Grooming", description: "ToolBox members get 20% off their first visit at The Barber Club, in-store with a set code, one per member.", logo: null },
+  { name: "The Barber Club", slug: "the-barber-club", category: "Grooming", curated: true, description: "ToolBox members get 20% off their first visit at The Barber Club, in-store with a set code, one per member.", logo: null },
 ];
+
+// Public directory (/vendors) shows real discount copy only for this curated
+// sample of ~10 standout deals - crawlable and citable by AI search without
+// giving away the full live offer list, which stays exclusive to the app.
+const PUBLIC_OFFER_FALLBACK = "Exclusive discount available in the app for ToolBox members.";
+function publicOffer(vendor) {
+  return vendor.curated ? vendor.description : PUBLIC_OFFER_FALLBACK;
+}
 
 const APP_REVIEWS = [
   { rating: 5, title: "The Best Discount App I've Used", date: "25 July", author: "JTurnbulll", text: "Such a brilliant idea! The Toolbox app has honestly helped me save so much money on things I already buy all the time. The range of discounts is fantastic, especially the tradie discounts, but there are heaps of other offers across everyday brands and services too. It's easy to use, the savings add up quickly, and it's much better than wasting time searching for discount codes online. If you're looking to save money on your regular purchases, I'd definitely recommend giving it a go!" },
@@ -1087,18 +1095,6 @@ function BlogPostPage() {
   );
 }
 
-function VendorLogo({ vendor, maxHeight }) {
-  if (vendor.logo) return (
-    <img src={vendor.logo} alt={vendor.name} referrerPolicy="no-referrer" style={{ maxHeight, maxWidth: "80%", objectFit: "contain", mixBlendMode: "multiply" }} />
-  );
-  // No logo on file yet - show the vendor's initial instead of a broken image.
-  return (
-    <div style={{ width: maxHeight, height: maxHeight, borderRadius: "50%", background: "#0d1f4e", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: maxHeight * 0.4, fontWeight: 900, fontStyle: "italic" }}>
-      {vendor.name.charAt(0)}
-    </div>
-  );
-}
-
 function VendorsPage() {
   const navigate = useNavigate();
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -1142,12 +1138,10 @@ function VendorsPage() {
                 {v.featured && (
                   <div style={{ position: "absolute", top: 12, right: 12, zIndex: 1, background: "#f4c430", color: "#0d1f4e", padding: "4px 10px", borderRadius: 100, fontSize: 9, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Featured</div>
                 )}
-                <div style={{ background: "#f8fafc", height: 140, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
-                  <VendorLogo vendor={v} maxHeight={90} />
-                </div>
-                <div style={{ padding: 24 }}>
+                <div style={{ padding: 24, flex: 1, display: "flex", flexDirection: "column" }}>
                   <p style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "#5ba4cf", marginBottom: 8 }}>{v.category}</p>
                   <h2 style={{ fontSize: "1.1rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.02em", marginBottom: 12 }}>{v.name}</h2>
+                  <p style={{ fontSize: 13, color: "rgba(13,31,78,0.6)", fontWeight: 500, lineHeight: 1.5, marginBottom: 16, flex: 1 }}>{publicOffer(v)}</p>
                   <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#5ba4cf", fontWeight: 900, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.15em" }}>
                     View Partner <IcoChevRight />
                   </div>
@@ -1178,13 +1172,12 @@ function VendorProfilePage() {
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
   useEffect(() => {
     if (!vendor) { navigate("/vendors", { replace: true }); return; }
-    const description = vendor.description || `${vendor.name} is a ToolBox partner brand in the ${vendor.category} category. Full offer details are coming soon inside the app.`;
+    const description = publicOffer(vendor);
     setPageMeta(`${vendor.name} | The ToolBox`, description, `/vendors/${vendor.slug}`);
     setJsonLd("vendor-jsonld", {
       "@context": "https://schema.org",
       "@type": "Organization",
       name: vendor.name,
-      logo: vendor.logo,
       description,
     });
     return () => setJsonLd("vendor-jsonld", null);
@@ -1213,11 +1206,8 @@ function VendorProfilePage() {
       </section>
 
       <article style={{ maxWidth: 800, margin: "0 auto", padding: "64px 32px" }}>
-        <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 32, padding: 40, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 40, minHeight: 160 }}>
-          <VendorLogo vendor={vendor} maxHeight={100} />
-        </div>
         <p style={{ color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.85, fontSize: "1.05rem", marginBottom: 24 }}>
-          {vendor.description || `Full details on ${vendor.name}'s offer are coming soon inside the app. Download The ToolBox to see what's live right now, and check back here soon.`}
+          {publicOffer(vendor)}
         </p>
         <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 500, lineHeight: 1.7, fontSize: "0.95rem" }}>
           Not listed yet but think you should be? <button onClick={() => navigate("/vendor")} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "#5ba4cf", fontWeight: 900, textDecoration: "underline" }}>Partner with us</button>.
