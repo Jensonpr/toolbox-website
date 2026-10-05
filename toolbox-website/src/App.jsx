@@ -1177,7 +1177,7 @@ function VendorProfilePage() {
   const vendor = VENDORS.find(v => v.slug === slug);
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
   useEffect(() => {
-    if (!vendor) return;
+    if (!vendor) { navigate("/vendors", { replace: true }); return; }
     const description = vendor.description || `${vendor.name} is a ToolBox partner brand in the ${vendor.category} category. Full offer details are coming soon inside the app.`;
     setPageMeta(`${vendor.name} | The ToolBox`, description, `/vendors/${vendor.slug}`);
     setJsonLd("vendor-jsonld", {
@@ -1188,8 +1188,8 @@ function VendorProfilePage() {
       description,
     });
     return () => setJsonLd("vendor-jsonld", null);
-  }, [vendor]);
-  if (!vendor) { navigate("/vendors", { replace: true }); return null; }
+  }, [vendor, navigate]);
+  if (!vendor) return null;
 
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
