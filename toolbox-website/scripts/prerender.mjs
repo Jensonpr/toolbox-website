@@ -27,7 +27,7 @@ const PORT = 4173;
 const BASE = `http://localhost:${PORT}`;
 const IS_LINUX = process.platform === 'linux';
 
-function waitForServer(timeout = 20_000) {
+function waitForServer(timeout = 90_000) {
   return new Promise((ok, fail) => {
     const deadline = Date.now() + timeout;
     (function attempt() {
