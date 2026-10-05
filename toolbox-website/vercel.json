@@ -99,6 +99,78 @@
       "destination": "/vendors/sunday-fairway/index.html"
     },
     {
+      "source": "/vendors/kamikaze-energy",
+      "destination": "/vendors/kamikaze-energy/index.html"
+    },
+    {
+      "source": "/vendors/the-trade-shade",
+      "destination": "/vendors/the-trade-shade/index.html"
+    },
+    {
+      "source": "/vendors/roscos-pizza",
+      "destination": "/vendors/roscos-pizza/index.html"
+    },
+    {
+      "source": "/vendors/ruff-supplied",
+      "destination": "/vendors/ruff-supplied/index.html"
+    },
+    {
+      "source": "/vendors/gameday-jumbotrons",
+      "destination": "/vendors/gameday-jumbotrons/index.html"
+    },
+    {
+      "source": "/vendors/tuffstraps",
+      "destination": "/vendors/tuffstraps/index.html"
+    },
+    {
+      "source": "/vendors/roam-essentials",
+      "destination": "/vendors/roam-essentials/index.html"
+    },
+    {
+      "source": "/vendors/vida-lifestyles",
+      "destination": "/vendors/vida-lifestyles/index.html"
+    },
+    {
+      "source": "/vendors/the-work-pit",
+      "destination": "/vendors/the-work-pit/index.html"
+    },
+    {
+      "source": "/vendors/tradesman-nutrition",
+      "destination": "/vendors/tradesman-nutrition/index.html"
+    },
+    {
+      "source": "/vendors/industrial-strength-and-fitness",
+      "destination": "/vendors/industrial-strength-and-fitness/index.html"
+    },
+    {
+      "source": "/vendors/bitpocket",
+      "destination": "/vendors/bitpocket/index.html"
+    },
+    {
+      "source": "/vendors/straight-mate",
+      "destination": "/vendors/straight-mate/index.html"
+    },
+    {
+      "source": "/vendors/maroondah-golf-park",
+      "destination": "/vendors/maroondah-golf-park/index.html"
+    },
+    {
+      "source": "/vendors/sigma-movement",
+      "destination": "/vendors/sigma-movement/index.html"
+    },
+    {
+      "source": "/vendors/future-golf",
+      "destination": "/vendors/future-golf/index.html"
+    },
+    {
+      "source": "/vendors/jukes-grooming",
+      "destination": "/vendors/jukes-grooming/index.html"
+    },
+    {
+      "source": "/vendors/the-barber-club",
+      "destination": "/vendors/the-barber-club/index.html"
+    },
+    {
       "source": "/contact",
       "destination": "/contact/index.html"
     },

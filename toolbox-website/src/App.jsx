@@ -49,26 +49,49 @@ const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.the.to
 const VENDOR_PORTAL_URL = "https://admin-vendor-sync.lovable.app";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
-// NOTE: every `description` below is null - we don't have real per-vendor
-// copy (what the deal is, why it's worth it) anywhere in the codebase, and
-// inventing it would misrepresent the partner's actual offer. VendorProfilePage
-// falls back to a generic "coming soon" line when description is null, so the
-// live site never shows a literal placeholder. TODO (Jenson): write a 2-3
-// sentence description for each of these 12 vendors - what members get, why
-// it's worth it - then fill them in here.
+// TODO (Jenson):
+// - Zilly Gear, Edge Endurance: no live deal yet, descriptions are product-only
+//   until there's a real offer to add.
+// - Recovery Lab: you flagged the 15% Maribyrnong in-store deal as unconfirmed
+//   ("confirm before publishing"), so it's deliberately left out of the live
+//   description below. Add it in once you've checked it.
+// - The 18 vendors below "New partners" all have logo: null - no Supabase
+//   access from this session, so couldn't pull images. VendorsPage/
+//   VendorProfilePage render a plain initial-letter tile when logo is null.
+//   Swap in the real logo URL per vendor once you send them through.
 const VENDORS = [
-  { name: "Elite Supplements", slug: "elite-supplements", category: "Supplements", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016410/Copy_of_Elite_Supplements_Logo_RGB_-_Elite_Supps_Chapel_St_brjj39.png" },
-  { name: "Anthem Workwear", slug: "anthem-workwear", category: "Workwear", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016355/Black_logo_1_-_Danna_Campos_mnrq6z.png" },
-  { name: "BSCO", slug: "bsco", category: "Partner Brand", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016354/Untitled_design_6_b9hlh5.png" },
-  { name: "Zilly Gear", slug: "zilly-gear", category: "Partner Brand", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_9_qvhaav.png" },
-  { name: "Hard Hat", slug: "hard-hat", category: "Tech", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_8_qgxiky.png" },
-  { name: "Tradie Frames", slug: "tradie-frames", category: "Eyewear", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_13_uyvpqx.png" },
-  { name: "Nutrition Warehouse", slug: "nutrition-warehouse", category: "Supplements", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_12_ej4hui.png" },
-  { name: "Edge Endurance", slug: "edge-endurance", category: "Fitness", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_10_qmifzi.png" },
-  { name: "Recovery Lab", slug: "recovery-lab", category: "Recovery", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_11_ykhwa4.png" },
-  { name: "Fitspace", slug: "fitspace", category: "Fitness", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_15_wit0ju.png" },
-  { name: "REPS Fitness", slug: "reps-fitness", category: "Fitness", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_17_sf5u7m.png", scale: 1.4 },
-  { name: "Sunday Fairway", slug: "sunday-fairway", category: "Golf", description: null, logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_16_irf3fo.png" },
+  // Existing partners
+  { name: "Elite Supplements", slug: "elite-supplements", category: "Supplements", featured: true, description: "Elite Supplements is our anchor vendor and one of the biggest supplement retailers in the country, with 20 stores across Victoria. ToolBox members get 10% off storewide in-store with a unique code, every time.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016410/Copy_of_Elite_Supplements_Logo_RGB_-_Elite_Supps_Chapel_St_brjj39.png" },
+  { name: "Anthem Workwear", slug: "anthem-workwear", category: "Workwear", featured: true, description: "Anthem Workwear is a Melbourne-based performance workwear brand built for the trade lifestyle. ToolBox members get 20% off storewide, in-store and online, with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016355/Black_logo_1_-_Danna_Campos_mnrq6z.png" },
+  { name: "BSCO", slug: "bsco", category: "Apparel", description: "BSCO makes men's underwear and socks from bamboo and modal fabric, built for comfort through a full day on the tools. ToolBox members get 15% off storewide online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016354/Untitled_design_6_b9hlh5.png" },
+  { name: "Zilly Gear", slug: "zilly-gear", category: "Automotive", description: "Zilly Gear makes waterproof car seat covers built for tradies who live out of their vehicle on the tools. Member discount details are being finalised, check the app for the current offer.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_9_qvhaav.png" },
+  { name: "Hard Hat", slug: "hard-hat", category: "Tech", description: "Hard Hat Smartwatches makes rugged, Australian-owned smartwatches rated IP68/IP69K, built to survive life on site. ToolBox members get 20% off storewide online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016353/Untitled_design_8_qgxiky.png" },
+  { name: "Tradie Frames", slug: "tradie-frames", category: "Eyewear", description: "Tradie Frames makes AS/NZS certified safety glasses that don't look like safety glasses. ToolBox members get 20% off storewide online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_13_uyvpqx.png" },
+  { name: "Nutrition Warehouse", slug: "nutrition-warehouse", category: "Supplements", description: "Nutrition Warehouse members get $10 off in-store with a unique code, plus a $10 voucher when you sign up to Active Rewards and free samples while you're in store.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_12_ej4hui.png" },
+  { name: "Edge Endurance", slug: "edge-endurance", category: "Nutrition", description: "Edge Endurance makes low-sugar, caffeine-free electrolyte drinks in a can, built for staying hydrated through a long day on site. Member discount details are being finalised, check the app for the current offer.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_10_qmifzi.png" },
+  { name: "Recovery Lab", slug: "recovery-lab", category: "Recovery", description: "Recovery Lab is a recovery clinic based in Maribyrnong. Member discount details are being finalised, check the app for the current offer.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016352/Untitled_design_11_ykhwa4.png" },
+  { name: "Fitspace", slug: "fitspace", category: "Fitness", description: "ToolBox members get $9 off the $50 Unlimited membership at Fitspace Training online with a set code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_15_wit0ju.png" },
+  { name: "REPS Fitness", slug: "reps-fitness", category: "Fitness", description: "REPS Fitness Bayswater gives ToolBox members 10% off online, with a new code each month.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_17_sf5u7m.png", scale: 1.4 },
+  { name: "Sunday Fairway", slug: "sunday-fairway", category: "Golf", description: "ToolBox members get 15% off storewide at Sunday Fairway online with a unique code.", logo: "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016351/Untitled_design_16_irf3fo.png" },
+  // New partners (logos pending - see TODO above)
+  { name: "Kamikaze Energy", slug: "kamikaze-energy", category: "Energy Drinks", description: "Kamikaze Energy members get 15% off online with a set code.", logo: null },
+  { name: "The Trade Shade", slug: "the-trade-shade", category: "Partner Brand", description: "The Trade Shade members get 20% off online.", logo: null },
+  { name: "Rosco's Pizza", slug: "roscos-pizza", category: "Food", description: "ToolBox members get 10% off in-store at Rosco's Pizza.", logo: null },
+  { name: "Ruff Supplied", slug: "ruff-supplied", category: "Workwear", description: "Ruff Supplied members get 10% off online with a unique code.", logo: null },
+  { name: "Gameday Jumbotrons", slug: "gameday-jumbotrons", category: "Tech", description: "ToolBox members get a free RGB light upgrade (valued at $200) at Gameday Jumbotrons online, with a new code each month.", logo: null },
+  { name: "TUFFSTRAPS", slug: "tuffstraps", category: "Gear", description: "TUFFSTRAPS members get 15% off online with a unique code.", logo: null },
+  { name: "Roam Essentials", slug: "roam-essentials", category: "Partner Brand", description: "Roam Essentials members get 15% off online with a unique code.", logo: null },
+  { name: "Vida Lifestyles", slug: "vida-lifestyles", category: "Recovery", description: "ToolBox members get a $99 comprehensive initial consult and report at Vida Lifestyles, saving $350 off the regular price. In-store, monthly code, one per member.", logo: null },
+  { name: "The Work Pit", slug: "the-work-pit", category: "Partner Brand", description: "The Work Pit members get 10% off in-store and online with a unique code.", logo: null },
+  { name: "Tradesman Nutrition", slug: "tradesman-nutrition", category: "Supplements", featured: true, description: "Tradesman Nutrition members get 10% off online with a set code.", logo: null },
+  { name: "Industrial Strength and Fitness", slug: "industrial-strength-and-fitness", category: "Fitness", description: "New members get 15% off memberships at Industrial Strength and Fitness, in-store, one per member.", logo: null },
+  { name: "BitPocket", slug: "bitpocket", category: "Tech", description: "BitPocket makes a magnetic drill bit holder for tool belts. ToolBox members get 25% off online with a unique code.", logo: null },
+  { name: "Straight Mate", slug: "straight-mate", category: "Energy Drinks", featured: true, description: "Straight Mate is an Australian energy drink with no caffeine. ToolBox members get 15% off online with a set code.", logo: null },
+  { name: "Maroondah Golf Park", slug: "maroondah-golf-park", category: "Golf", description: "ToolBox members get $3 off 100 range balls ($16 instead of the regular price) at Maroondah Golf Park, in-store.", logo: null },
+  { name: "Sigma Movement", slug: "sigma-movement", category: "Fitness", description: "Sigma Movement in South Croydon offers ToolBox members 15% off gym membership and casual recovery visits, in-store.", logo: null },
+  { name: "Future Golf", slug: "future-golf", category: "Golf", description: "ToolBox members get 20% off all annual memberships at Future Golf online with a set code.", logo: null },
+  { name: "Jukes Grooming", slug: "jukes-grooming", category: "Grooming", description: "Jukes Grooming members get 20% off online with a set code, one per member.", logo: null },
+  { name: "The Barber Club", slug: "the-barber-club", category: "Grooming", description: "ToolBox members get 20% off their first visit at The Barber Club, in-store with a set code, one per member.", logo: null },
 ];
 
 const APP_REVIEWS = [
@@ -1072,6 +1095,18 @@ function BlogPostPage() {
   );
 }
 
+function VendorLogo({ vendor, maxHeight }) {
+  if (vendor.logo) return (
+    <img src={vendor.logo} alt={vendor.name} referrerPolicy="no-referrer" style={{ maxHeight, maxWidth: "80%", objectFit: "contain", mixBlendMode: "multiply" }} />
+  );
+  // No logo on file yet - show the vendor's initial instead of a broken image.
+  return (
+    <div style={{ width: maxHeight, height: maxHeight, borderRadius: "50%", background: "#0d1f4e", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: maxHeight * 0.4, fontWeight: 900, fontStyle: "italic" }}>
+      {vendor.name.charAt(0)}
+    </div>
+  );
+}
+
 function VendorsPage() {
   const navigate = useNavigate();
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -1107,13 +1142,16 @@ function VendorsPage() {
       <section style={{ background: "#fff", padding: "80px 0" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 24, marginBottom: 56 }}>
-            {VENDORS.map(v => (
+            {[...VENDORS].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)).map(v => (
               <article key={v.slug} className="blog-card" onClick={() => navigate(`/vendors/${v.slug}`)}
-                style={{ borderRadius: 24, border: "1px solid #e2e8f0", overflow: "hidden", cursor: "pointer", display: "flex", flexDirection: "column" }}
+                style={{ borderRadius: 24, border: "1px solid #e2e8f0", overflow: "hidden", cursor: "pointer", display: "flex", flexDirection: "column", position: "relative" }}
                 onMouseOver={e => e.currentTarget.style.borderColor = "#5ba4cf"}
                 onMouseOut={e => e.currentTarget.style.borderColor = "#e2e8f0"}>
+                {v.featured && (
+                  <div style={{ position: "absolute", top: 12, right: 12, zIndex: 1, background: "#f4c430", color: "#0d1f4e", padding: "4px 10px", borderRadius: 100, fontSize: 9, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Featured</div>
+                )}
                 <div style={{ background: "#f8fafc", height: 140, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
-                  <img src={v.logo} alt={v.name} referrerPolicy="no-referrer" style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain", mixBlendMode: "multiply" }} />
+                  <VendorLogo vendor={v} maxHeight={90} />
                 </div>
                 <div style={{ padding: 24 }}>
                   <p style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "#5ba4cf", marginBottom: 8 }}>{v.category}</p>
@@ -1184,7 +1222,7 @@ function VendorProfilePage() {
 
       <article style={{ maxWidth: 800, margin: "0 auto", padding: "64px 32px" }}>
         <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 32, padding: 40, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 40, minHeight: 160 }}>
-          <img src={vendor.logo} alt={vendor.name} referrerPolicy="no-referrer" style={{ maxHeight: 100, maxWidth: "80%", objectFit: "contain", mixBlendMode: "multiply" }} />
+          <VendorLogo vendor={vendor} maxHeight={100} />
         </div>
         <p style={{ color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.85, fontSize: "1.05rem", marginBottom: 24 }}>
           {vendor.description || `Full details on ${vendor.name}'s offer are coming soon inside the app. Download The ToolBox to see what's live right now, and check back here soon.`}
@@ -1615,8 +1653,8 @@ function LandingPage() {
             </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 24, position: "relative" }}>
-            <Marquee items={VENDORS.slice(0, 7)} speed={70} />
-            <Marquee items={VENDORS.slice(7)} reverse speed={90} />
+            <Marquee items={VENDORS.filter(v => v.logo).slice(0, 7)} speed={70} />
+            <Marquee items={VENDORS.filter(v => v.logo).slice(7)} reverse speed={90} />
             <div style={{ position: "absolute", inset: "0 auto 0 0", width: 160, background: "linear-gradient(to right, #0d1f4e, transparent)", pointerEvents: "none", zIndex: 2 }} />
             <div style={{ position: "absolute", inset: "0 0 0 auto", width: 160, background: "linear-gradient(to left, #0d1f4e, transparent)", pointerEvents: "none", zIndex: 2 }} />
           </div>
