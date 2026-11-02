@@ -94,6 +94,9 @@
 .pg-note h2 { margin-bottom: 8px; font-size: 1.5rem; font-weight: 900; letter-spacing: -0.03em; }
 .pg-note p { max-width: 30em; margin: 0 auto 22px; font-weight: 500; color: var(--ink-2); }
 
+/* ─── 404 actions ──────────────────────────────────────────────────────────── */
+.pg-actions { display: flex; flex-wrap: wrap; gap: 16px; }
+
 /* ─── CTA band ────────────────────────────────────────────────────────────── */
 .pg-cta { padding: 88px 0; text-align: center; background: var(--yellow); border-block: 2px solid var(--ink); }
 .pg-cta .h-h2 { margin: 18px 0 16px; }

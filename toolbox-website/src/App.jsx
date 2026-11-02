@@ -273,7 +273,7 @@ const BLOG_POSTS = [
       { type: "h2", text: "Energy  -  Keeping You Sharp Through the Day" },
       { type: "p", text: "Kamikaze Energy gives members an exclusive discount. Whether you're running on black coffee or prefer a clean energy product that actually works on a long day, having a member rate on your regular energy brand is one of those small saves that adds up without you noticing." },
       { type: "h2", text: "Tech  -  Smarter Gear for the Modern Tradie" },
-      { type: "p", text: "Hard Hat Smartwatches  -  a brand making watches that actually hold up on site, rather than the fashion-forward stuff that doesn't survive a week in the field  -  gives members an exclusive discount. BitPocket rounds out the tech category for tradies who are into crypto and digital finance, with one of the biggest member discounts in the app." },
+      { type: "p", text: "Hard Hat Smartwatches  -  a brand making watches that actually hold up on site, rather than the fashion-forward stuff that doesn't survive a week in the field  -  gives members an exclusive discount. BitPocket rounds out the tech category with a magnetic drill bit holder built for tool belts, and one of the biggest member discounts in the app." },
       { type: "h2", text: "One App, All of It" },
       { type: "p", text: "The point of The ToolBox isn't to be a coupon book. It's to be the one membership that actually covers the way tradies live  -  hard during the week, enjoying it on the weekend. $4.99 a month, and every deal is in your pocket the moment you download the app." },
     ],
@@ -295,9 +295,9 @@ const BLOG_POSTS = [
       { type: "h2", text: "Workwear & Protection" },
       { type: "p", text: "Anthem Workwear, Ruff Supplied, Tradie Frames, and The Trade Shade cover everything from hi-vis and pants to sun protection and safety eyewear. These are brands built for people working outdoors in Australian conditions  -  not fashion brands with a workwear line. Every one of them offers exclusive member pricing through the app." },
       { type: "h2", text: "Fitness, Health & Supplements" },
-      { type: "p", text: "This is the biggest category in the app. Elite Supplements, Nutrition Warehouse, Edge Endurance, BSCO, and Roam Essentials cover nutrition and supplements at member rates. For fitness, Industrial Strength and Fitness, Reps Fitness Bayswater, Fitspace Training, and Sigma Movement give members access to quality facilities at exclusive prices. Resilient Recovery rounds out the health stack for anyone managing the physical wear of trade work." },
+      { type: "p", text: "This is the biggest category in the app. Elite Supplements, Nutrition Warehouse, and Edge Endurance cover nutrition and supplements at member rates, while BSCO (bamboo underwear and socks) and Roam Essentials (a cordless heated lunchbox) cover the everyday gear. For fitness, Industrial Strength and Fitness, Reps Fitness Bayswater, Fitspace Training, and Sigma Movement give members access to quality facilities at exclusive prices. Resilient Recovery rounds out the health stack for anyone managing the physical wear of trade work." },
       { type: "h2", text: "Lifestyle, Grooming & Tech" },
-      { type: "p", text: "Jukes Grooming and The Barber Club both offer exclusive member discounts. Hard Hat Smartwatches and BitPocket cover the tech angle with some of the best deals in the app. Roam Essentials covers travel and lifestyle. Rosco's Pizza handles the smoko runs." },
+      { type: "p", text: "Jukes Grooming and The Barber Club both offer exclusive member discounts. Hard Hat Smartwatches and BitPocket cover the tech angle with some of the best deals in the app. Roam Essentials keeps lunch hot on site. Rosco's Pizza handles the smoko runs." },
       { type: "h2", text: "Golf & Recreation" },
       { type: "p", text: "Three golf partners  -  Future Golf, Sundayfairway, and Maroondah Golf Park  -  make The ToolBox one of the few memberships that actually rewards tradies for how they spend their weekends, with exclusive member rates across online retail and on-course rounds." },
       { type: "h2", text: "More Coming" },
@@ -352,8 +352,8 @@ function setJsonLd(id, data) {
 
 // ─── Site chrome (shared by every page) ───────────────────────────────────────
 const MOBILE_NAV_ITEMS = [
-  { label: "How it works", sub: "See the app step by step", href: "/#about", icon: IcoSmartphone },
   { label: "Vendors", sub: "Browse 60+ partner brands", href: "/#vendors", icon: IcoTag },
+  { label: "How it works", sub: "See the app step by step", href: "/#about", icon: IcoSmartphone },
   { label: "Pricing", sub: "Plans from $4.99/mo", href: "/#pricing", icon: IcoCreditCard },
   { label: "FAQ", sub: "Got a question?", href: "/#faq", icon: IcoInfo },
   { label: "Blog", sub: "Tips & savings guides", to: "/blog", icon: IcoBook },
@@ -387,7 +387,7 @@ function SiteNav({ onGetApp }) {
       setScrolled(window.scrollY > 24);
       setDark([...document.querySelectorAll('[data-nav="dark"]')].some(el => {
         const r = el.getBoundingClientRect();
-        return r.top <= 36 && r.bottom > 36;
+        return r.top <= 48 && r.bottom > 48;
       }));
     };
     update();
@@ -420,8 +420,8 @@ function SiteNav({ onGetApp }) {
           <div className="h-nav__left">
             <Link to="/" aria-label="The ToolBox home"><img src={LOGO} alt="The ToolBox" className="h-logo" /></Link>
             <div className="h-nav__links">
-              <a className="h-link" href="/#about">How it works</a>
               <a className="h-link" href="/#vendors">Vendors</a>
+              <a className="h-link" href="/#about">How it works</a>
               <a className="h-link" href="/#pricing">Pricing</a>
               <a className="h-link" href="/#faq">FAQ</a>
               <Link className="h-link" to="/blog" aria-current={current("/blog")}>Blog</Link>
@@ -472,8 +472,8 @@ function SiteNav({ onGetApp }) {
 
 const FOOTER_COLS = [
   { title: "Company", links: [
-    { label: "How it works", href: "/#about" },
     { label: "Partner Brands", href: "/#vendors" },
+    { label: "How it works", href: "/#about" },
     { label: "Pricing", href: "/#pricing" },
     { label: "Contact Us", to: "/contact" },
     { label: "FAQ", href: "/#faq" },
@@ -1182,17 +1182,59 @@ const HOW_STEPS = [
 
 function HowItWorksSection({ onDownload }) {
   const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
+  const gridRef = useRef(null);
+  const pinRef = useRef(null);
+  const stackRef = useRef(null);
   const stepRefs = useRef([]);
+  const last = HOW_STEPS.length - 1;
+  const isStacked = () => window.matchMedia("(max-width: 900px)").matches;
 
   useEffect(() => {
+    const grid = gridRef.current, pin = pinRef.current, stack = stackRef.current;
+    if (!grid || !pin || !stack) return;
+    const choose = (i) => {
+      if (i === activeRef.current) return;
+      activeRef.current = i;
+      setActive(i);
+    };
+    // Desktop: the steps sit in a tight stack inside a pinned window. The stack is moved by scroll progress
+    // (a fraction of the scroll distance), so the text travels slower than the page and stays close together.
+    const update = () => {
+      if (isStacked()) { stack.style.transform = ""; return; }
+      const pitch = stepRefs.current[0].offsetHeight;
+      const h = pin.offsetHeight;
+      const pinTop = parseFloat(getComputedStyle(pin).top) || 0;
+      const travel = grid.offsetHeight - h;
+      const p = Math.min(1, Math.max(0, (pinTop - grid.getBoundingClientRect().top) / travel));
+      stack.style.transform = `translate3d(0, ${h / 2 - pitch / 2 - p * last * pitch}px, 0)`;
+      choose(Math.round(p * last));
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    // Mobile: the steps are a normal list, so follow whichever one is mid-screen.
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) setActive(Number(e.target.dataset.i)); });
+      if (!isStacked()) return;
+      entries.forEach(e => { if (e.isIntersecting) choose(Number(e.target.dataset.i)); });
     }, { rootMargin: "-45% 0px -45% 0px" });
     stepRefs.current.forEach(el => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      observer.disconnect();
+    };
+  }, [last]);
 
-  const jump = (i) => stepRefs.current[i]?.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "center" });
+  const jump = (i) => {
+    const behavior = prefersReducedMotion() ? "auto" : "smooth";
+    if (isStacked()) { stepRefs.current[i]?.scrollIntoView({ behavior, block: "center" }); return; }
+    const grid = gridRef.current, pin = pinRef.current;
+    const pinTop = parseFloat(getComputedStyle(pin).top) || 0;
+    const travel = grid.offsetHeight - pin.offsetHeight;
+    const gridTop = grid.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: gridTop - pinTop + (i / last) * travel + 1, behavior });
+  };
 
   return (
     <section id="about" className="h-section h-how" data-nav="dark">
@@ -1201,7 +1243,7 @@ function HowItWorksSection({ onDownload }) {
           <span className="h-eyebrow">Inside the App</span>
           <h2 className="h-h2">How it <em>works.</em></h2>
         </div>
-        <div className="h-how__grid">
+        <div className="h-how__grid" ref={gridRef}>
           <div className="h-how__visual">
             <div className="h-how__screens">
               {HOW_STEPS.map((s, i) => (
@@ -1214,14 +1256,16 @@ function HowItWorksSection({ onDownload }) {
               ))}
             </div>
           </div>
-          <div>
-            {HOW_STEPS.map((s, i) => (
-              <div key={s.num} ref={el => { stepRefs.current[i] = el; }} data-i={i} className={`h-step ${active === i ? "on" : ""}`}>
-                <span className="h-step__num" aria-hidden="true">{s.num}</span>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
-              </div>
-            ))}
+          <div className="h-how__text" ref={pinRef}>
+            <div className="h-how__stack" ref={stackRef}>
+              {HOW_STEPS.map((s, i) => (
+                <div key={s.num} ref={el => { stepRefs.current[i] = el; }} data-i={i} className={`h-step ${active === i ? "on" : ""}`}>
+                  <span className="h-step__num" aria-hidden="true">{s.num}</span>
+                  <h3>{s.title}</h3>
+                  <p>{s.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="h-how__cta rv">
@@ -1378,7 +1422,7 @@ function LandingPage() {
         </div>
         <Marquee copies={4} speed={70} label="Partner brands">
           {logoBrands.map(v => (
-            <div key={v.slug} className="h-brand"><img src={v.logo} alt={v.name} referrerPolicy="no-referrer" loading="lazy" /></div>
+            <div key={v.slug} className="h-brand"><img src={v.logo} alt={v.name} referrerPolicy="no-referrer" /></div>
           ))}
         </Marquee>
       </section>
@@ -1467,7 +1511,7 @@ function LandingPage() {
           <div className="h-momentum rv">
             <span className="h-eyebrow">Membership Momentum</span>
             <h3>Stay a member. Keep stacking savings.</h3>
-            <p className="h-p">Based on an average member spending $250/mo across workwear, supplements and gear at ~15% off - the same assumption used in the savings calculator below. Your membership rate stays locked while the savings keep adding up.</p>
+            <p className="h-p">Based on an average member spending $250/mo across workwear, supplements and gear at ~15% off. Your membership rate stays locked while the savings keep adding up.</p>
             {(() => {
               const avgMonthlySpend = 250, avgDiscount = 0.15, annualMembership = 49.99;
               const netPerYear = avgMonthlySpend * 12 * avgDiscount - annualMembership;
@@ -1516,6 +1560,30 @@ function LandingPage() {
   );
 }
 
+// ─── 404 ──────────────────────────────────────────────────────────────────────
+function NotFoundPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setPageMeta("Page not found | The ToolBox", "That page doesn't exist. Head back to The ToolBox homepage.", "/");
+  }, []);
+  return (
+    <PageShell>
+      <PageHeader
+        eyebrow="Error 404"
+        title={<>Page <span className="h-mark">not found.</span></>}
+        lede="That link has gone off site. Head back to the homepage, or have a look around."
+      />
+      <main className="pg-main">
+        <div className="pg-actions">
+          <Link className="btn btn--yellow btn--lg" to="/">Back to home</Link>
+          <Link className="btn btn--lg" to="/vendors">Browse vendors</Link>
+          <Link className="btn btn--lg" to="/blog">Read the blog</Link>
+        </div>
+      </main>
+    </PageShell>
+  );
+}
+
 // ─── App Router ───────────────────────────────────────────────────────────────
 export default function App() {
   return (
@@ -1531,6 +1599,7 @@ export default function App() {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/refunds" element={<RefundsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

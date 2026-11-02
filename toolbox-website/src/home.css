@@ -3,6 +3,9 @@
    safety yellow, hazard stripes. Everything is token-driven (see index.css).
 */
 
+/* floating nav: 14px gap above, 68px bar, ~6px breathing room below = --nav-clear */
+:root { --nav-top: 14px; --nav-h: 68px; --nav-inset: 14px; --nav-clear: 88px; }
+
 body.theme-light,
 body.theme-light #root {
   background: var(--paper);
@@ -24,7 +27,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   overflow-x: clip;
 }
 .home h1, .home h2, .home h3, .home p { margin: 0; }
-.home [id] { scroll-margin-top: 72px; }
+.home [id] { scroll-margin-top: var(--nav-clear); }
 
 .h-wrap {
   max-width: 1200px;
@@ -72,15 +75,26 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 /* ─── Nav ─────────────────────────────────────────────────────────────────── */
 .h-nav {
   position: fixed;
-  inset: 0 0 auto 0;
+  inset: var(--nav-top) 0 auto 0;
   z-index: 50;
-  height: 72px;
-  border-bottom: 2px solid transparent;
-  transition: background-color 200ms ease, border-color 200ms ease;
+  height: var(--nav-h);
 }
-.h-nav.is-scrolled {
+/* the bar itself floats with a gap above and either side; content keeps its page margins */
+.h-nav::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0; bottom: 0;
+  left: max(var(--nav-inset), calc((100% - 1280px) / 2 + 12px));
+  right: max(var(--nav-inset), calc((100% - 1280px) / 2 + 12px));
+  border: 2px solid transparent;
+  border-radius: 16px;
+  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+.h-nav.is-scrolled::before {
   background: rgba(245, 241, 230, 0.92);
-  border-bottom-color: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
@@ -126,9 +140,10 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 .h-menu-btn { display: none; width: 44px; height: 44px; padding: 0; }
 
 /* Nav takes the tone of whatever it is over: .is-dark over navy sections (set from data-nav="dark") */
-.h-nav.is-scrolled.is-dark {
+.h-nav.is-scrolled.is-dark::before {
   background: rgba(13, 31, 78, 0.94);
-  border-bottom-color: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
 }
 .h-nav.is-dark .h-logo { filter: brightness(0) invert(1); }
 .h-nav.is-dark .h-link { color: var(--white); }
@@ -396,21 +411,23 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 .h-how__head { text-align: center; margin-bottom: 64px; }
 .h-how__head .h-h2 { margin-top: 18px; color: var(--white); }
 .h-how__head em { font-style: normal; color: var(--yellow); }
-.h-how { --how-h: min(calc(100svh - 72px), 760px); }
-.h-how__grid { display: grid; grid-template-columns: 0.85fr 1fr; gap: 72px; }
-/* The phone pins with its centre on the middle of the screen (below the nav). Each step is exactly as
-   tall as the pinned box, so when the pin starts step 1 is already centred and the text then scrolls. */
-.h-how__visual {
+.h-how { --how-h: min(calc(100svh - var(--nav-clear)), 760px); --how-pitch: 250px; }
+/* Scroll distance is four screens, as before. The phone and the text window both pin; the text stack
+   inside the window moves with scroll progress (see HowItWorksSection), so steps sit close together. */
+.h-how__grid { display: grid; grid-template-columns: 0.85fr 1fr; gap: 72px; height: calc(var(--how-h) * 4); }
+.h-how__visual, .h-how__text {
   position: sticky;
-  top: calc(72px + (100svh - 72px - var(--how-h)) / 2);
+  top: calc(var(--nav-clear) + (100svh - var(--nav-clear) - var(--how-h)) / 2);
   height: var(--how-h);
   align-self: start;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
 }
+.h-how__visual { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; }
+.h-how__text {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent);
+}
+.h-how__stack { will-change: transform; }
 .h-how__screens { position: relative; width: min(100%, 280px, calc((var(--how-h) - 76px) * 0.485)); aspect-ratio: 970 / 2000; }
 .h-how__screens::before {
   content: "";
@@ -442,11 +459,11 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   transition: transform 200ms var(--ease-out), background-color 200ms ease, border-color 200ms ease;
 }
 .h-dot.on { background: var(--yellow); border-color: var(--yellow); transform: scale(1.3); }
-.h-step { min-height: var(--how-h); display: flex; flex-direction: column; justify-content: center; opacity: 0.38; transition: opacity 300ms ease; }
+.h-step { height: var(--how-pitch); display: flex; flex-direction: column; justify-content: center; opacity: 0.35; transition: opacity 300ms ease; }
 .h-step.on { opacity: 1; }
-.h-step__num { font-size: 5rem; font-weight: 900; line-height: 1; letter-spacing: -0.06em; color: var(--yellow); margin-bottom: 10px; }
-.h-step h3 { font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 14px; }
-.h-step p { font-size: 1.05rem; line-height: 1.7; font-weight: 500; color: rgba(255, 255, 255, 0.72); max-width: 26em; }
+.h-step__num { font-size: 4rem; font-weight: 900; line-height: 1; letter-spacing: -0.06em; color: var(--yellow); margin-bottom: 8px; }
+.h-step h3 { font-size: 1.9rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 12px; }
+.h-step p { font-size: 1.05rem; line-height: 1.65; font-weight: 500; color: rgba(255, 255, 255, 0.72); max-width: 26em; }
 .h-how__cta { text-align: center; margin-top: 40px; }
 .h-how__cta .h-fine { margin-top: 18px; color: rgba(255, 255, 255, 0.6); }
 
@@ -626,9 +643,12 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   .h-found__grid { gap: 56px; }
   .h-callout { padding: 36px 28px; gap: 32px; }
   .h-how__grid { gap: 32px; }
+  .h-how__grid { height: auto; }
   .h-how__visual { position: static; height: auto; }
+  .h-how__text { position: static; height: auto; overflow: visible; -webkit-mask-image: none; mask-image: none; }
+  .h-how__stack { transform: none !important; }
   .h-how__screens { width: min(100%, 240px); }
-  .h-step { min-height: 0; opacity: 1; padding: 26px 0; border-top: 2px solid rgba(255, 255, 255, 0.12); }
+  .h-step { height: auto; opacity: 1; padding: 26px 0; border-top: 2px solid rgba(255, 255, 255, 0.12); }
   .h-step__num { font-size: 3.2rem; }
   .h-brands__head { flex-direction: column; align-items: flex-start; gap: 20px; }
   .h-brands__side { text-align: left; }
@@ -639,6 +659,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   .h-momentum { padding: 28px 22px; }
 }
 @media (max-width: 640px) {
+  :root { --nav-top: 10px; --nav-h: 62px; --nav-inset: 10px; --nav-clear: 80px; }
   .h-wrap, .h-nav__inner, .h-hero__grid, .h-faq__inner { padding-inline: 20px; }
   .h-nav__cta .btn--app { display: none; }
   .h-logo { height: 36px; }
