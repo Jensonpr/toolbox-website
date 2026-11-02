@@ -1,6 +1,6 @@
 # The ToolBox
 
-> The ToolBox is a trade lifestyle membership app for Australia. For $4.99/mo (Founding 500 rate), members get real discounts at 50+ partner brands across workwear, supplements, fitness, recovery, food and tech, shown in the app as a digital membership card or promo code and redeemable in-store or online.
+> The ToolBox is a trade lifestyle membership app for Australia. For $4.99/mo (Founding 500 rate), members get real discounts at 60+ partner brands across workwear, supplements, fitness, recovery, food and tech, shown in the app as a digital membership card or promo code and redeemable in-store or online.
 
 The ToolBox App Pty Ltd is based in Melbourne, VIC, Australia.
 

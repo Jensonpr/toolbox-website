@@ -125,14 +125,25 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 .h-nav__cta { display: flex; align-items: center; gap: 10px; }
 .h-menu-btn { display: none; width: 44px; height: 44px; padding: 0; }
 
-/* Nav sits on the navy hero until the page scrolls */
-.h-nav:not(.is-scrolled) .h-logo { filter: brightness(0) invert(1); }
-.h-nav:not(.is-scrolled) .h-link { color: var(--white); }
-.h-nav:not(.is-scrolled) .h-link::after { background: var(--yellow); }
-.h-nav:not(.is-scrolled) .btn { --sh: var(--blue); }
-.h-nav:not(.is-scrolled) .btn--ghost { color: var(--white); border-color: var(--white); }
+/* Nav takes the tone of whatever it is over: .is-dark over navy sections (set from data-nav="dark") */
+.h-nav.is-scrolled.is-dark {
+  background: rgba(13, 31, 78, 0.94);
+  border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+.h-nav.is-dark .h-logo { filter: brightness(0) invert(1); }
+.h-nav.is-dark .h-link { color: var(--white); }
+.h-nav.is-dark .h-link::after { background: var(--yellow); }
+.h-nav.is-dark .btn { --sh: var(--blue); }
+.h-nav.is-dark .btn--ghost { color: var(--white); border-color: var(--white); }
 @media (hover: hover) and (pointer: fine) {
-  .h-nav:not(.is-scrolled) .btn--ghost:hover { color: var(--ink); }
+  .h-nav.is-dark .btn--ghost:hover { color: var(--ink); }
+}
+/* roomier nav text once there is space for it */
+@media (min-width: 1300px) {
+  .h-nav__left { gap: 52px; }
+  .h-nav__links { gap: 34px; }
+  .h-nav .h-link { font-size: 17px; }
+  .h-nav .btn { padding: 14px 22px; font-size: 16px; }
 }
 
 /* ─── Entrance + reveal motion ────────────────────────────────────────────── */
@@ -385,9 +396,22 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 .h-how__head { text-align: center; margin-bottom: 64px; }
 .h-how__head .h-h2 { margin-top: 18px; color: var(--white); }
 .h-how__head em { font-style: normal; color: var(--yellow); }
+.h-how { --how-h: min(calc(100svh - 72px), 760px); }
 .h-how__grid { display: grid; grid-template-columns: 0.85fr 1fr; gap: 72px; }
-.h-how__visual { position: sticky; top: 112px; align-self: start; display: flex; flex-direction: column; align-items: center; gap: 22px; }
-.h-how__screens { position: relative; width: 100%; max-width: 280px; aspect-ratio: 970 / 2000; }
+/* The phone pins with its centre on the middle of the screen (below the nav). Each step is exactly as
+   tall as the pinned box, so when the pin starts step 1 is already centred and the text then scrolls. */
+.h-how__visual {
+  position: sticky;
+  top: calc(72px + (100svh - 72px - var(--how-h)) / 2);
+  height: var(--how-h);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+.h-how__screens { position: relative; width: min(100%, 280px, calc((var(--how-h) - 76px) * 0.485)); aspect-ratio: 970 / 2000; }
 .h-how__screens::before {
   content: "";
   position: absolute;
@@ -418,7 +442,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   transition: transform 200ms var(--ease-out), background-color 200ms ease, border-color 200ms ease;
 }
 .h-dot.on { background: var(--yellow); border-color: var(--yellow); transform: scale(1.3); }
-.h-step { min-height: 38vh; display: flex; flex-direction: column; justify-content: center; opacity: 0.38; transition: opacity 300ms ease; }
+.h-step { min-height: var(--how-h); display: flex; flex-direction: column; justify-content: center; opacity: 0.38; transition: opacity 300ms ease; }
 .h-step.on { opacity: 1; }
 .h-step__num { font-size: 5rem; font-weight: 900; line-height: 1; letter-spacing: -0.06em; color: var(--yellow); margin-bottom: 10px; }
 .h-step h3 { font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 14px; }
@@ -602,8 +626,8 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   .h-found__grid { gap: 56px; }
   .h-callout { padding: 36px 28px; gap: 32px; }
   .h-how__grid { gap: 32px; }
-  .h-how__visual { position: static; }
-  .h-how__screens { max-width: 240px; }
+  .h-how__visual { position: static; height: auto; }
+  .h-how__screens { width: min(100%, 240px); }
   .h-step { min-height: 0; opacity: 1; padding: 26px 0; border-top: 2px solid rgba(255, 255, 255, 0.12); }
   .h-step__num { font-size: 3.2rem; }
   .h-brands__head { flex-direction: column; align-items: flex-start; gap: 20px; }
