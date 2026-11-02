@@ -1264,10 +1264,10 @@ function Marquee({ copies = 2, speed = 60, label, children }) {
 }
 
 const HOW_STEPS = [
-  { num: "01", title: "Browse the App", desc: "Search 50+ partner brands by category - workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-savings.png" },
-  { num: "02", title: "Find a Deal Near You", desc: "Locate partner stores near you on the map, or grab your online member code for stores you can't visit in person.", img: "/app-screens/app-map.png" },
-  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done - savings in your pocket.", img: "/app-screens/app-browse.png" },
-  { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/app-promo.png" },
+  { num: "01", title: "Browse the App", desc: "Search 50+ partner brands by category - workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/how-1.webp" },
+  { num: "02", title: "Find a Deal Near You", desc: "Locate partner stores near you on the map, or grab your online member code for stores you can't visit in person.", img: "/app-screens/how-2.webp" },
+  { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done - savings in your pocket.", img: "/app-screens/how-3.webp" },
+  { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/how-4.webp" },
 ];
 
 function HowItWorksSection({ onDownload }) {
@@ -1295,7 +1295,7 @@ function HowItWorksSection({ onDownload }) {
           <div className="h-how__visual">
             <div className="h-how__screens">
               {HOW_STEPS.map((s, i) => (
-                <img key={s.num} src={s.img} alt={s.title} width="293" height="600" loading={i === 0 ? "eager" : "lazy"} className={active === i ? "on" : ""} />
+                <img key={s.num} src={s.img} alt={s.title} width="970" height="2000" loading={i === 0 ? "eager" : "lazy"} className={active === i ? "on" : ""} />
               ))}
             </div>
             <div className="h-dots">

@@ -387,7 +387,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 .h-how__head em { font-style: normal; color: var(--yellow); }
 .h-how__grid { display: grid; grid-template-columns: 0.85fr 1fr; gap: 72px; }
 .h-how__visual { position: sticky; top: 112px; align-self: start; display: flex; flex-direction: column; align-items: center; gap: 22px; }
-.h-how__screens { position: relative; width: 100%; max-width: 280px; aspect-ratio: 293 / 600; }
+.h-how__screens { position: relative; width: 100%; max-width: 280px; aspect-ratio: 970 / 2000; }
 .h-how__screens::before {
   content: "";
   position: absolute;
