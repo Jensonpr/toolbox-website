@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, useNavigate, useParams } from "react-router-dom";
+import "./home.css";
 
 // ─── Icons (inline SVG to avoid lucide import issues) ───────────────────────
 const Icon = ({ d, size = 24, className = "" }) => (
@@ -13,7 +14,6 @@ const IcoCheck = ({ size }) => <Icon d="M22 11.08V12a10 10 0 11-5.93-9.14M22 4L1
 const IcoSmartphone = () => <Icon d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />;
 const IcoCreditCard = () => <Icon d="M1 4h22v16H1zM1 10h22" />;
 const IcoTag = () => <Icon d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01" />;
-const IcoChevDown = ({ rotate }) => <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: rotate ? "rotate(180deg)" : "none", transition: "transform 0.3s" }}><path d="M6 9l6 6 6-6" /></svg>;
 const IcoChevLeft = () => <Icon d="M15 18l-6-6 6-6" />;
 const IcoChevRight = () => <Icon d="M9 18l6-6-6-6" />;
 const IcoPlus = ({ rotated }) => <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: rotated ? "rotate(45deg)" : "none", transition: "transform 0.3s" }}><path d="M12 5v14M5 12h14" /></svg>;
@@ -354,33 +354,6 @@ function setJsonLd(id, data) {
     document.head.appendChild(script);
   }
   script.textContent = JSON.stringify(data);
-}
-
-// ─── Marquee Carousel ─────────────────────────────────────────────────────────
-function Marquee({ items, reverse = false, speed = 80 }) {
-  const doubled = [...items, ...items, ...items, ...items];
-  return (
-    <div style={{ overflow: "hidden", width: "100%", position: "relative" }}>
-      <div style={{
-        display: "flex",
-        gap: "24px",
-        animation: `marquee${reverse ? "R" : ""} ${speed}s linear infinite`,
-        width: "max-content",
-      }}>
-        {doubled.map((v, i) => (
-          <div key={i} style={{
-            display: "flex", alignItems: "center", justifyContent: "center",
-            height: "120px", minWidth: "240px", padding: "0 40px",
-            borderRadius: "24px", border: "1px solid #e2e8f0", background: "#fff",
-            flexShrink: 0,
-          }}>
-            <img src={v.logo} alt={v.name} referrerPolicy="no-referrer"
-              style={{ height: "56px", width: "140px", objectFit: "contain", mixBlendMode: "multiply" }} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
@@ -1233,35 +1206,32 @@ function VendorProfilePage() {
   );
 }
 
-// ─── Founding 500 scramble progress ────────────────────────────────────────────
-const FOUNDING_CLAIMED = 285, FOUNDING_TOTAL = 500, FOUNDING_LEFT = FOUNDING_TOTAL - FOUNDING_CLAIMED;
+// ─── Homepage (light, hi-vis) ─────────────────────────────────────────────────
+// Styles live in home.css; tokens in index.css.
+const FOUNDING_CLAIMED = 285, FOUNDING_TOTAL = 500;
+
+const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function FoundingProgress() {
   const ref = useRef(null);
-  const started = useRef(false);
+  const [inView, setInView] = useState(false);
   const [claimed, setClaimed] = useState(0);
-  const [left, setLeft] = useState(0);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting || started.current) return;
-      started.current = true;
-      if (reduceMotion) { setClaimed(FOUNDING_CLAIMED); setLeft(FOUNDING_LEFT); return; }
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      setInView(true);
+      if (prefersReducedMotion()) { setClaimed(FOUNDING_CLAIMED); return; }
       const duration = 900;
       let start = null;
       const step = (ts) => {
-        if (!start) start = ts;
-        const progress = Math.min((ts - start) / duration, 1);
-        if (progress < 1) {
-          setClaimed(Math.floor(Math.random() * FOUNDING_TOTAL));
-          setLeft(Math.floor(Math.random() * FOUNDING_TOTAL));
-          requestAnimationFrame(step);
-        } else {
-          setClaimed(FOUNDING_CLAIMED);
-          setLeft(FOUNDING_LEFT);
-        }
+        if (start === null) start = ts;
+        const t = Math.min((ts - start) / duration, 1);
+        setClaimed(Math.round(FOUNDING_CLAIMED * (1 - Math.pow(1 - t, 3))));
+        if (t < 1) requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
     }, { threshold: 0.5 });
@@ -1270,23 +1240,29 @@ function FoundingProgress() {
   }, []);
 
   return (
-    <div ref={ref} style={{ marginBottom: 36 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-        <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)", fontVariantNumeric: "tabular-nums" }}>{claimed} of {FOUNDING_TOTAL} claimed</span>
-        <span style={{ fontSize: 13, fontWeight: 900, color: "#f4c430", fontVariantNumeric: "tabular-nums" }}>{left} spots left</span>
+    <div ref={ref} className={`h-prog ${inView ? "in" : ""}`} style={{ "--fill": FOUNDING_CLAIMED / FOUNDING_TOTAL }}>
+      <div className="h-prog__row">
+        <span>{claimed} of {FOUNDING_TOTAL} claimed</span>
+        <span>{FOUNDING_TOTAL - claimed} spots left</span>
       </div>
-      <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 99, height: 10, overflow: "hidden", marginBottom: 10 }}>
-        <div style={{ width: `${(FOUNDING_CLAIMED / FOUNDING_TOTAL * 100).toFixed(1)}%`, height: "100%", background: "linear-gradient(to right, #f4c430, #fbbf24)", borderRadius: 99 }} />
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-        <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
-        <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>Spots filling fast</span>
+      <div className="h-prog__track"><div className="h-prog__fill" /></div>
+      <p className="h-prog__note"><i />Spots filling fast</p>
+    </div>
+  );
+}
+
+function Marquee({ copies = 2, speed = 60, label, children }) {
+  return (
+    <div className="h-marquee" role="group" aria-label={label}>
+      <div className="h-marquee__track" style={{ "--dur": `${speed}s` }}>
+        {Array.from({ length: copies }, (_, c) => (
+          <div key={c} aria-hidden={c > 0 ? "true" : undefined} style={{ display: "contents" }}>{children}</div>
+        ))}
       </div>
     </div>
   );
 }
 
-// ─── Landing Page ─────────────────────────────────────────────────────────────
 const HOW_STEPS = [
   { num: "01", title: "Browse the App", desc: "Search 50+ partner brands by category - workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/app-savings.png" },
   { num: "02", title: "Find a Deal Near You", desc: "Locate partner stores near you on the map, or grab your online member code for stores you can't visit in person.", img: "/app-screens/app-map.png" },
@@ -1295,97 +1271,52 @@ const HOW_STEPS = [
 ];
 
 function HowItWorksSection({ onDownload }) {
-  const [activeStep, setActiveStep] = useState(0);
+  const [active, setActive] = useState(0);
   const stepRefs = useRef([]);
 
   useEffect(() => {
-    let ticking = false;
-    const pickClosest = () => {
-      const viewportCenter = window.innerHeight / 2;
-      let closestIdx = 0, closestDist = Infinity;
-      stepRefs.current.forEach((el, i) => {
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const dist = Math.abs(rect.top + rect.height / 2 - viewportCenter);
-        if (dist < closestDist) { closestDist = dist; closestIdx = i; }
-      });
-      setActiveStep(closestIdx);
-      ticking = false;
-    };
-    const onScroll = () => {
-      if (!ticking) { requestAnimationFrame(pickClosest); ticking = true; }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    pickClosest();
-    return () => window.removeEventListener("scroll", onScroll);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) setActive(Number(e.target.dataset.i)); });
+    }, { rootMargin: "-45% 0px -45% 0px" });
+    stepRefs.current.forEach(el => el && observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
+  const jump = (i) => stepRefs.current[i]?.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "center" });
+
   return (
-    <section id="about" style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 45%, #0d1f4e 100%)", padding: "80px 0", position: "relative" }}>
-      {/* Decorative background layer (clipped separately so it doesn't break position:sticky below) */}
-      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
-        {/* Dot grid texture */}
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.12) 1px, transparent 1px)", backgroundSize: "36px 36px", opacity: 0.7 }} />
-        {/* Center glow */}
-        <div style={{ position: "absolute", top: "40%", left: "50%", transform: "translate(-50%,-50%)", width: 900, height: 600, background: "radial-gradient(ellipse, rgba(91,164,207,0.08) 0%, transparent 65%)" }} />
-      </div>
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px", position: "relative" }}>
-
-        {/* Centered heading */}
-        <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 56 }}>
-          <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Inside the App</p>
-          <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff", lineHeight: 0.9 }}>
-            How it <span style={{ color: "#5ba4cf" }}>Works.</span>
-          </h2>
+    <section id="about" className="h-section h-how">
+      <div className="h-wrap">
+        <div className="h-how__head rv">
+          <span className="h-eyebrow">Inside the App</span>
+          <h2 className="h-h2">How it <em>works.</em></h2>
         </div>
-
-        {/* Pinned screenshot + scrolling steps */}
-        <div className="how-steps-pinned" style={{ display: "grid", gridTemplateColumns: "0.85fr 1fr", gap: 64, marginBottom: 32 }}>
-          {/* Sticky phone visual */}
-          <div className="how-steps-visual" style={{ position: "sticky", top: 120, alignSelf: "start", display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
-            <div style={{ position: "relative", width: "100%", maxWidth: 280, aspectRatio: "293 / 600" }}>
+        <div className="h-how__grid">
+          <div className="h-how__visual">
+            <div className="h-how__screens">
               {HOW_STEPS.map((s, i) => (
-                <img key={i} src={s.img} alt={s.title}
-                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", opacity: activeStep === i ? 1 : 0, transition: "opacity 0.5s ease" }} />
+                <img key={s.num} src={s.img} alt={s.title} width="293" height="600" loading={i === 0 ? "eager" : "lazy"} className={active === i ? "on" : ""} />
               ))}
             </div>
-            {/* Progress dots (also a skip cue - click to jump) */}
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className="h-dots">
               {HOW_STEPS.map((s, i) => (
-                <button key={i} onClick={() => stepRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" })}
-                  aria-label={`Jump to step ${s.num}`}
-                  style={{ width: activeStep === i ? 22 : 7, height: 7, borderRadius: 4, border: "none", padding: 0, cursor: "pointer", background: activeStep === i ? "#5ba4cf" : "rgba(255,255,255,0.15)", transition: "all 0.3s" }} />
+                <button key={s.num} className={`h-dot ${active === i ? "on" : ""}`} onClick={() => jump(i)} aria-label={`Jump to step ${s.num}`} aria-current={active === i} />
               ))}
             </div>
           </div>
-
-          {/* Step narrative */}
-          <div className="how-steps-list">
+          <div>
             {HOW_STEPS.map((s, i) => (
-              <div key={i} ref={el => stepRefs.current[i] = el} data-step-index={i}
-                style={{ minHeight: "32vh", display: "flex", flexDirection: "column", justifyContent: "center", opacity: activeStep === i ? 1 : 0.35, transition: "opacity 0.4s ease" }}>
-                <span style={{ fontSize: "4rem", fontWeight: 900, fontStyle: "italic", letterSpacing: "-0.06em", color: "rgba(255,255,255,0.08)", lineHeight: 1, userSelect: "none", marginBottom: 8 }}>{s.num}</span>
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(91,164,207,0.12)", border: "1px solid rgba(91,164,207,0.22)", borderRadius: 100, padding: "5px 13px", marginBottom: 18, width: "fit-content" }}>
-                  <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#5ba4cf", flexShrink: 0 }} />
-                  <span style={{ fontSize: 10, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.18em" }}>Step {s.num}</span>
-                </div>
-                <h3 style={{ fontSize: "1.8rem", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", color: "#fff", marginBottom: 14 }}>{s.title}</h3>
-                <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.75, margin: 0, maxWidth: 420 }}>{s.desc}</p>
+              <div key={s.num} ref={el => { stepRefs.current[i] = el; }} data-i={i} className={`h-step ${active === i ? "on" : ""}`}>
+                <span className="h-step__num" aria-hidden="true">{s.num}</span>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
-
-        {/* CTA */}
-        <div className="scroll-reveal" style={{ textAlign: "center" }}>
-          <button onClick={onDownload}
-            style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#5ba4cf", color: "#fff", padding: "16px 44px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", border: "none", cursor: "pointer", transition: "all 0.25s", fontFamily: "inherit", boxShadow: "0 0 48px rgba(91,164,207,0.35)" }}
-            onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.boxShadow = "0 0 48px rgba(255,255,255,0.2)"; }}
-            onMouseOut={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.boxShadow = "0 0 48px rgba(91,164,207,0.35)"; }}>
-            Download Free
-          </button>
-          <p style={{ marginTop: 14, fontSize: 12, color: "rgba(255,255,255,0.25)", fontWeight: 600 }}>iOS & Android · $4.99/mo membership</p>
+        <div className="h-how__cta rv">
+          <button className="btn btn--yellow btn--lg" onClick={onDownload}>Download Free</button>
+          <p className="h-fine">iOS &amp; Android · $4.99/mo membership</p>
         </div>
       </div>
     </section>
@@ -1401,8 +1332,48 @@ const MOBILE_NAV_ITEMS = [
   { label: "Partner with us", sub: "List your brand", page: "vendor", icon: IcoBriefcase },
 ];
 
+const SAVINGS_EXAMPLES = [
+  { brand: "Anthem Workwear", example: "Work pants + shirt pack", save: "~$45", tag: "per order" },
+  { brand: "Elite Supplements", example: "Monthly supplement order", save: "~$38", tag: "per month" },
+  { brand: "Future Golf", example: "Annual golf membership (20% off)", save: "~$80", tag: "$399 plan · up to $180 saved" },
+];
+
+const FOUNDING_PERKS = [
+  { perk: "Price locked at $4.99/mo, forever", detail: "After 500 spots fill, the price goes up. Founding members keep $4.99/mo for life." },
+  { perk: "Exclusive Founding 500 vendor deals", detail: "Access to special deals only Founding members ever see." },
+  { perk: "First access to every new vendor drop", detail: "Be first in line when new partners join each month." },
+  { perk: "Priority access to member events", detail: "Invites to exclusive trade and lifestyle events." },
+  { perk: "Numbered Founding Member badge in-app", detail: "A permanent badge showing your founding member status." },
+];
+
+const PLANS = [
+  { name: "Monthly Pro", price: "$4.99", period: "/ mo", desc: "Founding 500 Rate · Cancel Anytime", highlight: false, badge: null,
+    feats: ["Discounts across 50+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"] },
+  { name: "Annual Gold Saver", price: "$49.99", period: "/ yr", desc: "Founding 500 Rate · Save $10/yr", highlight: true, badge: "BEST VALUE",
+    feats: ["Everything in Monthly, plus 2 months completely free", "Priority access to new vendors and drops", "Members-only giveaways and exclusive deals"] },
+];
+
+const FAQS = [
+  { q: "What is The ToolBox?", a: "The ToolBox is a trade lifestyle membership app for Australia. For $4.99/mo, members get real discounts at 50+ partner brands across workwear, supplements, fitness, recovery, food and tech." },
+  { q: "How does membership work?", a: "Download the app, pick Monthly Pro ($4.99/mo) or Annual Gold Saver ($49.99/yr), and your digital membership card unlocks every partner deal straight away. No lock-in contract on the monthly plan." },
+  { q: "How do vendors join?", a: "Fill out the partner application on our vendor page and our team will be in touch. We manually vet every partner to make sure the discount is worth a member's time before it goes live in the app." },
+  { q: "How do I use my discount?", a: "Once you're a member, simply open the app and show your digital membership card in-store at any of our partner vendors, or use the provided promo code for online orders." },
+  { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
+  { q: "Which brands are included?", a: "We have 50+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
+  { q: "Can I use it anywhere in Australia?", a: "We're actively scoping out vendors across every state in Australia. If there's a business near you that should be on The ToolBox, let us know - we'd love to add them!" },
+  { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
+];
+
+const PlusIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+);
+const Tick = ({ color = "#0f1318" }) => (
+  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 6.5l3.5 3.5 5.5-7" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+);
+
 function LandingPage() {
   const navigate = useNavigate();
+  const rootRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
@@ -1413,422 +1384,272 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
+    document.body.classList.add("theme-light");
+    return () => document.body.classList.remove("theme-light");
+  }, []);
+
+  useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
-      { threshold: 0.15 }
-    );
-    document.querySelectorAll(".scroll-reveal, .scroll-reveal-left, .scroll-reveal-right").forEach(el => observer.observe(el));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        // also reveal anything already scrolled past (anchor jumps, restored scroll)
+        if (!e.isIntersecting && e.boundingClientRect.top >= 0) return;
+        e.target.classList.add("in");
+        observer.unobserve(e.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    rootRef.current?.querySelectorAll(".rv").forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  const navStyle = {
-    position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, height: 88,
-    background: scrolled ? "rgba(13,31,78,0.95)" : "transparent",
-    backdropFilter: scrolled ? "blur(20px)" : "none",
-    borderBottom: "none",
-    transition: "all 0.4s",
-  };
+  const logoBrands = VENDORS.filter(v => v.logo);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
+    <div className="home" ref={rootRef}>
       {showDL && <DownloadModal onClose={() => setShowDL(false)} />}
 
       {/* Nav */}
-      <nav style={navStyle}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
-            <img src={LOGO} alt="The ToolBox" className="nav-logo" style={{ height: 48, objectFit: "contain", display: "block", filter: "brightness(0) invert(1)" }} />
-            <div className="desktop-nav" style={{ display: "flex", gap: 40, fontSize: 17, fontWeight: 900 }}>
-              {[["How it works", "#about"], ["Vendors", "#vendors"], ["Pricing", "#pricing"], ["FAQ", "#faq"]].map(([label, href]) => (
-                <a key={label} href={href} style={{ color: "#fff", textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>{label}</a>
-              ))}
-              <button onClick={() => navigate("/blog")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", fontWeight: 900, fontSize: 16, padding: 0, lineHeight: "inherit", fontFamily: "inherit" }}
-                onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>Blog</button>
-              <button onClick={() => navigate("/vendor")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", fontWeight: 900, fontSize: 16, padding: 0, lineHeight: "inherit", fontFamily: "inherit" }} className="nav-link-hover"
-                onMouseOver={e => e.target.style.color = "#5ba4cf"} onMouseOut={e => e.target.style.color = "#fff"}>Partner with us</button>
+      <nav className={`h-nav ${scrolled ? "is-scrolled" : ""}`} aria-label="Main">
+        <div className="h-nav__inner">
+          <div className="h-nav__left">
+            <img src={LOGO} alt="The ToolBox" className="h-logo" />
+            <div className="h-nav__links">
+              <a className="h-link" href="#about">How it works</a>
+              <a className="h-link" href="#vendors">Vendors</a>
+              <a className="h-link" href="#pricing">Pricing</a>
+              <a className="h-link" href="#faq">FAQ</a>
+              <button className="h-link" onClick={() => navigate("/blog")}>Blog</button>
+              <button className="h-link" onClick={() => navigate("/vendor")}>Partner with us</button>
             </div>
           </div>
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <button className="nav-get-app" onClick={() => setShowDL(true)}
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#0d1f4e", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, border: "none", cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.2s", animation: "glowPulseWhite 3s ease-in-out infinite", fontFamily: "inherit" }}
-              onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.animation = "none"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; e.currentTarget.style.animation = "glowPulseWhite 3s ease-in-out infinite"; }}>
-              Get the App
-            </button>
-            <a href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="vendor-portal-btn"
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "12px 20px", borderRadius: 12, fontWeight: 900, fontSize: 14, textDecoration: "none", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.15)", transition: "all 0.2s" }}
-              onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; }}
-              onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
-              Vendor Portal
-            </a>
-            <button className="mobile-menu-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu"
-              style={{ display: "none", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff", width: 44, height: 44, borderRadius: 12, cursor: "pointer", alignItems: "center", justifyContent: "center" }}>
-              <IcoMenu />
-            </button>
+          <div className="h-nav__cta">
+            <button className="btn btn--yellow btn--app" onClick={() => setShowDL(true)}>Get the App</button>
+            <a className="btn btn--ghost btn--portal" href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer">Vendor Portal</a>
+            <button className="btn h-menu-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu"><IcoMenu /></button>
           </div>
         </div>
       </nav>
 
-      {/* Full-screen mobile nav */}
-      <div className={`mobile-nav-overlay ${menuOpen ? "open" : ""}`} style={{ position: "fixed", inset: 0, zIndex: 200, background: "linear-gradient(160deg, #050d1e 0%, #0a1940 45%, #0d1f4e 100%)", display: "flex", flexDirection: "column", visibility: menuOpen ? "visible" : "hidden", opacity: menuOpen ? 1 : 0, transition: "opacity 0.3s ease, visibility 0.3s ease" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px", height: 80, flexShrink: 0 }}>
-          <img src={LOGO} alt="The ToolBox" style={{ height: 40, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
-          <button onClick={() => setMenuOpen(false)} aria-label="Close menu"
-            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff", width: 44, height: 44, borderRadius: 12, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <IcoX />
-          </button>
+      {/* Mobile sheet */}
+      <div className={`h-sheet ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen} inert={!menuOpen}>
+        <div className="h-sheet__bar">
+          <img src={LOGO} alt="The ToolBox" className="h-logo" />
+          <button className="btn h-menu-btn" style={{ display: "inline-flex" }} onClick={() => setMenuOpen(false)} aria-label="Close menu"><IcoX /></button>
         </div>
-        <div style={{ flex: 1, overflowY: "auto", padding: "12px 24px" }}>
-          <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, fontSize: "1.1rem", marginBottom: 20 }}>Where do you want to go?</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
-            {MOBILE_NAV_ITEMS.map(item => {
+        <div className="h-sheet__body">
+          <p className="h-sheet__q">Where do you want to go?</p>
+          <div className="h-sheet__grid">
+            {MOBILE_NAV_ITEMS.map((item, i) => {
               const ItemIcon = item.icon;
-              const content = (
+              const inner = (
                 <>
-                  <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(91,164,207,0.15)", color: "#5ba4cf", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
-                    <ItemIcon />
-                  </div>
-                  <p style={{ color: "#fff", fontWeight: 900, fontSize: "0.95rem", marginBottom: 4 }}>{item.label}</p>
-                  <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: "0.78rem", lineHeight: 1.4 }}>{item.sub}</p>
+                  <div className="h-tile__ico"><ItemIcon /></div>
+                  <strong>{item.label}</strong>
+                  <span>{item.sub}</span>
                 </>
               );
-              const tileStyle = { background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: "20px 18px", textDecoration: "none", textAlign: "left", cursor: "pointer", display: "block", fontFamily: "inherit" };
               return item.page ? (
-                <button key={item.label} onClick={() => { setMenuOpen(false); navigate(`/${item.page}`); }} style={tileStyle}>{content}</button>
+                <button key={item.label} className="h-tile" style={{ "--i": i }} onClick={() => { setMenuOpen(false); navigate(`/${item.page}`); }}>{inner}</button>
               ) : (
-                <a key={item.label} href={item.href} onClick={() => setMenuOpen(false)} style={tileStyle}>{content}</a>
+                <a key={item.label} className="h-tile" style={{ "--i": i }} href={item.href} onClick={() => setMenuOpen(false)}>{inner}</a>
               );
             })}
           </div>
         </div>
-        <div style={{ display: "flex", gap: 10, padding: 20, borderTop: "1px solid rgba(255,255,255,0.08)", flexShrink: 0 }}>
-          <button onClick={() => { setMenuOpen(false); setShowDL(true); }}
-            style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "#fff", color: "#0d1f4e", padding: "16px 20px", borderRadius: 14, fontWeight: 900, fontSize: 15, border: "none", cursor: "pointer", fontFamily: "inherit" }}>
-            Get the App
-          </button>
-          <a href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}
-            style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "16px 20px", borderRadius: 14, fontWeight: 900, fontSize: 15, textDecoration: "none", border: "1px solid rgba(255,255,255,0.15)" }}>
-            Vendor Portal
-          </a>
+        <div className="h-sheet__foot">
+          <button className="btn btn--yellow" onClick={() => { setMenuOpen(false); setShowDL(true); }}>Get the App</button>
+          <a className="btn" href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>Vendor Portal</a>
         </div>
       </div>
 
       {/* Hero */}
-      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "linear-gradient(180deg, #0a1526 0%, #0a1940 45%, #0d1f4e 100%)" }}>
-        {/* Dot grid texture */}
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(91,164,207,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
-
-        {/* Content - paddingTop clears the fixed nav (~80px) */}
-        <div className="hero-content" style={{ position: "relative", zIndex: 10, textAlign: "center", padding: "100px 32px 80px", maxWidth: 1000, width: "100%" }}>
-
-          {/* Live badge */}
-          <div className="anim-fade-up anim-fade-up-1" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "8px 20px", marginBottom: 28 }}>
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite", flexShrink: 0 }} />
-            <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.2em" }}>Now Live on iOS & Android</span>
-          </div>
-
-          {/* Headline */}
-          <h1 style={{ marginBottom: 24, lineHeight: 0.88 }}>
-            <span className="anim-hero-line-1" style={{ display: "block", fontSize: "clamp(3rem, 9vw, 7.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#fff" }}>Stop Paying</span>
-            <span className="anim-hero-line-2" style={{ display: "block", fontSize: "clamp(3rem, 9vw, 7.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.03em", color: "#5ba4cf" }}>Full Price.</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: "clamp(1rem, 1.8vw, 1.15rem)", color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.6, maxWidth: 460, margin: "0 auto 36px" }}>
-            Australia's trade lifestyle membership app. Join for $4.99/mo and save at 50+ partner brands across workwear, supplements, fitness and more.
-          </p>
-
-          {/* Store buttons */}
-          <p className="anim-fade-up anim-fade-up-3" style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.28em", marginBottom: 18 }}>↓ Start saving today - free to download</p>
-          <div className="anim-fade-up anim-fade-up-4 hero-store-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 16 }}>
-            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="hero-dl-ios"
-              style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "#fff", color: "#0d1f4e", padding: "20px 44px", borderRadius: 100, fontWeight: 900, fontSize: "1.1rem", textDecoration: "none", whiteSpace: "nowrap" }}>
-              <IcoApple size={22} /> Download on iOS
-            </a>
-            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="hero-dl-android"
-              style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "rgba(255,255,255,0.1)", color: "#fff", padding: "20px 44px", borderRadius: 100, fontWeight: 900, fontSize: "1.1rem", textDecoration: "none", border: "2px solid rgba(255,255,255,0.25)", whiteSpace: "nowrap" }}>
-              <IcoGoogle size={22} /> Download on Android
-            </a>
-          </div>
-          <p className="anim-fade-up anim-fade-up-4" style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontWeight: 600, marginBottom: 52 }}>$4.99/mo for Founding 500 members · Price increases after 500 spots fill</p>
-
-          {/* App review marquee - 3-wide, slow continuous rotation */}
-          <div className="anim-fade-up anim-fade-up-5 hero-review-marquee" style={{ maxWidth: 1040, margin: "0 auto", overflow: "hidden", maskImage: "linear-gradient(to right, transparent, #000 22%, #000 78%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, #000 22%, #000 78%, transparent)" }}>
-            <div className="hero-review-track" style={{ display: "flex", gap: 20, width: "max-content", animation: "marquee 60s linear infinite" }}>
-              {[...APP_REVIEWS, ...APP_REVIEWS].map((r, i) => (
-                <div key={i} className="hero-review-card" style={{ width: 320, flexShrink: 0, boxSizing: "border-box", background: "#fff", borderRadius: 24, padding: "24px 26px", textAlign: "left", boxShadow: "0 20px 50px rgba(0,0,0,0.25)", display: "flex", flexDirection: "column", height: 210 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
-                    <p style={{ fontWeight: 900, fontSize: "0.98rem", color: "#0d1f4e", lineHeight: 1.25 }}>{r.title}</p>
-                    <div style={{ textAlign: "right", flexShrink: 0 }}>
-                      <p style={{ fontSize: 11, color: "#94a3b8", fontWeight: 700 }}>{r.date}</p>
-                      <p style={{ fontSize: 11, color: "#94a3b8", fontWeight: 700 }}>{r.author}</p>
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", gap: 3, marginBottom: 10 }}>
-                    {Array.from({ length: r.rating }).map((_, s) => <IcoStar key={s} size={13} />)}
-                  </div>
-                  <p style={{ fontSize: 13, color: "#475569", fontWeight: 500, lineHeight: 1.55, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical" }}>{r.text}</p>
-                </div>
-              ))}
+      <header className="h-hero">
+        <div className="h-hero__grid">
+          <div>
+            <div className="h-rise" style={{ "--i": 0 }}>
+              <span className="h-tag"><span className="h-tag__dot" />Now live on iOS &amp; Android</span>
             </div>
+            <h1 className="h-rise" style={{ "--i": 1 }}>Stop paying <span className="h-mark">full price.</span></h1>
+            <p className="h-lede h-rise" style={{ "--i": 2 }}>
+              Australia's trade lifestyle membership app. Join for $4.99/mo and save at 50+ partner brands across workwear, supplements, fitness and more.
+            </p>
+            <div className="h-hero__ctas h-rise" style={{ "--i": 3 }}>
+              <a className="btn btn--ink btn--lg" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><IcoApple size={22} /> Download on iOS</a>
+              <a className="btn btn--lg" href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><IcoGoogle size={22} /> Download on Android</a>
+            </div>
+            <p className="h-fine h-rise" style={{ "--i": 4 }}>Free to download · $4.99/mo for Founding 500 members · Price increases after 500 spots fill</p>
+          </div>
+          <div className="h-visual h-rise" style={{ "--i": 2 }}>
+            <div className="h-visual__plate" />
+            <img className="h-visual__phone" src="/app-screens/app-hero.png" width="1223" height="1400" fetchPriority="high" alt="The ToolBox app home screen showing featured partner deals" />
+            <div className="h-sticker" aria-hidden="true"><small>From</small><strong>$4.99</strong><small>per month</small></div>
           </div>
         </div>
 
+        {/* Reviews */}
+        <div className="h-reviews">
+          <div className="h-wrap h-reviews__head rv"><span className="h-eyebrow">What members say</span></div>
+          <Marquee copies={2} speed={60} label="App reviews">
+            {APP_REVIEWS.map((r, i) => (
+              <article key={i} className="h-review">
+                <div className="h-review__top">
+                  <p className="h-review__title">{r.title}</p>
+                  <div className="h-review__meta"><p>{r.date}</p><p>{r.author}</p></div>
+                </div>
+                <div className="h-stars">{Array.from({ length: r.rating }).map((_, s) => <IcoStar key={s} size={14} color="#f2a900" />)}</div>
+                <p className="h-review__text">{r.text}</p>
+              </article>
+            ))}
+          </Marquee>
+        </div>
+      </header>
+
+      {/* Story */}
+      <section className="h-section">
+        <div className="h-wrap h-story">
+          <div className="rv">
+            <span className="h-eyebrow">Our Story</span>
+            <h2 className="h-h2">Built for the trade lifestyle.</h2>
+            <p className="h-p">The ToolBox wasn't born in a boardroom - it was born on site. We got sick of seeing everyone else get the perks while the people doing the hard yards got the short end of the stick.</p>
+            <p className="h-p">Whether you're on the tools or just live that lifestyle, this app is built to put real money back in your pocket.</p>
+          </div>
+          <div className="h-photo rv" style={{ "--i": 1 }}>
+            <img src="https://res.cloudinary.com/dy4rpazlk/image/upload/f_auto,q_auto/v1777162843/IMG_1781_l8ffof_tp09hu.heic" alt="On site" loading="lazy" />
+            <div className="h-photo__cap">
+              <strong>"Reclaiming value for those who earn it."</strong>
+              <span>Founded in Melbourne, VIC</span>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* Mission + Vendors */}
-      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #0d1f4e", padding: "88px 0 64px", overflow: "hidden", width: "100%", boxSizing: "border-box", position: "relative" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 48, alignItems: "center", marginBottom: 64 }}>
-          <div className="scroll-reveal-left">
-            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>Our Story</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 0.9, color: "#fff", marginBottom: 40 }}>
-              Built for the<br />trade lifestyle<span style={{ color: "#5ba4cf" }}>.</span>
-            </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: "1.1rem", color: "rgba(255,255,255,0.6)", fontWeight: 500, lineHeight: 1.7, maxWidth: 480 }}>
-              <p>The ToolBox wasn't born in a boardroom - it was born on site. We got sick of seeing everyone else get the perks while the people doing the hard yards got the short end of the stick.</p>
-              <p>Whether you're on the tools or just live that lifestyle, this app is built to put real money back in your pocket.</p>
+      {/* Brands */}
+      <section id="vendors" className="h-brands">
+        <div className="h-wrap">
+          <div className="h-brands__head rv">
+            <div>
+              <span className="h-eyebrow">Our Network</span>
+              <h2 className="h-h2">Partnered vendors.</h2>
             </div>
-          </div>
-          <div className="mission-image-col scroll-reveal-right" style={{ position: "relative" }}>
-            <div style={{ position: "absolute", inset: -16, background: "rgba(91,164,207,0.05)", borderRadius: 40, transform: "rotate(-2deg)" }} />
-            <div style={{ position: "relative" }}>
-              <img src="https://res.cloudinary.com/dy4rpazlk/image/upload/f_auto,q_auto/v1777162843/IMG_1781_l8ffof_tp09hu.heic"
-                alt="On site" style={{ width: "100%", maxHeight: 420, aspectRatio: "1", objectFit: "cover", borderRadius: 40 }} />
-              <div style={{ position: "absolute", bottom: 24, left: 24, right: 24, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(10px)", padding: 20, borderRadius: 20, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
-                <p style={{ color: "#0d1f4e", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", fontSize: "1.05rem", marginBottom: 4 }}>"Reclaiming value for those who earn it."</p>
-                <p style={{ color: "#5ba4cf", fontWeight: 700, fontSize: 13 }}>Founded in Melbourne, VIC</p>
-              </div>
+            <div className="h-brands__side">
+              <p className="h-p">50+ brands across tools, workwear, supplements, fitness &amp; more. Growing every week.</p>
+              <button className="h-more" onClick={() => navigate("/vendors")}>See all 50+ partners <IcoChevRight /></button>
             </div>
           </div>
         </div>
-
-        {/* Vendors */}
-        <div id="vendors" style={{ scrollMarginTop: 80 }}>
-          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px 48px" }}>
-            <div className="vendors-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-              <div>
-                <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 12, marginBottom: 12 }}>Our Network</p>
-                <h2 style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#fff", lineHeight: 1 }}>Partnered<br />Vendors<span style={{ color: "#5ba4cf" }}>.</span></h2>
-              </div>
-              <div className="vendors-header-right">
-                <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 700, fontSize: 15, maxWidth: 320, textAlign: "right", lineHeight: 1.6, marginBottom: 12 }}>50+ brands across tools, workwear, supplements, fitness & more. Growing every week.</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.4)", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", justifyContent: "flex-end", marginBottom: 12 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
-                  Live Network Updates
-                </div>
-                <button onClick={() => navigate("/vendors")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: "#5ba4cf", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.15em", display: "flex", alignItems: "center", gap: 6, justifyContent: "flex-end", width: "100%" }}>
-                  See all 50+ partners <IcoChevRight />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 24, position: "relative" }}>
-            <Marquee items={VENDORS.filter(v => v.logo).slice(0, 7)} speed={70} />
-            <Marquee items={VENDORS.filter(v => v.logo).slice(7)} reverse speed={90} />
-            <div style={{ position: "absolute", inset: "0 auto 0 0", width: 160, background: "linear-gradient(to right, #0d1f4e, transparent)", pointerEvents: "none", zIndex: 2 }} />
-            <div style={{ position: "absolute", inset: "0 0 0 auto", width: 160, background: "linear-gradient(to left, #0d1f4e, transparent)", pointerEvents: "none", zIndex: 2 }} />
-          </div>
-        </div>
+        <Marquee copies={4} speed={70} label="Partner brands">
+          {logoBrands.map(v => (
+            <div key={v.slug} className="h-brand"><img src={v.logo} alt={v.name} referrerPolicy="no-referrer" loading="lazy" /></div>
+          ))}
+        </Marquee>
       </section>
 
       <HowItWorksSection onDownload={() => setShowDL(true)} />
 
-      {/* Savings Proof Section */}
-      <section style={{ background: "linear-gradient(to bottom, transparent calc(100% - 220px), #060e1f 100%), #0d1f4e", padding: "80px 0", width: "100%", boxSizing: "border-box", position: "relative" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 72 }}>
-            <p style={{ color: "#22c55e", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Real Value, Every Use</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.04em", color: "#fff", lineHeight: 0.9, marginBottom: 24 }}>
-              Your first deal pays<br /><span style={{ color: "#5ba4cf" }}>for the year.</span>
-            </h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, fontSize: "1.05rem", maxWidth: 540, margin: "0 auto", lineHeight: 1.65 }}>
-              Most members cover their $49.99 annual membership in just 2–3 uses. Everything after that is pure savings in your pocket.
-            </p>
+      {/* Savings */}
+      <section className="h-section h-savings">
+        <div className="h-wrap">
+          <div className="h-savings__head rv">
+            <span className="h-eyebrow">Real Value, Every Use</span>
+            <h2 className="h-h2">Your first deal pays for the year.</h2>
+            <p className="h-p">Most members cover their $49.99 annual membership in just 2–3 uses. Everything after that is pure savings in your pocket.</p>
           </div>
-
-          {/* Savings examples */}
-          <div className="savings-3-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 48 }}>
-            {[
-              { brand: "Anthem Workwear", example: "Work pants + shirt pack", save: "~$45", tag: "per order", col: "#f4c430" },
-              { brand: "Elite Supplements", example: "Monthly supplement order", save: "~$38", tag: "per month", col: "#5ba4cf" },
-              { brand: "Future Golf", example: "Annual golf membership (20% off)", save: "~$80", tag: "$399 plan · up to $180 saved", col: "#22c55e" },
-            ].map((item, i) => (
-              <div key={i} className={`scroll-reveal savings-card scroll-reveal-d${i + 1}`} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 24, padding: "36px 28px", position: "relative", overflow: "hidden" }}>
-                <div style={{ position: "absolute", top: 20, right: 20, width: 10, height: 10, borderRadius: "50%", background: item.col }} />
-                <p style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)", marginBottom: 10 }}>{item.brand}</p>
-                <p style={{ fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 20, lineHeight: 1.5 }}>{item.example}</p>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                  <span style={{ fontSize: "3rem", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", lineHeight: 1 }}>{item.save}</span>
-                  <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(255,255,255,0.35)" }}>{item.tag}</span>
+          <div className="h-cards3">
+            {SAVINGS_EXAMPLES.map((item, i) => (
+              <div key={item.brand} className="rv" style={{ "--i": i }}>
+                <div className="h-save">
+                  <span className="h-chip">{item.brand}</span>
+                  <p className="ex">{item.example}</p>
+                  <div className="h-save__n">{item.save}<small>{item.tag}</small></div>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* Not left to chance callout */}
-          <div className="scroll-reveal savings-callout" style={{ background: "linear-gradient(135deg, #0d1f4e 0%, #0a1940 100%)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 32, padding: "52px 56px", display: "flex", gap: 56, alignItems: "center" }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(34,197,94,0.15)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 100, padding: "6px 16px", marginBottom: 20 }}>
-                <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "pulse 2s ease-in-out infinite" }} />
-                <span style={{ fontSize: 11, fontWeight: 900, color: "#22c55e", textTransform: "uppercase", letterSpacing: "0.2em" }}>Guaranteed Savings</span>
-              </div>
-              <h3 style={{ fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", color: "#fff", marginBottom: 16, lineHeight: 0.95 }}>
-                Real savings.<br /><span style={{ color: "#5ba4cf" }}>Not left to chance.</span>
-              </h3>
-              <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.7, maxWidth: 420, fontSize: "0.95rem" }}>
-                Every deal in The ToolBox is available every single time you open the app. No draws, no waiting, no luck required - just guaranteed discounts on the brands you already buy, ready whenever you are.
-              </p>
+          <div className="h-callout rv">
+            <div>
+              <span className="h-tag"><span className="h-tag__dot" />Guaranteed Savings</span>
+              <h3>Real savings. <em>Not left to chance.</em></h3>
+              <p className="h-p">Every deal in The ToolBox is available every single time you open the app. No draws, no waiting, no luck required - just guaranteed discounts on the brands you already buy, ready whenever you are.</p>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14, flexShrink: 0 }}>
-              {["Discounts guaranteed, every single use", "No draws, no waiting, no luck", "Save from the very first redemption", "Pays for the annual fee in 2–3 uses", "50+ brands growing every month"].map((perk, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(34,197,94,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-7" stroke="#22c55e" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  </div>
-                  <span style={{ fontSize: "0.88rem", fontWeight: 700, color: "rgba(255,255,255,0.7)" }}>{perk}</span>
-                </div>
+            <ul className="h-checks">
+              {["Discounts guaranteed, every single use", "No draws, no waiting, no luck", "Save from the very first redemption", "Pays for the annual fee in 2–3 uses", "50+ brands growing every month"].map(perk => (
+                <li key={perk}><span className="h-tick"><Tick /></span>{perk}</li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </section>
 
-      {/* Founding 500 Full Section */}
-      <section style={{ background: "linear-gradient(180deg, #060e1f 0%, #0a1940 50%, #0d1f4e 100%)", padding: "80px 0", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(244,196,48,0.06) 1px, transparent 1px)", backgroundSize: "32px 32px", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: "20%", right: "-10%", width: 600, height: 600, background: "radial-gradient(ellipse, rgba(244,196,48,0.06) 0%, transparent 65%)", borderRadius: "50%", pointerEvents: "none" }} />
-
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 32px", position: "relative" }}>
-          <div className="founding-full-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
-
-            {/* Left */}
-            <div className="scroll-reveal-left">
-              <p style={{ color: "#f4c430", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 14 }}>Limited Availability</p>
-              <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", color: "#fff", lineHeight: 0.9, marginBottom: 20 }}>
-                Founding<br /><span style={{ color: "#f4c430" }}>500.</span>
-              </h2>
-              <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 500, lineHeight: 1.7, fontSize: "1rem", marginBottom: 36 }}>
-                Be part of the first 500 members and lock in $4.99/mo forever - even when pricing goes up. These perks won't come back once the spots are gone.
-              </p>
-
-              {/* Progress bar */}
-              <FoundingProgress />
-
-              <button onClick={() => setShowDL(true)}
-                style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#f4c430", color: "#0d1f4e", padding: "18px 40px", borderRadius: 100, fontWeight: 900, fontSize: "1rem", border: "none", cursor: "pointer", transition: "all 0.25s", fontFamily: "inherit", boxShadow: "0 0 48px rgba(244,196,48,0.3)" }}
-                onMouseOver={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 48px rgba(255,255,255,0.2)"; }}
-                onMouseOut={e => { e.currentTarget.style.background = "#f4c430"; e.currentTarget.style.boxShadow = "0 0 48px rgba(244,196,48,0.3)"; }}>
-                Claim Your Spot
-              </button>
-            </div>
-
-            {/* Right: perks */}
-            <div className="scroll-reveal-right">
-              <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>What founding members get</p>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                {[
-                  { perk: "Price locked at $4.99/mo, forever", detail: "After 500 spots fill, the price goes up. Founding members keep $4.99/mo for life." },
-                  { perk: "Exclusive Founding 500 vendor deals", detail: "Access to special deals only Founding members ever see." },
-                  { perk: "First access to every new vendor drop", detail: "Be first in line when new partners join each month." },
-                  { perk: "Priority access to member events", detail: "Invites to exclusive trade and lifestyle events." },
-                  { perk: "Numbered Founding Member badge in-app", detail: "A permanent badge showing your founding member status." },
-                ].map((item, i) => (
-                  <div key={i} className="founding-perk" style={{ display: "flex", gap: 16, padding: "18px 8px", borderBottom: "1px solid rgba(255,255,255,0.06)", borderRadius: 8, cursor: "default", transformOrigin: "left center" }}>
-                    <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(244,196,48,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
-                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5 5.5-7" stroke="#f4c430" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    </div>
-                    <div>
-                      <p style={{ fontWeight: 900, color: "#fff", fontSize: "0.95rem", marginBottom: 4 }}>{item.perk}</p>
-                      <p style={{ color: "rgba(255,255,255,0.38)", fontSize: "0.83rem", fontWeight: 500, lineHeight: 1.55 }}>{item.detail}</p>
-                    </div>
-                  </div>
-                ))}
+      {/* Founding 500 */}
+      <section className="h-section h-found">
+        <div className="h-wrap h-found__grid">
+          <div className="rv">
+            <span className="h-eyebrow">Limited Availability</span>
+            <h2 className="h-h2">Founding <em>500.</em></h2>
+            <p className="h-p">Be part of the first 500 members and lock in $4.99/mo forever - even when pricing goes up. These perks won't come back once the spots are gone.</p>
+            <FoundingProgress />
+            <button className="btn btn--yellow btn--lg" onClick={() => setShowDL(true)}>Claim Your Spot</button>
+          </div>
+          <div className="h-perks rv" style={{ "--i": 1 }}>
+            <p className="h-perks__label">What founding members get</p>
+            {FOUNDING_PERKS.map(item => (
+              <div key={item.perk} className="h-perk">
+                <span className="h-tick" style={{ marginTop: 2 }}><Tick /></span>
+                <div><strong>{item.perk}</strong><span>{item.detail}</span></div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Pricing */}
-      <section id="pricing" style={{ background: "#0d1f4e", padding: "72px 0", scrollMarginTop: 80, position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
-          <div className="scroll-reveal" style={{ textAlign: "center", marginBottom: 64 }}>
-            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Simple Pricing</p>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff" }}>Pick your plan.</h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginTop: 16, fontSize: "1.05rem" }}>These are <strong style={{ color: "#f4c430" }}>Founding 500 prices</strong> - locked in for life. Once spots fill, pricing goes up.</p>
-            <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500, marginTop: 12, fontSize: "0.95rem", maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>How membership works: pick a plan, and your digital membership card unlocks every partner deal in the app straight away. No lock-in contract on Monthly Pro.</p>
+      <section id="pricing" className="h-section">
+        <div className="h-wrap">
+          <div className="h-pricing__head rv">
+            <span className="h-eyebrow">Simple Pricing</span>
+            <h2 className="h-h2">Pick your plan.</h2>
+            <p className="h-p">These are <strong>Founding 500 prices</strong> - locked in for life. Once spots fill, pricing goes up.</p>
+            <p className="h-p">How membership works: pick a plan, and your digital membership card unlocks every partner deal in the app straight away. No lock-in contract on Monthly Pro.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 960, margin: "0 auto" }}>
-            {[
-              { name: "Monthly Pro", price: "$4.99", period: "/ mo", desc: "Founding 500 Rate · Cancel Anytime", highlight: false,
-                feats: ["Discounts across 50+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"],
-                badge: null },
-              { name: "Annual Gold Saver", price: "$49.99", period: "/ yr", desc: "Founding 500 Rate · Save $10/yr", highlight: true,
-                feats: ["Everything in Monthly, plus 2 months completely free", "Priority access to new vendors and drops", "Members-only giveaways and exclusive deals"],
-                badge: "BEST VALUE" },
-            ].map((plan, i) => (
-              <div key={i} className={`scroll-reveal pricing-card scroll-reveal-d${i + 1}`} style={{ background: plan.highlight ? "#5ba4cf" : "#fff", color: "#0d1f4e", padding: 40, borderRadius: 40, boxShadow: "0 30px 60px rgba(0,0,0,0.2)", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden", transitionDelay: `${i * 0.15}s` }}>
-                {plan.badge && (
-                  <div style={{ position: "absolute", top: 20, right: 20, background: "#0d1f4e", color: "#fff", padding: "6px 14px", borderRadius: 100, fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em" }}>{plan.badge}</div>
-                )}
-                <div style={{ marginBottom: 32 }}>
-                  <p style={{ fontWeight: 700, textTransform: "uppercase", fontSize: 11, opacity: 0.5, marginBottom: 8 }}>{plan.name}</p>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-                    <span style={{ fontSize: "3.5rem", fontWeight: 900, textTransform: "uppercase" }}>{plan.price}</span>
-                    <span style={{ fontWeight: 700, opacity: 0.5 }}>{plan.period}</span>
-                  </div>
-                  <p style={{ fontWeight: 900, textTransform: "uppercase", fontSize: 10, letterSpacing: "0.2em", opacity: 0.6, fontStyle: "italic", marginTop: 12 }}>{plan.desc}</p>
-                </div>
-                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 16, flex: 1, marginBottom: 24 }}>
-                  {plan.feats.map(f => (
-                    <li key={f} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, fontWeight: 700, opacity: 0.85 }}>
-                      <IcoCheck size={18} />{f}
-                    </li>
-                  ))}
-                </ul>
-                <div style={{ background: plan.highlight ? "rgba(13,31,78,0.15)" : "rgba(91,164,207,0.08)", borderRadius: 16, padding: "12px 16px", marginBottom: 20, display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#f4c430", flexShrink: 0 }} />
-                  <p style={{ fontSize: 12, fontWeight: 700, opacity: 0.8, fontStyle: "italic" }}>Founding 500 members lock in this price forever + get an exclusive in-app badge.</p>
-                </div>
-                <button onClick={() => setShowDL(true)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: plan.highlight ? "#0d1f4e" : "#5ba4cf", color: "#fff", padding: 18, borderRadius: 16, fontWeight: 900, fontSize: "1.1rem", fontStyle: "italic", textTransform: "uppercase", letterSpacing: "-0.02em", border: "none", cursor: "pointer", transition: "opacity 0.2s", boxSizing: "border-box", fontFamily: "inherit" }}
-                  onMouseOver={e => e.currentTarget.style.opacity = "0.85"} onMouseOut={e => e.currentTarget.style.opacity = "1"}>
-                  Download Now
-                </button>
+          <div className="h-plans">
+            {PLANS.map((plan, i) => (
+              <div key={plan.name} className={`h-plan rv ${plan.highlight ? "h-plan--hi" : ""}`} style={{ "--i": i }}>
+                {plan.badge && <span className="h-plan__badge">{plan.badge}</span>}
+                <p className="h-plan__name">{plan.name}</p>
+                <div className="h-plan__price"><strong>{plan.price}</strong><span>{plan.period}</span></div>
+                <p className="h-plan__desc">{plan.desc}</p>
+                <ul>{plan.feats.map(f => <li key={f}><IcoCheck size={20} />{f}</li>)}</ul>
+                <div className="h-plan__note"><i />Founding 500 members lock in this price forever + get an exclusive in-app badge.</div>
+                <button className={`btn btn--lg btn--block ${plan.highlight ? "btn--ink" : "btn--yellow"}`} onClick={() => setShowDL(true)}>Download Now</button>
               </div>
             ))}
           </div>
 
-          {/* Membership Momentum */}
-          <div className="scroll-reveal momentum-card" style={{ maxWidth: 760, margin: "64px auto 0", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 32, padding: "40px 44px" }}>
-            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", fontSize: 11, marginBottom: 12 }}>Membership Momentum</p>
-            <h3 style={{ fontSize: "clamp(1.4rem, 3vw, 1.9rem)", fontWeight: 900, fontStyle: "italic", textTransform: "uppercase", color: "#fff", marginBottom: 14, lineHeight: 1.1 }}>
-              Stay a member. Keep stacking savings.
-            </h3>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 500, fontSize: "0.95rem", lineHeight: 1.65, marginBottom: 32, maxWidth: 580 }}>
-              Based on an average member spending $330/mo across workwear, supplements and gear at ~15% off - the same assumption used in the savings calculator below. Your membership rate stays locked while the savings keep adding up.
-            </p>
+          <div className="h-momentum rv">
+            <span className="h-eyebrow">Membership Momentum</span>
+            <h3>Stay a member. Keep stacking savings.</h3>
+            <p className="h-p">Based on an average member spending $330/mo across workwear, supplements and gear at ~15% off - the same assumption used in the savings calculator below. Your membership rate stays locked while the savings keep adding up.</p>
             {(() => {
               const avgMonthlySpend = 330, avgDiscount = 0.15, annualMembership = 49.99;
               const netPerYear = avgMonthlySpend * 12 * avgDiscount - annualMembership;
               return (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+                <div className="h-years">
                   {[1, 2, 3].map(year => (
-                    <div key={year} style={{ textAlign: "center", padding: "22px 12px", borderRadius: 18, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                      <p style={{ fontSize: 11, fontWeight: 900, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 10 }}>Year {year}</p>
-                      <p style={{ fontSize: "2rem", fontWeight: 900, color: "#fff", letterSpacing: "-0.03em" }}>${(netPerYear * year).toFixed(0)}</p>
-                      <p style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", fontWeight: 700, marginTop: 4 }}>net savings</p>
+                    <div key={year} className="h-year">
+                      <small>Year {year}</small>
+                      <strong>${Math.round(netPerYear * year).toLocaleString("en-AU")}</strong>
+                      <span>net savings</span>
                     </div>
                   ))}
                 </div>
@@ -1839,39 +1660,30 @@ function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" style={{ background: "#0d1f4e", padding: "72px 0", scrollMarginTop: 80, width: "100%", boxSizing: "border-box" }}>
-        <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", textTransform: "uppercase", fontStyle: "italic", color: "#fff" }}>
-              <span style={{ color: "#5ba4cf" }}>Got questions?</span>
-            </h2>
+      <section id="faq" className="h-section h-faq">
+        <div className="h-faq__inner">
+          <div className="h-faq__head rv">
+            <span className="h-eyebrow">FAQ</span>
+            <h2 className="h-h2">Got questions?</h2>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {[
-              { q: "What is The ToolBox?", a: "The ToolBox is a trade lifestyle membership app for Australia. For $4.99/mo, members get real discounts at 50+ partner brands across workwear, supplements, fitness, recovery, food and tech." },
-              { q: "How does membership work?", a: "Download the app, pick Monthly Pro ($4.99/mo) or Annual Gold Saver ($49.99/yr), and your digital membership card unlocks every partner deal straight away. No lock-in contract on the monthly plan." },
-              { q: "How do vendors join?", a: "Fill out the partner application on our vendor page and our team will be in touch. We manually vet every partner to make sure the discount is worth a member's time before it goes live in the app." },
-              { q: "How do I use my discount?", a: "Once you're a member, simply open the app and show your digital membership card in-store at any of our partner vendors, or use the provided promo code for online orders." },
-              { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
-              { q: "Which brands are included?", a: "We have 50+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
-              { q: "Can I use it anywhere in Australia?", a: "We're actively scoping out vendors across every state in Australia. If there's a business near you that should be on The ToolBox, let us know - we'd love to add them!" },
-              { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
-            ].map((item, i) => (
-              <div key={i} className="faq-row scroll-reveal" style={{ borderRadius: 24, border: "1px solid rgba(255,255,255,0.08)", overflow: "hidden", transitionDelay: `${i * 0.07}s` }}>
-                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ width: "100%", textAlign: "left", padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", background: openFaq === i ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)", border: "none", cursor: "pointer", transition: "background 0.2s" }}>
-                  <span style={{ fontSize: "1.1rem", fontWeight: 900, letterSpacing: "-0.02em", color: "#fff" }}>{item.q}</span>
-                  <span style={{ color: "#5ba4cf", flexShrink: 0 }}><IcoChevDown rotate={openFaq === i} /></span>
-                </button>
-                {openFaq === i && (
-                  <div style={{ padding: "0 32px 28px", color: "rgba(255,255,255,0.55)", fontWeight: 600, fontSize: "1.05rem", lineHeight: 1.7 }}>{item.a}</div>
-                )}
+          <div className="h-faq__list">
+            {FAQS.map((item, i) => (
+              <div key={item.q} className="rv" style={{ "--i": i }}>
+                <div className={`h-faq__item ${openFaq === i ? "open" : ""}`}>
+                  <h3>
+                    <button className="h-faq__q" aria-expanded={openFaq === i} aria-controls={`faq-${i}`} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                      <span>{item.q}</span><PlusIcon />
+                    </button>
+                  </h3>
+                  <div className="h-faq__a" id={`faq-${i}`} role="region"><div><p>{item.a}</p></div></div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-
+      <div className="h-hazard" aria-hidden="true" />
       <Footer />
     </div>
   );
@@ -1881,91 +1693,6 @@ function LandingPage() {
 export default function App() {
   return (
     <BrowserRouter>
-      <style>{`
-        * { margin: 0; padding: 0; box-sizing: border-box; } html, body { width: 100%; max-width: 100%; scroll-behavior: smooth; background: #0d1f4e; color: #fff; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(91,164,207,0.4) transparent; } #root { width: 100%; max-width: 100%; background: #0d1f4e; } button, input, textarea, select { font-family: inherit; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes heroLine { from { opacity: 0; transform: translateY(48px) skewX(-2deg); } to { opacity: 1; transform: translateY(0) skewX(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .anim-fade-up { opacity: 0; animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
-        .anim-fade-up-1 { animation-delay: 0.1s; }
-        .anim-fade-up-2 { animation-delay: 0.25s; }
-        .anim-fade-up-3 { animation-delay: 0.4s; }
-        .anim-fade-up-4 { animation-delay: 0.55s; }
-        .anim-fade-up-5 { animation-delay: 0.7s; }
-        .anim-hero-line-1 { opacity: 0; animation: heroLine 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards; }
-        .anim-hero-line-2 { opacity: 0; animation: heroLine 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s forwards; }
-        .scroll-reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
-        .scroll-reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
-        .scroll-reveal-left { opacity: 0; transform: translateX(-36px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
-        .scroll-reveal-left.visible { opacity: 1; transform: translateX(0); }
-        .scroll-reveal-right { opacity: 0; transform: translateX(36px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
-        .scroll-reveal-right.visible { opacity: 1; transform: translateX(0); }
-        .scroll-reveal-d1 { transition-delay: 0.1s; } .scroll-reveal-d2 { transition-delay: 0.2s; } .scroll-reveal-d3 { transition-delay: 0.3s; } .scroll-reveal-d4 { transition-delay: 0.4s; } .scroll-reveal-d5 { transition-delay: 0.5s; }
-        .pricing-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1) !important; }
-        .pricing-card:hover { transform: translateY(-14px) scale(1.015) !important; box-shadow: 0 56px 90px rgba(0,0,0,0.35) !important; }
-        .faq-row { transition: border-color 0.2s; } .faq-row:hover { border-color: rgba(91,164,207,0.4) !important; }
-        .blog-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1) !important; }
-        .blog-card:hover { transform: translateY(-8px) !important; box-shadow: 0 24px 48px rgba(0,0,0,0.13) !important; }
-        .btn-scale:hover { transform: scale(1.04) !important; } .btn-scale:active { transform: scale(0.97) !important; }
-        button:active { transform: scale(0.97); }
-        body { background: #0d1f4e; }
-        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @keyframes marqueeR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        @keyframes float { 0%, 100% { transform: translateX(-50%) translateY(0px); } 50% { transform: translateX(-50%) translateY(-32px); } }
-        @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(91,164,207,0.35); } 50% { box-shadow: 0 0 52px rgba(91,164,207,0.7), 0 0 90px rgba(91,164,207,0.2); } }
-        @keyframes glowPulseWhite { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.25); } 50% { box-shadow: 0 0 50px rgba(255,255,255,0.55); } }
-        @keyframes ctaRing { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.45), 0 8px 40px rgba(255,255,255,0.18); } 60% { box-shadow: 0 0 0 18px rgba(255,255,255,0), 0 8px 40px rgba(255,255,255,0.28); } }
-        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-        .hero-review-marquee:hover .hero-review-track { animation-play-state: paused; }
-        .hero-dl-ios { animation: ctaRing 2.8s ease-in-out infinite; transition: all 0.25s cubic-bezier(0.22,1,0.36,1) !important; }
-        .hero-dl-ios:hover { animation: none !important; transform: translateY(-3px) scale(1.03) !important; background: #5ba4cf !important; color: #fff !important; box-shadow: 0 0 56px rgba(91,164,207,0.6) !important; }
-        .hero-dl-android { transition: all 0.25s cubic-bezier(0.22,1,0.36,1) !important; }
-        .hero-dl-android:hover { transform: translateY(-3px) !important; background: rgba(255,255,255,0.18) !important; border-color: rgba(255,255,255,0.5) !important; }
-        .savings-card { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s, border-color 0.35s !important; }
-        .savings-card:hover { transform: translateY(-8px) scale(1.01) !important; box-shadow: 0 32px 64px rgba(0,0,0,0.12) !important; border-color: #5ba4cf !important; }
-        .founding-perk { transition: background 0.2s, padding-left 0.2s, transform 0.25s cubic-bezier(0.22,1,0.36,1) !important; }
-        .founding-perk:hover { background: rgba(244,196,48,0.06) !important; padding-left: 8px !important; transform: scale(1.05) !important; position: relative !important; z-index: 2 !important; }
-        .nav-link-hover { transition: color 0.2s !important; position: relative; }
-        .nav-link-hover::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #5ba4cf; transition: width 0.25s cubic-bezier(0.22,1,0.36,1); border-radius: 2px; }
-        .nav-link-hover:hover::after { width: 100%; }
-        .img-zoom { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1) !important; overflow: hidden !important; }
-        .img-zoom:hover img { transform: scale(1.05) !important; }
-        img.zoom-target { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1) !important; }
-        @media (max-width: 768px) {
-          .nav-logo { height: 34px !important; }
-          .hero-section { min-height: 100svh !important; justify-content: flex-start !important; }
-          .hero-content { padding-top: 88px !important; padding-bottom: 60px !important; }
-          .hero-store-btns { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
-          .hero-store-btns a { justify-content: center !important; padding: 16px 24px !important; }
-          .hero-review-card { width: 260px !important; height: 230px !important; padding: 20px 22px !important; }
-          .desktop-nav { display: none !important; }
-          .vendor-portal-btn { display: none !important; }
-          .nav-get-app { display: none !important; }
-          .mobile-menu-btn { display: inline-flex !important; }
-          .screenshots-grid { grid-template-columns: 1fr !important; }
-          .savings-grid { grid-template-columns: 1fr !important; padding: 32px 24px !important; }
-          .vendors-header { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
-          .vendors-header-right p { text-align: left !important; max-width: 100% !important; }
-          .vendors-header-right > div { justify-content: flex-start !important; }
-          .mission-image-col { display: none !important; }
-          .how-steps-pinned { grid-template-columns: 1fr !important; gap: 32px !important; }
-          .how-steps-visual { position: static !important; margin-bottom: 8px !important; }
-          .how-steps-list > div { min-height: 0 !important; opacity: 1 !important; padding: 24px 0 !important; }
-          .savings-3-grid { grid-template-columns: 1fr !important; }
-          .momentum-card { padding: 28px 24px !important; }
-          .founding-full-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
-          .savings-callout { flex-direction: column !important; padding: 36px 24px !important; gap: 32px !important; }
-        }
-        ::selection { background: #5ba4cf; color: #fff; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0d1f4e; }
-        ::-webkit-scrollbar-thumb { background: #5ba4cf; border-radius: 3px; }
-        @media (max-width: 600px) {
-          .vendor-form-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/blog" element={<BlogPage />} />
