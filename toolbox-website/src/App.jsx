@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useId } from "react";
+import { useState, useEffect, useRef, useId, useSyncExternalStore, Children, cloneElement } from "react";
 import { BrowserRouter, Routes, Route, Link, Navigate, useNavigate, useParams, useLocation } from "react-router-dom";
 import "./home.css";
 import "./pages.css";
@@ -418,7 +418,7 @@ function SiteNav({ onGetApp }) {
       <nav className={`h-nav ${scrolled ? "is-scrolled" : ""} ${dark ? "is-dark" : ""}`} aria-label="Main">
         <div className="h-nav__inner">
           <div className="h-nav__left">
-            <Link to="/" aria-label="The ToolBox home"><img src={LOGO} alt="The ToolBox" className="h-logo" /></Link>
+            <Link to="/" aria-label="The ToolBox home" className="h-brandlink"><img src={LOGO} alt="The ToolBox" className="h-logo" /></Link>
             <div className="h-nav__links">
               <a className="h-link" href="/#vendors">Vendors</a>
               <a className="h-link" href="/#about">How it works</a>
@@ -1118,7 +1118,7 @@ function VendorProfilePage() {
 
 // ─── Homepage (light, hi-vis) ─────────────────────────────────────────────────
 // Styles live in home.css; tokens in index.css.
-const FOUNDING_CLAIMED = 285, FOUNDING_TOTAL = 500;
+const FOUNDING_CLAIMED = 325, FOUNDING_TOTAL = 500;
 
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -1161,14 +1161,41 @@ function FoundingProgress() {
   );
 }
 
+function useMediaQuery(query) {
+  return useSyncExternalStore(
+    (notify) => {
+      const m = window.matchMedia(query);
+      m.addEventListener("change", notify);
+      return () => m.removeEventListener("change", notify);
+    },
+    () => window.matchMedia(query).matches,
+    () => false,
+  );
+}
+
+// Auto-scrolling strip. Items are repeated so the loop is seamless; copies are hidden from screen readers.
+// Anyone who has asked their OS for reduced motion gets it paused (and manually scrollable) with a play button.
 function Marquee({ copies = 2, speed = 60, label, children }) {
+  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const [userPaused, setUserPaused] = useState(null);
+  const paused = userPaused ?? reduced;
+  const items = Children.toArray(children);
   return (
-    <div className="h-marquee" role="group" aria-label={label}>
-      <div className="h-marquee__track" style={{ "--dur": `${speed}s` }}>
-        {Array.from({ length: copies }, (_, c) => (
-          <div key={c} aria-hidden={c > 0 ? "true" : undefined} style={{ display: "contents" }}>{children}</div>
-        ))}
+    <div className="h-marquee-wrap">
+      <div className={`h-marquee ${paused ? "is-paused" : ""}`} role="group" aria-label={label}>
+        <div className="h-marquee__track" style={{ "--dur": `${speed}s` }}>
+          {Array.from({ length: copies }, (_, c) =>
+            items.map(el => cloneElement(el, { key: `${c}-${el.key}`, ...(c > 0 ? { "aria-hidden": "true" } : {}) })))}
+        </div>
       </div>
+      {reduced && (
+        <button className="btn h-marquee__ctl" onClick={() => setUserPaused(!paused)} aria-pressed={!paused} aria-label={paused ? `Play ${label}` : `Pause ${label}`}>
+          {paused
+            ? <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8z" /></svg>
+            : <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z" /></svg>}
+          {paused ? "Play" : "Pause"}
+        </button>
+      )}
     </div>
   );
 }
@@ -1180,7 +1207,9 @@ const HOW_STEPS = [
   { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/how-4.webp" },
 ];
 
-function HowItWorksSection({ onDownload }) {
+// Desktop: the phone and a tight stack of steps pin to the middle of the screen; the stack moves by scroll
+// progress (a fraction of the scroll distance), so the text travels slower than the page.
+function HowDesktop() {
   const [active, setActive] = useState(0);
   const activeRef = useRef(0);
   const gridRef = useRef(null);
@@ -1188,54 +1217,114 @@ function HowItWorksSection({ onDownload }) {
   const stackRef = useRef(null);
   const stepRefs = useRef([]);
   const last = HOW_STEPS.length - 1;
-  const isStacked = () => window.matchMedia("(max-width: 900px)").matches;
 
   useEffect(() => {
     const grid = gridRef.current, pin = pinRef.current, stack = stackRef.current;
     if (!grid || !pin || !stack) return;
-    const choose = (i) => {
-      if (i === activeRef.current) return;
-      activeRef.current = i;
-      setActive(i);
-    };
-    // Desktop: the steps sit in a tight stack inside a pinned window. The stack is moved by scroll progress
-    // (a fraction of the scroll distance), so the text travels slower than the page and stays close together.
     const update = () => {
-      if (isStacked()) { stack.style.transform = ""; return; }
       const pitch = stepRefs.current[0].offsetHeight;
       const h = pin.offsetHeight;
       const pinTop = parseFloat(getComputedStyle(pin).top) || 0;
       const travel = grid.offsetHeight - h;
       const p = Math.min(1, Math.max(0, (pinTop - grid.getBoundingClientRect().top) / travel));
       stack.style.transform = `translate3d(0, ${h / 2 - pitch / 2 - p * last * pitch}px, 0)`;
-      choose(Math.round(p * last));
+      const i = Math.round(p * last);
+      if (i !== activeRef.current) { activeRef.current = i; setActive(i); }
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
-    // Mobile: the steps are a normal list, so follow whichever one is mid-screen.
-    const observer = new IntersectionObserver((entries) => {
-      if (!isStacked()) return;
-      entries.forEach(e => { if (e.isIntersecting) choose(Number(e.target.dataset.i)); });
-    }, { rootMargin: "-45% 0px -45% 0px" });
-    stepRefs.current.forEach(el => el && observer.observe(el));
     return () => {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
-      observer.disconnect();
     };
   }, [last]);
 
   const jump = (i) => {
-    const behavior = prefersReducedMotion() ? "auto" : "smooth";
-    if (isStacked()) { stepRefs.current[i]?.scrollIntoView({ behavior, block: "center" }); return; }
     const grid = gridRef.current, pin = pinRef.current;
     const pinTop = parseFloat(getComputedStyle(pin).top) || 0;
     const travel = grid.offsetHeight - pin.offsetHeight;
     const gridTop = grid.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: gridTop - pinTop + (i / last) * travel + 1, behavior });
+    window.scrollTo({ top: gridTop - pinTop + (i / last) * travel + 1, behavior: prefersReducedMotion() ? "auto" : "smooth" });
   };
 
+  return (
+    <div className="h-how__grid" ref={gridRef}>
+      <div className="h-how__visual">
+        <div className="h-how__screens">
+          {HOW_STEPS.map((s, i) => (
+            <img key={s.num} src={s.img} alt={s.title} width="970" height="2000" loading={i === 0 ? "eager" : "lazy"} className={active === i ? "on" : ""} />
+          ))}
+        </div>
+        <div className="h-dots">
+          {HOW_STEPS.map((s, i) => (
+            <button key={s.num} className={`h-dot ${active === i ? "on" : ""}`} onClick={() => jump(i)} aria-label={`Jump to step ${s.num}`} aria-current={active === i} />
+          ))}
+        </div>
+      </div>
+      <div className="h-how__text" ref={pinRef}>
+        <div className="h-how__stack" ref={stackRef}>
+          {HOW_STEPS.map((s, i) => (
+            <div key={s.num} ref={el => { stepRefs.current[i] = el; }} className={`h-step ${active === i ? "on" : ""}`}>
+              <span className="h-step__num" aria-hidden="true">{s.num}</span>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Phones: a swipeable row of cards (snap scrolling), each with its step and a peek of the app screen.
+function HowMobile() {
+  const [active, setActive] = useState(0);
+  const trackRef = useRef(null);
+  const cardRefs = useRef([]);
+
+  const onScroll = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    const mid = track.scrollLeft + track.clientWidth / 2;
+    let best = 0, bestDist = Infinity;
+    cardRefs.current.forEach((el, i) => {
+      const d = Math.abs(el.offsetLeft + el.offsetWidth / 2 - mid);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    setActive(best);
+  };
+  const jump = (i) => {
+    const track = trackRef.current, card = cardRefs.current[i];
+    track.scrollTo({ left: card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+  };
+
+  return (
+    <>
+      <div className="h-hm" ref={trackRef} onScroll={onScroll} role="group" aria-label="How it works steps">
+        {HOW_STEPS.map((s, i) => (
+          <article key={s.num} ref={el => { cardRefs.current[i] = el; }} className="h-hm__card">
+            <span className="h-hm__num" aria-hidden="true">{s.num}</span>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+            <div className="h-hm__phone">
+              <div className="h-hm__plate" />
+              <img src={s.img} alt={`${s.title} - app screen`} width="970" height="2000" loading={i === 0 ? "eager" : "lazy"} />
+            </div>
+          </article>
+        ))}
+      </div>
+      <div className="h-dots h-dots--center">
+        {HOW_STEPS.map((s, i) => (
+          <button key={s.num} className={`h-dot ${active === i ? "on" : ""}`} onClick={() => jump(i)} aria-label={`Go to step ${s.num}`} aria-current={active === i} />
+        ))}
+      </div>
+    </>
+  );
+}
+
+function HowItWorksSection({ onDownload }) {
+  const stacked = useMediaQuery("(max-width: 900px)");
   return (
     <section id="about" className="h-section h-how" data-nav="dark">
       <div className="h-wrap">
@@ -1243,31 +1332,9 @@ function HowItWorksSection({ onDownload }) {
           <span className="h-eyebrow">Inside the App</span>
           <h2 className="h-h2">How it <em>works.</em></h2>
         </div>
-        <div className="h-how__grid" ref={gridRef}>
-          <div className="h-how__visual">
-            <div className="h-how__screens">
-              {HOW_STEPS.map((s, i) => (
-                <img key={s.num} src={s.img} alt={s.title} width="970" height="2000" loading={i === 0 ? "eager" : "lazy"} className={active === i ? "on" : ""} />
-              ))}
-            </div>
-            <div className="h-dots">
-              {HOW_STEPS.map((s, i) => (
-                <button key={s.num} className={`h-dot ${active === i ? "on" : ""}`} onClick={() => jump(i)} aria-label={`Jump to step ${s.num}`} aria-current={active === i} />
-              ))}
-            </div>
-          </div>
-          <div className="h-how__text" ref={pinRef}>
-            <div className="h-how__stack" ref={stackRef}>
-              {HOW_STEPS.map((s, i) => (
-                <div key={s.num} ref={el => { stepRefs.current[i] = el; }} data-i={i} className={`h-step ${active === i ? "on" : ""}`}>
-                  <span className="h-step__num" aria-hidden="true">{s.num}</span>
-                  <h3>{s.title}</h3>
-                  <p>{s.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      </div>
+      {stacked ? <HowMobile /> : <div className="h-wrap"><HowDesktop /></div>}
+      <div className="h-wrap">
         <div className="h-how__cta rv">
           <button className="btn btn--yellow btn--lg" onClick={onDownload}>Download Free</button>
           <p className="h-fine">iOS &amp; Android · $4.99/mo membership</p>

@@ -109,6 +109,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   gap: 24px;
 }
 .h-nav__left { display: flex; align-items: center; gap: 44px; min-width: 0; }
+.h-brandlink { display: block; padding: 4px 0; }
 .h-logo { display: block; height: 42px; width: auto; filter: brightness(0) invert(0); transition: filter 200ms ease; }
 .h-nav__links { display: flex; gap: 28px; }
 .h-link {
@@ -172,8 +173,8 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   to   { opacity: 1; transform: rotate(10deg) scale(1); }
 }
 @keyframes h-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
 }
 .h-rise { animation: h-rise 520ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 70ms + 40ms); }
 
@@ -329,11 +330,18 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   display: flex;
   gap: 20px;
   width: max-content;
+  will-change: transform;
   animation: h-scroll var(--dur, 60s) linear infinite;
 }
+/* pause while hovered (mouse) or held (touch) so a card can be read */
 @media (hover: hover) and (pointer: fine) {
   .h-marquee:hover .h-marquee__track { animation-play-state: paused; }
 }
+.h-marquee:active .h-marquee__track { animation-play-state: paused; }
+.h-marquee-wrap { position: relative; }
+.h-marquee.is-paused { overflow-x: auto; -webkit-mask-image: none; mask-image: none; scrollbar-width: thin; }
+.h-marquee.is-paused .h-marquee__track { animation-play-state: paused; }
+.h-marquee__ctl { position: absolute; right: max(20px, calc((100% - 1200px) / 2 + 32px)); bottom: -52px; padding: 8px 14px; font-size: 13px; }
 .h-reviews { padding: 72px 0 80px; }
 .h-reviews__head { margin-bottom: 28px; }
 .h-review {
@@ -464,6 +472,40 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 .h-step__num { font-size: 4rem; font-weight: 900; line-height: 1; letter-spacing: -0.06em; color: var(--yellow); margin-bottom: 8px; }
 .h-step h3 { font-size: 1.9rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 12px; }
 .h-step p { font-size: 1.05rem; line-height: 1.65; font-weight: 500; color: rgba(255, 255, 255, 0.72); max-width: 26em; }
+/* phones: swipeable step cards */
+.h-hm {
+  display: flex;
+  gap: 16px;
+  padding: 4px max(20px, calc((100% - 320px) / 2)) 28px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 20px;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.h-hm::-webkit-scrollbar { display: none; }
+.h-hm__card {
+  position: relative;
+  flex: none;
+  width: min(320px, calc(100vw - 56px));
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px 0;
+  overflow: hidden;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-radius: 24px;
+  scroll-snap-align: center;
+}
+.h-hm__num { font-size: 3rem; font-weight: 900; line-height: 1; letter-spacing: -0.06em; color: var(--yellow); margin-bottom: 8px; }
+.h-hm__card h3 { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 10px; }
+.h-hm__card p { font-size: 0.98rem; line-height: 1.6; font-weight: 500; color: rgba(255, 255, 255, 0.75); }
+.h-hm__phone { position: relative; height: 300px; margin: 22px -24px 0; display: flex; justify-content: center; align-items: flex-start; overflow: hidden; }
+.h-hm__plate { position: absolute; left: 22px; right: 22px; top: 22px; bottom: -40px; background: var(--yellow); border: 2px solid var(--ink); border-radius: 28px 28px 0 0; }
+.h-hm__phone img { position: relative; width: 190px; height: auto; margin-top: 8px; filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.3)); }
+.h-dots--center { justify-content: center; margin-bottom: 8px; }
 .h-how__cta { text-align: center; margin-top: 40px; }
 .h-how__cta .h-fine { margin-top: 18px; color: rgba(255, 255, 255, 0.6); }
 
@@ -633,6 +675,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   .h-menu-btn { display: inline-flex; }
 }
 @media (max-width: 900px) {
+  .h-how__head { margin-bottom: 36px; }
   .h-section { padding: 80px 0; }
   .h-hero { padding-top: 104px; }
   .h-hero__grid, .h-story, .h-how__grid, .h-found__grid, .h-callout { grid-template-columns: 1fr; }
@@ -642,26 +685,21 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   .h-photo__cap { left: 12px; }
   .h-found__grid { gap: 56px; }
   .h-callout { padding: 36px 28px; gap: 32px; }
-  .h-how__grid { gap: 32px; }
-  .h-how__grid { height: auto; }
-  .h-how__visual { position: static; height: auto; }
-  .h-how__text { position: static; height: auto; overflow: visible; -webkit-mask-image: none; mask-image: none; }
-  .h-how__stack { transform: none !important; }
-  .h-how__screens { width: min(100%, 240px); }
-  .h-step { height: auto; opacity: 1; padding: 26px 0; border-top: 2px solid rgba(255, 255, 255, 0.12); }
-  .h-step__num { font-size: 3.2rem; }
   .h-brands__head { flex-direction: column; align-items: flex-start; gap: 20px; }
   .h-brands__side { text-align: left; }
 }
 @media (max-width: 720px) {
   .h-cards3, .h-plans { grid-template-columns: 1fr; }
   .h-plan { padding: 28px 24px; }
+  .h-plan__name { margin-bottom: 18px; padding-right: 96px; }
+  .h-plan__badge { top: 22px; right: 20px; }
+  .h-plan__price strong { font-size: 3.4rem; }
   .h-momentum { padding: 28px 22px; }
 }
 @media (max-width: 640px) {
   :root { --nav-top: 10px; --nav-h: 62px; --nav-inset: 10px; --nav-clear: 80px; }
   .h-wrap, .h-nav__inner, .h-hero__grid, .h-faq__inner { padding-inline: 20px; }
-  .h-nav__cta .btn--app { display: none; }
+  .h-nav__cta .btn--app { padding: 11px 14px; font-size: 14px; }
   .h-logo { height: 36px; }
   .h-hero__ctas .btn { flex: 1 1 100%; }
   .h-sticker { width: 100px; height: 100px; }
@@ -679,8 +717,6 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   html { scroll-behavior: auto; }
   .h-rise, .h-sticker { animation: none; }
   .h-mark::before { animation: none; transform: scaleX(1); }
-  .h-marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
-  .h-marquee__track { animation: none; }
   .rv { transform: none; transition: opacity 200ms ease; }
   .h-prog__fill { transition: none; }
   .h-tile, .h-sheet.open .h-tile { transform: none; transition-delay: 0ms; }
