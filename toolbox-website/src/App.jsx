@@ -1485,7 +1485,7 @@ function LandingPage() {
               Australia's trade lifestyle membership app. Join for $4.99/mo and save at 50+ partner brands across workwear, supplements, fitness and more.
             </p>
             <div className="h-hero__ctas h-rise" style={{ "--i": 3 }}>
-              <a className="btn btn--ink btn--lg" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><IcoApple size={22} /> Download on iOS</a>
+              <a className="btn btn--yellow btn--lg" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><IcoApple size={22} /> Download on iOS</a>
               <a className="btn btn--lg" href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><IcoGoogle size={22} /> Download on Android</a>
             </div>
             <p className="h-fine h-rise" style={{ "--i": 4 }}>Free to download · $4.99/mo for Founding 500 members · Price increases after 500 spots fill</p>
@@ -1513,6 +1513,7 @@ function LandingPage() {
             ))}
           </Marquee>
         </div>
+        <div className="h-hazard" aria-hidden="true" />
       </header>
 
       {/* Story */}

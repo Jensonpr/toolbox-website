@@ -95,7 +95,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   gap: 24px;
 }
 .h-nav__left { display: flex; align-items: center; gap: 44px; min-width: 0; }
-.h-logo { display: block; height: 42px; width: auto; filter: brightness(0); }
+.h-logo { display: block; height: 42px; width: auto; filter: brightness(0) invert(0); transition: filter 200ms ease; }
 .h-nav__links { display: flex; gap: 28px; }
 .h-link {
   position: relative;
@@ -107,6 +107,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
+  transition: color 200ms ease;
 }
 .h-link::after {
   content: "";
@@ -123,6 +124,16 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 }
 .h-nav__cta { display: flex; align-items: center; gap: 10px; }
 .h-menu-btn { display: none; width: 44px; height: 44px; padding: 0; }
+
+/* Nav sits on the navy hero until the page scrolls */
+.h-nav:not(.is-scrolled) .h-logo { filter: brightness(0) invert(1); }
+.h-nav:not(.is-scrolled) .h-link { color: var(--white); }
+.h-nav:not(.is-scrolled) .h-link::after { background: var(--yellow); }
+.h-nav:not(.is-scrolled) .btn { --sh: var(--blue); }
+.h-nav:not(.is-scrolled) .btn--ghost { color: var(--white); border-color: var(--white); }
+@media (hover: hover) and (pointer: fine) {
+  .h-nav:not(.is-scrolled) .btn--ghost:hover { color: var(--ink); }
+}
 
 /* ─── Entrance + reveal motion ────────────────────────────────────────────── */
 @keyframes h-rise {
@@ -187,7 +198,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 }
 
 /* ─── Hero ────────────────────────────────────────────────────────────────── */
-.h-hero { padding: 128px 0 0; position: relative; }
+.h-hero { padding: 128px 0 0; position: relative; background: var(--navy); color: var(--white); }
 .h-hero__grid {
   max-width: 1280px;
   margin: 0 auto;
@@ -205,6 +216,7 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
   font: 800 12px/1 var(--font);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--ink);
   background: var(--white);
   border: 2px solid var(--ink);
   border-radius: var(--r-pill);
@@ -268,6 +280,18 @@ body.theme-light ::selection { background: var(--yellow); color: var(--ink); }
 }
 .h-sticker small { display: block; font: 800 11px/1 var(--font); letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); }
 .h-sticker strong { display: block; font: 900 2rem/1 var(--font); letter-spacing: -0.04em; margin: 4px 0 2px; }
+
+/* Navy hero: white type, yellow label-tape highlight, brand-blue offset shadows */
+.h-hero h1 { color: var(--white); }
+.h-hero .h-mark { color: var(--ink); padding: 0 0.1em; }
+.h-hero .h-mark::before { inset: 0.07em -0.02em 0.02em; height: auto; }
+.h-hero .h-lede { color: rgba(255, 255, 255, 0.8); }
+.h-hero .h-fine { color: rgba(255, 255, 255, 0.62); }
+.h-hero .btn { --sh: var(--blue); }
+.h-hero .h-eyebrow { color: var(--white); }
+.h-hero .h-eyebrow::before { border-color: var(--white); }
+.h-hero .h-visual__plate { inset: 0 2% 0 10%; box-shadow: 8px 8px 0 var(--blue); }
+.h-hero .h-review { box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35); }
 
 /* ─── Marquees ────────────────────────────────────────────────────────────── */
 .h-marquee {
