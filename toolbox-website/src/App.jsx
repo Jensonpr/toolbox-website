@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { BrowserRouter, Routes, Route, useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect, useRef, useId } from "react";
+import { BrowserRouter, Routes, Route, Link, Navigate, useNavigate, useParams, useLocation } from "react-router-dom";
 import "./home.css";
+import "./pages.css";
 
 // ─── Icons (inline SVG to avoid lucide import issues) ───────────────────────
 const Icon = ({ d, size = 24, className = "" }) => (
@@ -104,13 +105,6 @@ const APP_REVIEWS = [
 ];
 
 const LOGO = "https://res.cloudinary.com/dy4rpazlk/image/upload/v1777016811/TheToolbox-White_2x_iqjf8y.png";
-
-const CATEGORY_COLORS = {
-  "Tradie Tips": "#5ba4cf",
-  "Health & Fitness": "#22c55e",
-  "Vendor Spotlight": "#f4c430",
-  "News": "#f97316",
-};
 
 const BLOG_POSTS = [
   {
@@ -356,119 +350,249 @@ function setJsonLd(id, data) {
   script.textContent = JSON.stringify(data);
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer() {
-  const navigate = useNavigate();
+// ─── Site chrome (shared by every page) ───────────────────────────────────────
+const MOBILE_NAV_ITEMS = [
+  { label: "How it works", sub: "See the app step by step", href: "/#about", icon: IcoSmartphone },
+  { label: "Vendors", sub: "Browse 50+ partner brands", href: "/#vendors", icon: IcoTag },
+  { label: "Pricing", sub: "Plans from $4.99/mo", href: "/#pricing", icon: IcoCreditCard },
+  { label: "FAQ", sub: "Got a question?", href: "/#faq", icon: IcoInfo },
+  { label: "Blog", sub: "Tips & savings guides", to: "/blog", icon: IcoBook },
+  { label: "Partner with us", sub: "List your brand", to: "/vendor", icon: IcoBriefcase },
+];
+
+// Fades .rv elements in as they scroll into view (and reveals anything already scrolled past).
+function useReveal(rootRef) {
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting && e.boundingClientRect.top >= 0) return;
+        e.target.classList.add("in");
+        observer.unobserve(e.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    rootRef.current?.querySelectorAll(".rv").forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, [rootRef]);
+}
+
+function SiteNav({ onGetApp }) {
+  const { pathname } = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setMenuOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
+  const current = (p) => (pathname === p || pathname.startsWith(`${p}/`) ? "page" : undefined);
+
   return (
-    <footer style={{ background: "#0d1f4e",  padding: "80px 0 40px" }}>
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "32px", marginBottom: "48px" }}>
-          <div>
-            <img src={LOGO} alt="The ToolBox" style={{ height: 36, marginBottom: 24, filter: "brightness(0) invert(1)" }} />
-            <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, lineHeight: 1.7, maxWidth: 280 }}>
-              Australia's first discount membership app built for the trade lifestyle. Real deals for people who earn it.
-            </p>
-          </div>
-          {[
-            { title: "Company", links: [
-              { label: "How it works", href: "/#about" },
-              { label: "Partner Brands", href: "/#vendors" },
-              { label: "Pricing", href: "/#pricing" },
-              { label: "Contact Us", page: "contact" },
-              { label: "FAQ", href: "/#faq" },
-              { label: "Blog", page: "blog" },
-            ]},
-            { title: "Partners", links: [
-              { label: "Vendor Directory", page: "vendors" },
-              { label: "Partner With Us", page: "vendor" },
-              { label: "Vendor Portal", href: VENDOR_PORTAL_URL },
-            ]},
-            { title: "Legal", links: [
-              { label: "Privacy Policy", page: "privacy" },
-              { label: "Terms of Service", page: "terms" },
-              { label: "Refund Policy", page: "refunds" },
-            ]},
-          ].map(col => (
-            <div key={col.title}>
-              <p style={{ color: "#5ba4cf", fontWeight: 900, fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 24 }}>{col.title}</p>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 16 }}>
-                {col.links.map(l => (
-                  <li key={l.label}>
-                    {l.page ? (
-                      <button onClick={() => navigate(`/${l.page}`)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.3)", fontWeight: 700, fontSize: 14, textDecoration: "none" }}
-                        onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.3)"}>
-                        {l.label}
-                      </button>
-                    ) : (
-                      <a href={l.href} style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700, fontSize: 14, textDecoration: "none" }}
-                        onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.3)"}>
-                        {l.label}
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
+    <>
+      <nav className={`h-nav ${scrolled ? "is-scrolled" : ""}`} aria-label="Main">
+        <div className="h-nav__inner">
+          <div className="h-nav__left">
+            <Link to="/" aria-label="The ToolBox home"><img src={LOGO} alt="The ToolBox" className="h-logo" /></Link>
+            <div className="h-nav__links">
+              <a className="h-link" href="/#about">How it works</a>
+              <a className="h-link" href="/#vendors">Vendors</a>
+              <a className="h-link" href="/#pricing">Pricing</a>
+              <a className="h-link" href="/#faq">FAQ</a>
+              <Link className="h-link" to="/blog" aria-current={current("/blog")}>Blog</Link>
+              <Link className="h-link" to="/vendor" aria-current={current("/vendor")}>Partner with us</Link>
             </div>
-          ))}
-        </div>
-        <div style={{  paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>
-            &copy; {new Date().getFullYear()} The ToolBox App Pty Ltd. All rights reserved.
-          </p>
-          <div style={{ display: "flex", gap: 24 }}>
-            {[
-              { icon: <IcoInstagram />, href: "https://www.instagram.com/thetoolboxau/" },
-              { icon: <IcoFacebook />, href: "https://www.facebook.com/thetoolboxau" },
-              { icon: <IcoLinkedin />, href: "https://www.linkedin.com/company/thetoolboxau" },
-            ].map((s, i) => (
-              <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.2)", textDecoration: "none" }}
-                onMouseOver={e => { e.currentTarget.style.color = "#5ba4cf"; e.currentTarget.style.transform = "scale(1.1)"; }}
-                onMouseOut={e => { e.currentTarget.style.color = "rgba(255,255,255,0.2)"; e.currentTarget.style.transform = "scale(1)"; }}>
-                {s.icon}
-              </a>
-            ))}
           </div>
+          <div className="h-nav__cta">
+            <button className="btn btn--yellow btn--app" onClick={onGetApp}>Get the App</button>
+            <a className="btn btn--ghost btn--portal" href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer">Vendor Portal</a>
+            <button className="btn h-menu-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu"><IcoMenu /></button>
+          </div>
+        </div>
+      </nav>
+
+      <div className={`h-sheet ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen} inert={!menuOpen}>
+        <div className="h-sheet__bar">
+          <img src={LOGO} alt="The ToolBox" className="h-logo" style={{ filter: "brightness(0)" }} />
+          <button className="btn h-menu-btn" style={{ display: "inline-flex" }} onClick={() => setMenuOpen(false)} aria-label="Close menu"><IcoX /></button>
+        </div>
+        <div className="h-sheet__body">
+          <p className="h-sheet__q">Where do you want to go?</p>
+          <div className="h-sheet__grid">
+            {MOBILE_NAV_ITEMS.map((item, i) => {
+              const ItemIcon = item.icon;
+              const inner = (
+                <>
+                  <div className="h-tile__ico"><ItemIcon /></div>
+                  <strong>{item.label}</strong>
+                  <span>{item.sub}</span>
+                </>
+              );
+              return item.to ? (
+                <Link key={item.label} className="h-tile" style={{ "--i": i }} to={item.to} onClick={() => setMenuOpen(false)}>{inner}</Link>
+              ) : (
+                <a key={item.label} className="h-tile" style={{ "--i": i }} href={item.href} onClick={() => setMenuOpen(false)}>{inner}</a>
+              );
+            })}
+          </div>
+        </div>
+        <div className="h-sheet__foot">
+          <button className="btn btn--yellow" onClick={() => { setMenuOpen(false); onGetApp(); }}>Get the App</button>
+          <a className="btn" href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>Vendor Portal</a>
         </div>
       </div>
-    </footer>
+    </>
   );
 }
 
-// ─── Legal Layout ─────────────────────────────────────────────────────────────
-function LegalPage({ title, children }) {
-  const navigate = useNavigate();
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+const FOOTER_COLS = [
+  { title: "Company", links: [
+    { label: "How it works", href: "/#about" },
+    { label: "Partner Brands", href: "/#vendors" },
+    { label: "Pricing", href: "/#pricing" },
+    { label: "Contact Us", to: "/contact" },
+    { label: "FAQ", href: "/#faq" },
+    { label: "Blog", to: "/blog" },
+  ]},
+  { title: "Partners", links: [
+    { label: "Vendor Directory", to: "/vendors" },
+    { label: "Partner With Us", to: "/vendor" },
+    { label: "Vendor Portal", href: VENDOR_PORTAL_URL, external: true },
+  ]},
+  { title: "Legal", links: [
+    { label: "Privacy Policy", to: "/privacy" },
+    { label: "Terms of Service", to: "/terms" },
+    { label: "Refund Policy", to: "/refunds" },
+  ]},
+];
+
+function Footer() {
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
-          </button>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}
-            onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.6)"}>
-            Back to Home
-          </button>
+    <>
+      <div className="h-hazard" aria-hidden="true" />
+      <footer className="h-footer">
+        <div className="h-footer__in">
+          <div className="h-footer__grid">
+            <div>
+              <img src={LOGO} alt="The ToolBox" className="h-footer__logo" />
+              <p className="h-footer__blurb">Australia's first discount membership app built for the trade lifestyle. Real deals for people who earn it.</p>
+            </div>
+            {FOOTER_COLS.map(col => (
+              <nav key={col.title} aria-label={col.title}>
+                <p className="h-footer__title">{col.title}</p>
+                <ul>
+                  {col.links.map(l => (
+                    <li key={l.label}>
+                      {l.to ? <Link className="h-flink" to={l.to}>{l.label}</Link>
+                        : <a className="h-flink" href={l.href} {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{l.label}</a>}
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+          </div>
+          <div className="h-footer__bar">
+            <p>&copy; {new Date().getFullYear()} The ToolBox App Pty Ltd. All rights reserved.</p>
+            <div className="h-footer__social">
+              {[
+                { icon: <IcoInstagram />, href: "https://www.instagram.com/thetoolboxau/", label: "Instagram" },
+                { icon: <IcoFacebook />, href: "https://www.facebook.com/thetoolboxau", label: "Facebook" },
+                { icon: <IcoLinkedin />, href: "https://www.linkedin.com/company/thetoolboxau", label: "LinkedIn" },
+              ].map(s => (
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}>{s.icon}</a>
+              ))}
+            </div>
+          </div>
         </div>
-      </nav>
-      <main style={{ paddingTop: 160, paddingBottom: 96, maxWidth: 800, margin: "0 auto", padding: "160px 32px 96px" }}>
-        <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Legal Document</p>
-        <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 64, fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9 }}>
-          {title}<span style={{ color: "#5ba4cf" }}>.</span>
-        </h1>
-        <div style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500, lineHeight: 1.8 }}>{children}</div>
-      </main>
+      </footer>
+    </>
+  );
+}
+
+// Wraps every inner page: nav, download modal, footer.
+function PageShell({ children }) {
+  const rootRef = useRef(null);
+  const [showDL, setShowDL] = useState(false);
+  useReveal(rootRef);
+  useEffect(() => {
+    document.body.classList.add("theme-light");
+    return () => document.body.classList.remove("theme-light");
+  }, []);
+  return (
+    <div className="home" ref={rootRef}>
+      {showDL && <DownloadModal onClose={() => setShowDL(false)} />}
+      <SiteNav onGetApp={() => setShowDL(true)} />
+      {children}
       <Footer />
     </div>
   );
 }
 
+// Navy page header with a hazard stripe underneath; the nav sits on it like the homepage hero.
+function PageHeader({ eyebrow, title, lede, meta, narrow = false }) {
+  return (
+    <header className="pg-head">
+      <div className={`pg-head__in ${narrow ? "narrow" : ""}`}>
+        {eyebrow && <span className="h-eyebrow h-rise" style={{ "--i": 0 }}>{eyebrow}</span>}
+        <h1 className="h-rise" style={{ "--i": 1 }}>{title}</h1>
+        {lede && <p className="pg-head__lede h-rise" style={{ "--i": 2 }}>{lede}</p>}
+        {meta && <div className="pg-meta h-rise" style={{ "--i": 3 }}>{meta}</div>}
+      </div>
+      <div className="h-hazard" aria-hidden="true" />
+    </header>
+  );
+}
+
+// Highlights the last word of a title with the yellow label tape.
+function markLast(title) {
+  const words = title.split(" ");
+  const last = words.pop();
+  return <>{words.join(" ")} <span className="h-mark">{last}.</span></>;
+}
+
+function CtaBand() {
+  return (
+    <section className="pg-cta">
+      <div className="h-wrap">
+        <span className="h-eyebrow">Now live</span>
+        <h2 className="h-h2">Start saving today.</h2>
+        <p className="h-p">Download The ToolBox and start saving on workwear, supplements, tools and more. $4.99/mo, cancel anytime.</p>
+        <a className="btn btn--ink btn--lg" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><IcoApple size={20} /> Download on the App Store</a>
+      </div>
+    </section>
+  );
+}
+
+// ─── Legal Layout ─────────────────────────────────────────────────────────────
+function LegalPage({ title, children }) {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  return (
+    <PageShell>
+      <PageHeader eyebrow="Legal document" title={markLast(title)} narrow />
+      <main className="pg-main pg-prose narrow">{children}</main>
+    </PageShell>
+  );
+}
+
 function LegalSection({ title, children }) {
   return (
-    <div style={{ marginBottom: 48 }}>
-      <h2 style={{ fontSize: "1.3rem", fontWeight: 900, color: "#fff", letterSpacing: "-0.02em", fontStyle: "italic", textTransform: "uppercase", marginBottom: 16 }}>{title}</h2>
+    <section className="pg-sec">
+      <h2>{title}</h2>
       {children}
-    </div>
+    </section>
   );
 }
 
@@ -522,7 +646,7 @@ function PrivacyPage() {
       <LegalSection title="9. Contact Us">
         <p>If you have any questions about this Privacy Policy or wish to exercise your privacy rights, please contact us at <strong>admin@thetoolbox.group</strong>.</p>
       </LegalSection>
-      <p style={{ fontSize: 13, opacity: 0.4, marginTop: 48 }}>Last updated: July 10, 2026</p>
+      <p className="pg-updated">Last updated: July 10, 2026</p>
     </LegalPage>
   );
 }
@@ -557,7 +681,7 @@ function TermsPage() {
       <LegalSection title="6. Governing Law">
         <p>These terms are governed by and construed in accordance with the laws of Victoria, Australia.</p>
       </LegalSection>
-      <p style={{ fontSize: 13, opacity: 0.4, marginTop: 48 }}>Last updated: April 21, 2026</p>
+      <p className="pg-updated">Last updated: April 21, 2026</p>
     </LegalPage>
   );
 }
@@ -586,13 +710,55 @@ function RefundsPage() {
       <LegalSection title="5. Contact Support">
         <p>To discuss a refund request, please email admin@thetoolbox.group with your account details and the reason for the request.</p>
       </LegalSection>
-      <p style={{ fontSize: 13, opacity: 0.4, marginTop: 48 }}>Last updated: April 21, 2026</p>
+      <p className="pg-updated">Last updated: April 21, 2026</p>
     </LegalPage>
   );
 }
 
+// ─── Forms (partner application + contact) ────────────────────────────────────
+async function submitForm(form) {
+  const res = await fetch("https://formsubmit.co/ajax/admin@thetoolbox.group", {
+    method: "POST",
+    headers: { "Accept": "application/json" },
+    body: new FormData(form),
+  });
+  const json = await res.json();
+  return json.success === "true" || json.success === true;
+}
+
+function Field({ label, icon, textarea = false, ...props }) {
+  const id = useId();
+  return (
+    <div>
+      <label htmlFor={id} className="pg-label">{label}</label>
+      <div className={`pg-control ${icon ? "has-icon" : ""}`}>
+        {icon && <span className="pg-control__ico" aria-hidden="true">{icon}</span>}
+        {textarea ? <textarea id={id} className="pg-input" {...props} /> : <input id={id} className="pg-input" {...props} />}
+      </div>
+    </div>
+  );
+}
+
+function FormDone({ title, text, again, onAgain }) {
+  return (
+    <div className="pg-done" role="status">
+      <div className="pg-done__tick"><IcoCheck size={40} /></div>
+      <h3>{title}</h3>
+      <p>{text}</p>
+      <button className="btn" onClick={onAgain}>{again}</button>
+    </div>
+  );
+}
+
+function SubmitButton({ status, children }) {
+  return (
+    <button className="btn btn--yellow btn--lg btn--block" disabled={status === "submitting"}>
+      {status === "submitting" ? <span className="pg-spin" role="status" aria-label="Sending" /> : children}
+    </button>
+  );
+}
+
 function VendorPage() {
-  const navigate = useNavigate();
   const [status, setStatus] = useState("idle");
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
@@ -601,121 +767,49 @@ function VendorPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("submitting");
-    const data = new FormData(e.target);
-    try {
-      const res = await fetch("https://formsubmit.co/ajax/admin@thetoolbox.group", {
-        method: "POST",
-        headers: { "Accept": "application/json" },
-        body: data,
-      });
-      const json = await res.json();
-      if (json.success === "true" || json.success === true) {
-        setStatus("success");
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
+    try { setStatus((await submitForm(e.target)) ? "success" : "error"); } catch { setStatus("error"); }
   };
-  const inp = { width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", boxSizing: "border-box" };
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%" }}>
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid #f1f5f9", height: 72, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, color: "#0d1f4e", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>
-            <IcoArrowLeft /> Back to Home
-          </button>
-          <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 32, objectFit: "contain", mixBlendMode: "multiply" }} />
-        </div>
-      </nav>
-      <section style={{ paddingTop: 140, paddingBottom: 80 }}>
-        <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 40, alignItems: "start" }}>
-            <div style={{ position: "sticky", top: 140 }}>
-              <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Partner with us</p>
-              <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.04em", lineHeight: 0.9, marginBottom: 32 }}>Join the Network<span style={{ color: "#5ba4cf" }}>.</span></h2>
-              <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 500, marginBottom: 24, lineHeight: 1.7 }}>Ready to get your brand in front of thousands of people living the trade lifestyle? Fill out the form and we'll be in touch.</p>
-              <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 500, marginBottom: 24, lineHeight: 1.7, fontSize: "0.92rem" }}>How vendors join: submit the application, and our team reviews it and gets in touch. We manually vet every partner before their offer goes live in the app.</p>
-              <div style={{ display: "flex", gap: 16, padding: 16, background: "#f8fafc", borderRadius: 16, border: "1px solid #e2e8f0" }}>
-                <IcoInfo />
-                <p style={{ fontSize: 13, color: "rgba(13,31,78,0.6)", fontWeight: 500, margin: 0, fontStyle: "italic" }}>We manually vet all partners to ensure the best value for our members.</p>
-              </div>
-            </div>
-            <div style={{ background: "#fff", padding: 40, borderRadius: 40, boxShadow: "0 25px 50px rgba(0,0,0,0.08)", border: "1px solid #f1f5f9" }}>
-              {status === "success" ? (
-                <div style={{ textAlign: "center", padding: "60px 0" }}>
-                  <div style={{ width: 80, height: 80, background: "#dcfce7", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", color: "#16a34a" }}>
-                    <IcoCheck size={40} />
-                  </div>
-                  <h3 style={{ fontSize: "1.8rem", fontWeight: 900, color: "#0d1f4e", marginBottom: 16 }}>Application Sent!</h3>
-                  <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 700, marginBottom: 32, fontStyle: "italic" }}>We'll review your details and get back to you within 48 hours.</p>
-                  <button onClick={() => setStatus("idle")} style={{ background: "none", border: "none", cursor: "pointer", color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", fontSize: 13, letterSpacing: "0.2em", textDecoration: "underline" }}>Submit another application</button>
+    <PageShell>
+      <PageHeader
+        eyebrow="Partner with us"
+        title={<>Join the <span className="h-mark">network.</span></>}
+        lede="Ready to get your brand in front of thousands of people living the trade lifestyle? Fill out the form and we'll be in touch."
+      />
+      <main className="pg-main">
+        <div className="pg-split">
+          <aside className="pg-aside">
+            <p className="h-p">How vendors join: submit the application, and our team reviews it and gets in touch. We manually vet every partner before their offer goes live in the app.</p>
+            <div className="pg-infobox"><IcoInfo /><p>We manually vet all partners to ensure the best value for our members.</p></div>
+          </aside>
+          <div className="pg-formcard">
+            {status === "success" ? (
+              <FormDone title="Application sent!" text="We'll review your details and get back to you within 48 hours." again="Submit another application" onAgain={() => setStatus("idle")} />
+            ) : (
+              <form onSubmit={handleSubmit} className="pg-form">
+                <input type="hidden" name="_subject" value="New vendor application - The ToolBox" />
+                <input type="hidden" name="_captcha" value="false" />
+                <div className="pg-row">
+                  <Field label="Contact Name *" placeholder="John Smith" type="text" name="contact_name" icon={<IcoUser />} required />
+                  <Field label="Job Title" placeholder="Director" type="text" name="job_title" icon={<IcoBriefcase />} />
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-                  <input type="hidden" name="_subject" value="New vendor application - The ToolBox" />
-                  <input type="hidden" name="_captcha" value="false" />
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-                    {[
-                      { label: "Contact Name *", placeholder: "John Smith", type: "text", name: "contact_name", icon: <IcoUser />, required: true },
-                      { label: "Job Title", placeholder: "Director", type: "text", name: "job_title", icon: <IcoBriefcase />, required: false },
-                    ].map(f => (
-                      <div key={f.label}>
-                        <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.4)", fontStyle: "italic", display: "block", marginBottom: 8 }}>{f.label}</label>
-                        <div style={{ position: "relative" }}>
-                          <span style={{ position: "absolute", left: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(13,31,78,0.2)" }}>{f.icon}</span>
-                          <input type={f.type} name={f.name} placeholder={f.placeholder} required={f.required} style={inp} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-                    {[
-                      { label: "Email Address *", placeholder: "john@business.com", type: "email", name: "email", icon: <IcoMail />, required: true },
-                      { label: "Business Name *", placeholder: "The ToolBox Co.", type: "text", name: "business_name", icon: <IcoBuilding />, required: true },
-                    ].map(f => (
-                      <div key={f.label}>
-                        <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.4)", fontStyle: "italic", display: "block", marginBottom: 8 }}>{f.label}</label>
-                        <div style={{ position: "relative" }}>
-                          <span style={{ position: "absolute", left: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(13,31,78,0.2)" }}>{f.icon}</span>
-                          <input type={f.type} name={f.name} placeholder={f.placeholder} required={f.required} style={inp} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div>
-                    <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.4)", fontStyle: "italic", display: "block", marginBottom: 8 }}>Offer / Discount *</label>
-                    <textarea required name="offer" placeholder="20% off storewide, Buy 1 get 1 Free, etc." rows={5} style={{ width: "100%", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 16, padding: 20, fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", resize: "vertical", boxSizing: "border-box" }} />
-                  </div>
-                  {status === "error" && (
-                    <p style={{ color: "#dc2626", fontWeight: 700, fontSize: 14, textAlign: "center" }}>Something went wrong. Please email us at admin@thetoolbox.group</p>
-                  )}
-                  <button disabled={status === "submitting"} style={{ width: "100%", background: "#0d1f4e", color: "#fff", padding: "22px", borderRadius: 16, fontWeight: 900, fontSize: "1.2rem", fontStyle: "italic", letterSpacing: "-0.02em", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, opacity: status === "submitting" ? 0.5 : 1 }}
-                    onMouseOver={e => { if (status !== "submitting") e.currentTarget.style.background = "#5ba4cf"; }}
-                    onMouseOut={e => e.currentTarget.style.background = "#0d1f4e"}>
-                    {status === "submitting" ? <div style={{ width: 24, height: 24, border: "3px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} /> : <><IcoSend />Submit Application</>}
-                  </button>
-                </form>
-              )}
-            </div>
+                <div className="pg-row">
+                  <Field label="Email Address *" placeholder="john@business.com" type="email" name="email" icon={<IcoMail />} required />
+                  <Field label="Business Name *" placeholder="The ToolBox Co." type="text" name="business_name" icon={<IcoBuilding />} required />
+                </div>
+                <Field label="Offer / Discount *" textarea required name="offer" placeholder="20% off storewide, Buy 1 get 1 Free, etc." rows={5} />
+                {status === "error" && <p className="pg-error" role="alert">Something went wrong. Please email us at admin@thetoolbox.group</p>}
+                <SubmitButton status={status}><IcoSend />Submit Application</SubmitButton>
+              </form>
+            )}
           </div>
         </div>
-      </section>
-      <footer style={{ background: "#0d1f4e", padding: "40px 0" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <img src={LOGO} alt="The ToolBox" style={{ height: 32, filter: "brightness(0) invert(1)", opacity: 0.3 }} />
-          <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em" }}>
-            &copy; {new Date().getFullYear()} The ToolBox App Pty Ltd. Built for the trade lifestyle.
-          </p>
-        </div>
-      </footer>
-    </div>
+      </main>
+    </PageShell>
   );
 }
 
 function ContactPage() {
-  const navigate = useNavigate();
   const [status, setStatus] = useState("idle");
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
@@ -724,98 +818,46 @@ function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("submitting");
-    const data = new FormData(e.target);
-    try {
-      const res = await fetch("https://formsubmit.co/ajax/admin@thetoolbox.group", {
-        method: "POST",
-        headers: { "Accept": "application/json" },
-        body: data,
-      });
-      const json = await res.json();
-      if (json.success === "true" || json.success === true) {
-        setStatus("success");
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
+    try { setStatus((await submitForm(e.target)) ? "success" : "error"); } catch { setStatus("error"); }
   };
-  const inp = { width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: "18px 20px 18px 52px", fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", boxSizing: "border-box" };
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f4e", color: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
-          </button>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>Back to Home</button>
-        </div>
-      </nav>
-      <main style={{ paddingTop: 140, paddingBottom: 80, maxWidth: 1400, margin: "0 auto", padding: "140px 32px 80px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 48 }}>
-          <div>
-            <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Get in touch</p>
-            <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 32, fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9 }}>Contact us<span style={{ color: "#5ba4cf" }}>.</span></h1>
-            <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 500, lineHeight: 1.7, marginBottom: 48, maxWidth: 360 }}>Have a question about your membership? Or just want to have a yarn? Send us a message and we'll get back to you shortly.</p>
+    <PageShell>
+      <PageHeader
+        eyebrow="Get in touch"
+        title={<>Contact <span className="h-mark">us.</span></>}
+        lede="Have a question about your membership? Or just want to have a yarn? Send us a message and we'll get back to you shortly."
+      />
+      <main className="pg-main">
+        <div className="pg-split">
+          <aside className="pg-aside">
             {[
-              { icon: <IcoMail />, label: "Email us", value: "admin@thetoolbox.group" },
-              { icon: <IcoInstagram />, label: "Follow us", value: "@thetoolboxau" },
+              { icon: <IcoMail />, label: "Email us", value: "admin@thetoolbox.group", href: "mailto:admin@thetoolbox.group" },
+              { icon: <IcoInstagram />, label: "Follow us", value: "@thetoolboxau", href: "https://www.instagram.com/thetoolboxau/" },
             ].map(c => (
-              <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 32 }}>
-                <div style={{ width: 56, height: 56, background: "rgba(255,255,255,0.05)", borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", color: "#5ba4cf" }}>{c.icon}</div>
-                <div>
-                  <p style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.3)", marginBottom: 4 }}>{c.label}</p>
-                  <p style={{ fontSize: "1.1rem", fontWeight: 700 }}>{c.value}</p>
-                </div>
-              </div>
+              <a key={c.label} className="pg-contact" href={c.href} {...(c.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+                <span className="pg-contact__ico">{c.icon}</span>
+                <span><small>{c.label}</small><strong>{c.value}</strong></span>
+              </a>
             ))}
-          </div>
-          <div style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(20px)", padding: 48, borderRadius: 40, border: "1px solid rgba(255,255,255,0.1)" }}>
+          </aside>
+          <div className="pg-formcard">
             {status === "success" ? (
-              <div style={{ textAlign: "center", padding: "60px 0" }}>
-                <div style={{ width: 80, height: 80, background: "rgba(34,197,94,0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", color: "#22c55e" }}>
-                  <IcoCheck size={40} />
-                </div>
-                <h3 style={{ fontSize: "1.8rem", fontWeight: 900, marginBottom: 16 }}>Message Sent!</h3>
-                <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, marginBottom: 32, fontStyle: "italic" }}>We've received your message and will get back to you as soon as possible.</p>
-                <button onClick={() => setStatus("idle")} style={{ background: "none", border: "none", cursor: "pointer", color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", fontSize: 13, letterSpacing: "0.2em", textDecoration: "underline" }}>Send another message</button>
-              </div>
+              <FormDone title="Message sent!" text="We've received your message and will get back to you as soon as possible." again="Send another message" onAgain={() => setStatus("idle")} />
             ) : (
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+              <form onSubmit={handleSubmit} className="pg-form">
                 <input type="hidden" name="_subject" value="New message from The ToolBox website" />
                 <input type="hidden" name="_captcha" value="false" />
-                {[
-                  { label: "Your Name *", placeholder: "John Smith", type: "text", name: "name", icon: <IcoUser />, required: true },
-                  { label: "Email Address *", placeholder: "john@email.com", type: "email", name: "email", icon: <IcoMail />, required: true },
-                ].map(f => (
-                  <div key={f.label}>
-                    <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(255,255,255,0.3)", fontStyle: "italic", display: "block", marginBottom: 8 }}>{f.label}</label>
-                    <div style={{ position: "relative" }}>
-                      <span style={{ position: "absolute", left: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.2)" }}>{f.icon}</span>
-                      <input type={f.type} name={f.name} placeholder={f.placeholder} required={f.required} style={inp} />
-                    </div>
-                  </div>
-                ))}
-                <div>
-                  <label style={{ fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(255,255,255,0.3)", fontStyle: "italic", display: "block", marginBottom: 8 }}>Message *</label>
-                  <textarea required name="message" placeholder="How can we help?" rows={5} style={{ width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, padding: 20, fontWeight: 700, fontSize: 15, outline: "none", fontFamily: "inherit", color: "#fff", resize: "vertical", boxSizing: "border-box" }} />
-                </div>
-                {status === "error" && (
-                  <p style={{ color: "#f87171", fontWeight: 700, fontSize: 14, textAlign: "center" }}>Something went wrong. Please email us directly at admin@thetoolbox.group</p>
-                )}
-                <button disabled={status === "submitting"} style={{ width: "100%", background: "#fff", color: "#0d1f4e", padding: "22px", borderRadius: 16, fontWeight: 900, fontSize: "1.2rem", fontStyle: "italic", letterSpacing: "-0.02em", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 12, opacity: status === "submitting" ? 0.5 : 1 }}
-                  onMouseOver={e => { if (status !== "submitting") e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
-                  onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
-                  {status === "submitting" ? <div style={{ width: 24, height: 24, border: "3px solid rgba(13,31,78,0.3)", borderTopColor: "#0d1f4e", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} /> : <><IcoSend />Send Message</>}
-                </button>
+                <Field label="Your Name *" placeholder="John Smith" type="text" name="name" icon={<IcoUser />} required />
+                <Field label="Email Address *" placeholder="john@email.com" type="email" name="email" icon={<IcoMail />} required />
+                <Field label="Message *" textarea required name="message" placeholder="How can we help?" rows={5} />
+                {status === "error" && <p className="pg-error" role="alert">Something went wrong. Please email us directly at admin@thetoolbox.group</p>}
+                <SubmitButton status={status}><IcoSend />Send Message</SubmitButton>
               </form>
             )}
           </div>
         </div>
       </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }
 
@@ -848,37 +890,30 @@ function submitToMailchimp(email, onSuccess, onError) {
   }, 8000);
 }
 
-// ─── App Store CTA ────────────────────────────────────────────────────────────
+// ─── Download modal ───────────────────────────────────────────────────────────
 function DownloadModal({ onClose }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
   return (
-    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.65)", backdropFilter: "blur(10px)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
-      <div onClick={e => e.stopPropagation()} style={{ background: "#0d1f4e", borderRadius: 36, padding: "56px 48px", maxWidth: 480, width: "100%", border: "1px solid rgba(91,164,207,0.2)", boxShadow: "0 40px 80px rgba(0,0,0,0.5)", position: "relative" }}>
-        <button onClick={onClose} style={{ position: "absolute", top: 20, right: 20, background: "rgba(255,255,255,0.08)", border: "none", color: "#fff", width: 38, height: 38, borderRadius: "50%", cursor: "pointer", fontSize: 20, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
-        <p style={{ fontWeight: 900, color: "#fff", fontSize: "1.8rem", letterSpacing: "-0.03em", marginBottom: 8 }}>Download The ToolBox</p>
-        <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 600, fontSize: 16, marginBottom: 36 }}>Choose your device to get started.</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-            style={{ display: "flex", alignItems: "center", gap: 18, background: "#fff", color: "#0d1f4e", padding: "22px 28px", borderRadius: 20, fontWeight: 900, textDecoration: "none", transition: "all 0.2s" }}
-            onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
-            onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
-            <IcoApple size={32} />
-            <div>
-              <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1, marginBottom: 4 }}>Download on the</div>
-              <div style={{ fontSize: "1.3rem", fontWeight: 900, lineHeight: 1 }}>App Store</div>
-            </div>
+    <div className="h-modal" onClick={onClose}>
+      <div className="h-modal__card" role="dialog" aria-modal="true" aria-labelledby="dl-title" onClick={e => e.stopPropagation()}>
+        <button className="btn h-modal__close" onClick={onClose} aria-label="Close"><IcoX /></button>
+        <h2 id="dl-title">Download The ToolBox</h2>
+        <p className="h-modal__sub">Choose your device to get started.</p>
+        <div className="h-modal__stores">
+          <a className="btn btn--ink btn--lg btn--block h-store" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer">
+            <IcoApple size={30} />
+            <span><small>Download on the</small><strong>App Store</strong></span>
           </a>
-          <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"
-            style={{ display: "flex", alignItems: "center", gap: 18, background: "rgba(255,255,255,0.08)", color: "#fff", padding: "22px 28px", borderRadius: 20, fontWeight: 900, textDecoration: "none", border: "1px solid rgba(255,255,255,0.12)", transition: "all 0.2s" }}
-            onMouseOver={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
-            onMouseOut={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}>
-            <IcoGoogle size={32} />
-            <div>
-              <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.1em", lineHeight: 1, marginBottom: 4 }}>Get it on</div>
-              <div style={{ fontSize: "1.3rem", fontWeight: 900, lineHeight: 1 }}>Google Play</div>
-            </div>
+          <a className="btn btn--lg btn--block h-store" href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer">
+            <IcoGoogle size={30} />
+            <span><small>Get it on</small><strong>Google Play</strong></span>
           </a>
         </div>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.25)", fontWeight: 600, textAlign: "center", marginTop: 28 }}>Free to download · $4.99/mo membership</p>
+        <p className="h-modal__fine">Free to download · $4.99/mo membership</p>
       </div>
     </div>
   );
@@ -900,73 +935,44 @@ function AppStoreCTA({ onDownload }) {
 
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
+const CATEGORY_TINTS = {
+  "Tradie Tips": "#8cc4e6",
+  "Health & Fitness": "#86d9a0",
+  "Vendor Spotlight": "#ffcf1f",
+  "News": "#ffab6b",
+  "Lifestyle": "#d9b8f5",
+};
+
 function BlogPage() {
-  const navigate = useNavigate();
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
     setPageMeta("Blog | The ToolBox", "Tradie tips, health & fitness advice, and vendor spotlights from The ToolBox Journal.", "/blog");
   }, []);
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.95)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
-          </button>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}
-            onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.6)"}>
-            Back to Home
-          </button>
+    <PageShell>
+      <PageHeader
+        eyebrow="The ToolBox Journal"
+        title={<>Tips, trades &amp; the <span className="h-mark">build life.</span></>}
+        lede="Practical advice, vendor spotlights, and stories from the trade lifestyle community. Written by people who actually get it."
+      />
+      <main className="pg-main">
+        <div className="pg-grid">
+          {BLOG_POSTS.map((post, i) => (
+            <Link key={post.id} to={`/blog/${post.slug}`} className="pg-card rv" style={{ "--i": i % 3 }}>
+              <div className="pg-card__art" style={{ "--tint": CATEGORY_TINTS[post.category] || "#8cc4e6" }}>
+                <strong>{post.category}</strong>
+              </div>
+              <div className="pg-card__body">
+                <p className="pg-card__meta">{post.date} · {post.readTime}</p>
+                <h2>{post.title}</h2>
+                <p>{post.excerpt}</p>
+                <span className="pg-card__more">Read article <IcoChevRight /></span>
+              </div>
+            </Link>
+          ))}
         </div>
-      </nav>
-
-      <section style={{ background: "#0d1f4e", paddingTop: 140, paddingBottom: 80 }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
-          <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>The ToolBox Journal</p>
-          <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
-            Tips, Trades<br />&amp; the Build Life<span style={{ color: "#5ba4cf" }}>.</span>
-          </h1>
-          <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, fontSize: "1.1rem", maxWidth: 520, lineHeight: 1.6 }}>
-            Practical advice, vendor spotlights, and stories from the trade lifestyle community. Written by people who actually get it.
-          </p>
-        </div>
-      </section>
-
-      <section style={{ background: "#fff", padding: "80px 0" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 32 }}>
-            {BLOG_POSTS.map(post => (
-              <article key={post.id} className="blog-card" onClick={() => navigate(`/blog/${post.slug}`)}
-                style={{ borderRadius: 32, border: "1px solid #e2e8f0", overflow: "hidden", cursor: "pointer", display: "flex", flexDirection: "column" }}
-                onMouseOver={e => e.currentTarget.style.borderColor = "#5ba4cf"}
-                onMouseOut={e => e.currentTarget.style.borderColor = "#e2e8f0"}>
-                <div style={{ background: "#0d1f4e", height: 200, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
-                  <div style={{ position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)", width: 300, height: 300, background: CATEGORY_COLORS[post.category] || "#5ba4cf", borderRadius: "50%", filter: "blur(80px)", opacity: 0.2 }} />
-                  <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "0 24px" }}>
-                    <p style={{ fontSize: 11, fontWeight: 900, color: CATEGORY_COLORS[post.category] || "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 12 }}>{post.category}</p>
-                    <p style={{ fontSize: "1.3rem", fontWeight: 900, color: "#fff", letterSpacing: "-0.03em", fontStyle: "italic", lineHeight: 1.1 }}>{post.title}</p>
-                  </div>
-                </div>
-                <div style={{ padding: 32, flex: 1, display: "flex", flexDirection: "column" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-                    <span style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.35)" }}>{post.date}</span>
-                    <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#e2e8f0", flexShrink: 0 }} />
-                    <span style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(13,31,78,0.35)" }}>{post.readTime}</span>
-                  </div>
-                  <h2 style={{ fontSize: "1.25rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", marginBottom: 12, lineHeight: 1.2 }}>{post.title}</h2>
-                  <p style={{ color: "rgba(13,31,78,0.55)", fontWeight: 600, lineHeight: 1.6, fontSize: 14, flex: 1 }}>{post.excerpt}</p>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 24, color: "#5ba4cf", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.15em" }}>
-                    Read Article <IcoChevRight />
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+      </main>
+    </PageShell>
   );
 }
 
@@ -997,144 +1003,68 @@ function BlogPostPage() {
     });
     return () => setJsonLd("blogposting-jsonld", null);
   }, [post]);
-  if (!post) { navigate("/blog", { replace: true }); return null; }
+  if (!post) return <Navigate to="/blog" replace />;
 
   const renderBlock = (block, i) => {
-    const pStyle = { color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.85, fontSize: "1.05rem", marginBottom: 24 };
-    const h2Style = { fontSize: "1.5rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.03em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 1, marginBottom: 16, marginTop: 48 };
-    if (block.type === "p") return <p key={i} style={pStyle}>{block.text}</p>;
-    if (block.type === "h2") return <h2 key={i} style={h2Style}>{block.text}</h2>;
-    if (block.type === "ul") return (
-      <ul key={i} style={{ paddingLeft: 24, marginBottom: 24 }}>
-        {block.items.map((item, j) => <li key={j} style={{ ...pStyle, marginBottom: 10 }}>{item}</li>)}
-      </ul>
-    );
+    if (block.type === "p") return <p key={i}>{block.text}</p>;
+    if (block.type === "h2") return <h2 key={i}>{block.text}</h2>;
+    if (block.type === "ul") return <ul key={i}>{block.items.map((item, j) => <li key={j}>{item}</li>)}</ul>;
     if (block.type === "link") return (
-      <button key={i} onClick={() => navigate(block.to)}
-        style={{ background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, color: "#5ba4cf", fontWeight: 900, fontSize: "1.05rem", marginBottom: 24, fontFamily: "inherit" }}>
-        {block.text} <IcoChevRight />
-      </button>
+      <button key={i} className="pg-textlink" onClick={() => navigate(block.to)}>{block.text} <IcoChevRight /></button>
     );
     return null;
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", borderBottom: "1px solid #f1f5f9", height: 72, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => navigate("/blog")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, color: "#0d1f4e", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>
-            <IcoArrowLeft /> Back to Blog
-          </button>
-          <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 32, objectFit: "contain", mixBlendMode: "multiply" }} />
-        </div>
-      </nav>
-
-      <section style={{ background: "#0d1f4e", paddingTop: 120, paddingBottom: 64 }}>
-        <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
-          <p style={{ fontSize: 11, fontWeight: 900, color: CATEGORY_COLORS[post.category] || "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 20 }}>{post.category}</p>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 28 }}>
-            {post.title}<span style={{ color: "#5ba4cf" }}>.</span>
-          </h1>
-          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>{post.author}</span>
-            <span style={{ width: 4, height: 4, borderRadius: "50%", background: "rgba(255,255,255,0.2)", flexShrink: 0 }} />
-            <span style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.4)" }}>{post.date}</span>
-            <span style={{ width: 4, height: 4, borderRadius: "50%", background: "rgba(255,255,255,0.2)", flexShrink: 0 }} />
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#5ba4cf" }}>{post.readTime}</span>
-          </div>
-        </div>
-      </section>
-
-      <article style={{ maxWidth: 800, margin: "0 auto", padding: "64px 32px" }}>
+    <PageShell>
+      <PageHeader
+        narrow
+        eyebrow={post.category}
+        title={post.title}
+        meta={<><span>{post.author}</span><i /><span>{post.date}</span><i /><b>{post.readTime}</b></>}
+      />
+      <main className="pg-main pg-prose narrow">
+        <Link to="/blog" className="pg-back"><IcoArrowLeft /> Back to blog</Link>
         {post.content.map(renderBlock)}
-      </article>
-
-      <section style={{ background: "#0d1f4e", padding: "80px 32px", textAlign: "center" }}>
-        <p style={{ color: "#22c55e", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Now Live</p>
-        <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
-          Start Saving Today<span style={{ color: "#5ba4cf" }}>.</span>
-        </h2>
-        <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 36, maxWidth: 400, margin: "0 auto 36px" }}>Download The ToolBox and start saving on workwear, supplements, tools and more. $4.99/mo, cancel anytime.</p>
-        <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-          style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "18px 40px", borderRadius: 16, fontWeight: 900, fontSize: "1rem", fontStyle: "italic", textDecoration: "none", transition: "all 0.2s" }}
-          onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
-          onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
-          <IcoApple size={18} /> Download on the App Store
-        </a>
-      </section>
-
-      <Footer />
-    </div>
+      </main>
+      <CtaBand />
+    </PageShell>
   );
 }
 
 function VendorsPage() {
-  const navigate = useNavigate();
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
     setPageMeta("Vendor Directory | The ToolBox", "Browse 50+ partner brands on The ToolBox across workwear, supplements, fitness, recovery, golf and more.", "/vendors");
   }, []);
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(13,31,78,0.95)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)", height: 80, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 36, objectFit: "contain" }} />
-          </button>
-          <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}
-            onMouseOver={e => e.target.style.color = "#fff"} onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.6)"}>
-            Back to Home
-          </button>
+    <PageShell>
+      <PageHeader
+        eyebrow="Our network"
+        title={<>Partnered <span className="h-mark">vendors.</span></>}
+        lede="50+ brands across tools, workwear, supplements, fitness and more, growing every week. Every one is manually vetted before it goes live in the app."
+      />
+      <main className="pg-main">
+        <div className="pg-grid pg-grid--sm">
+          {[...VENDORS].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)).map((v, i) => (
+            <Link key={v.slug} to={`/vendors/${v.slug}`} className="pg-card pg-card--vendor rv" style={{ "--i": i % 4 }}>
+              {v.featured && <span className="pg-flag">Featured</span>}
+              <div className="pg-card__body">
+                <span className="h-chip">{v.category}</span>
+                <h2>{v.name}</h2>
+                <p>{publicOffer(v)}</p>
+                <span className="pg-card__more">View partner <IcoChevRight /></span>
+              </div>
+            </Link>
+          ))}
         </div>
-      </nav>
-
-      <section style={{ background: "#0d1f4e", paddingTop: 140, paddingBottom: 80 }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
-          <p style={{ color: "#5ba4cf", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16 }}>Our Network</p>
-          <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#fff", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
-            Partnered Vendors<span style={{ color: "#5ba4cf" }}>.</span>
-          </h1>
-          <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, fontSize: "1.1rem", maxWidth: 560, lineHeight: 1.6 }}>
-            50+ brands across tools, workwear, supplements, fitness and more, growing every week. Every one is manually vetted before it goes live in the app.
-          </p>
+        <div className="pg-note rv">
+          <h2>Don't see your brand here?</h2>
+          <p>We're always looking for genuine deals to add. Fill out the partner application and we'll be in touch.</p>
+          <Link className="btn btn--yellow btn--lg" to="/vendor">Partner with us</Link>
         </div>
-      </section>
-
-      <section style={{ background: "#fff", padding: "80px 0" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 24, marginBottom: 56 }}>
-            {[...VENDORS].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)).map(v => (
-              <article key={v.slug} className="blog-card" onClick={() => navigate(`/vendors/${v.slug}`)}
-                style={{ borderRadius: 24, border: "1px solid #e2e8f0", overflow: "hidden", cursor: "pointer", display: "flex", flexDirection: "column", position: "relative" }}
-                onMouseOver={e => e.currentTarget.style.borderColor = "#5ba4cf"}
-                onMouseOut={e => e.currentTarget.style.borderColor = "#e2e8f0"}>
-                {v.featured && (
-                  <div style={{ position: "absolute", top: 12, right: 12, zIndex: 1, background: "#f4c430", color: "#0d1f4e", padding: "4px 10px", borderRadius: 100, fontSize: 9, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.1em" }}>Featured</div>
-                )}
-                <div style={{ padding: 24, flex: 1, display: "flex", flexDirection: "column" }}>
-                  <p style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.15em", color: "#5ba4cf", marginBottom: 8 }}>{v.category}</p>
-                  <h2 style={{ fontSize: "1.1rem", fontWeight: 900, color: "#0d1f4e", letterSpacing: "-0.02em", marginBottom: 12 }}>{v.name}</h2>
-                  <p style={{ fontSize: 13, color: "rgba(13,31,78,0.6)", fontWeight: 500, lineHeight: 1.5, marginBottom: 16, flex: 1 }}>{publicOffer(v)}</p>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#5ba4cf", fontWeight: 900, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.15em" }}>
-                    View Partner <IcoChevRight />
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div style={{ textAlign: "center", padding: "40px 32px", background: "#f8fafc", borderRadius: 32, border: "1px solid #e2e8f0" }}>
-            <p style={{ color: "#0d1f4e", fontWeight: 900, fontSize: "1.2rem", marginBottom: 8 }}>Don't see your brand here?</p>
-            <p style={{ color: "rgba(13,31,78,0.6)", fontWeight: 500, marginBottom: 20 }}>We're always looking for genuine deals to add. Fill out the partner application and we'll be in touch.</p>
-            <button onClick={() => navigate("/vendor")}
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0d1f4e", color: "#fff", padding: "14px 32px", borderRadius: 100, fontWeight: 900, fontSize: 14, border: "none", cursor: "pointer" }}>
-              Partner With Us
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+      </main>
+    </PageShell>
   );
 }
 
@@ -1158,51 +1088,20 @@ function VendorProfilePage() {
   if (!vendor) return null;
 
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "'Cabinet Grotesk', 'Inter', sans-serif", width: "100%", overflowX: "hidden" }}>
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", borderBottom: "1px solid #f1f5f9", height: 72, display: "flex", alignItems: "center" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 32px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button onClick={() => navigate("/vendors")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, color: "#0d1f4e", fontWeight: 900, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.2em" }}>
-            <IcoArrowLeft /> Back to Directory
-          </button>
-          <img src={LOGO} alt="The ToolBox" referrerPolicy="no-referrer" style={{ height: 32, objectFit: "contain", mixBlendMode: "multiply" }} />
-        </div>
-      </nav>
-
-      <section style={{ background: "#0d1f4e", paddingTop: 120, paddingBottom: 64 }}>
-        <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 32px" }}>
-          <p style={{ fontSize: 11, fontWeight: 900, color: "#5ba4cf", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 20 }}>{vendor.category}</p>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 12 }}>
-            {vendor.name}<span style={{ color: "#5ba4cf" }}>.</span>
-          </h1>
-          <p style={{ color: "rgba(255,255,255,0.4)", fontWeight: 700, fontSize: 13 }}>ToolBox Partner Brand</p>
-        </div>
-      </section>
-
-      <article style={{ maxWidth: 800, margin: "0 auto", padding: "64px 32px" }}>
-        <p style={{ color: "rgba(13,31,78,0.7)", fontWeight: 500, lineHeight: 1.85, fontSize: "1.05rem", marginBottom: 24 }}>
-          {publicOffer(vendor)}
-        </p>
-        <p style={{ color: "rgba(13,31,78,0.5)", fontWeight: 500, lineHeight: 1.7, fontSize: "0.95rem" }}>
-          Not listed yet but think you should be? <button onClick={() => navigate("/vendor")} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "#5ba4cf", fontWeight: 900, textDecoration: "underline" }}>Partner with us</button>.
-        </p>
-      </article>
-
-      <section style={{ background: "#0d1f4e", padding: "80px 32px", textAlign: "center" }}>
-        <p style={{ color: "#22c55e", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 16, fontSize: 11 }}>Now Live</p>
-        <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", fontStyle: "italic", textTransform: "uppercase", lineHeight: 0.9, marginBottom: 24 }}>
-          Start Saving Today<span style={{ color: "#5ba4cf" }}>.</span>
-        </h2>
-        <p style={{ color: "rgba(255,255,255,0.5)", fontWeight: 600, marginBottom: 36, maxWidth: 400, margin: "0 auto 36px" }}>Download The ToolBox and start saving on workwear, supplements, tools and more. $4.99/mo, cancel anytime.</p>
-        <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"
-          style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#fff", color: "#0d1f4e", padding: "18px 40px", borderRadius: 16, fontWeight: 900, fontSize: "1rem", fontStyle: "italic", textDecoration: "none", transition: "all 0.2s" }}
-          onMouseOver={e => { e.currentTarget.style.background = "#5ba4cf"; e.currentTarget.style.color = "#fff"; }}
-          onMouseOut={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#0d1f4e"; }}>
-          <IcoApple size={18} /> Download on the App Store
-        </a>
-      </section>
-
-      <Footer />
-    </div>
+    <PageShell>
+      <PageHeader
+        narrow
+        eyebrow={vendor.category}
+        title={vendor.name}
+        meta={<span>ToolBox Partner Brand</span>}
+      />
+      <main className="pg-main pg-prose narrow">
+        <Link to="/vendors" className="pg-back"><IcoArrowLeft /> Back to directory</Link>
+        <p>{publicOffer(vendor)}</p>
+        <p className="pg-aside-note">Not listed yet but think you should be? <Link className="pg-inlinelink" to="/vendor">Partner with us</Link>.</p>
+      </main>
+      <CtaBand />
+    </PageShell>
   );
 }
 
@@ -1323,15 +1222,6 @@ function HowItWorksSection({ onDownload }) {
   );
 }
 
-const MOBILE_NAV_ITEMS = [
-  { label: "How it works", sub: "See the app step by step", href: "#about", icon: IcoSmartphone },
-  { label: "Vendors", sub: "Browse 50+ partner brands", href: "#vendors", icon: IcoTag },
-  { label: "Pricing", sub: "Plans from $4.99/mo", href: "#pricing", icon: IcoCreditCard },
-  { label: "FAQ", sub: "Got a question?", href: "#faq", icon: IcoInfo },
-  { label: "Blog", sub: "Tips & savings guides", page: "blog", icon: IcoBook },
-  { label: "Partner with us", sub: "List your brand", page: "vendor", icon: IcoBriefcase },
-];
-
 const SAVINGS_EXAMPLES = [
   { brand: "Anthem Workwear", example: "Work pants + shirt pack", save: "~$45", tag: "per order" },
   { brand: "Elite Supplements", example: "Monthly supplement order", save: "~$38", tag: "per month" },
@@ -1374,8 +1264,6 @@ const Tick = ({ color = "#0f1318" }) => (
 function LandingPage() {
   const navigate = useNavigate();
   const rootRef = useRef(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [showDL, setShowDL] = useState(false);
 
@@ -1389,29 +1277,12 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    // arriving from another page via /#section: the sections exist once this effect runs
+    const id = window.location.hash.slice(1);
+    if (id) document.getElementById(id)?.scrollIntoView({ behavior: "instant" });
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        // also reveal anything already scrolled past (anchor jumps, restored scroll)
-        if (!e.isIntersecting && e.boundingClientRect.top >= 0) return;
-        e.target.classList.add("in");
-        observer.unobserve(e.target);
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
-    rootRef.current?.querySelectorAll(".rv").forEach(el => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+  useReveal(rootRef);
 
   const logoBrands = VENDORS.filter(v => v.logo);
 
@@ -1419,59 +1290,7 @@ function LandingPage() {
     <div className="home" ref={rootRef}>
       {showDL && <DownloadModal onClose={() => setShowDL(false)} />}
 
-      {/* Nav */}
-      <nav className={`h-nav ${scrolled ? "is-scrolled" : ""}`} aria-label="Main">
-        <div className="h-nav__inner">
-          <div className="h-nav__left">
-            <img src={LOGO} alt="The ToolBox" className="h-logo" />
-            <div className="h-nav__links">
-              <a className="h-link" href="#about">How it works</a>
-              <a className="h-link" href="#vendors">Vendors</a>
-              <a className="h-link" href="#pricing">Pricing</a>
-              <a className="h-link" href="#faq">FAQ</a>
-              <button className="h-link" onClick={() => navigate("/blog")}>Blog</button>
-              <button className="h-link" onClick={() => navigate("/vendor")}>Partner with us</button>
-            </div>
-          </div>
-          <div className="h-nav__cta">
-            <button className="btn btn--yellow btn--app" onClick={() => setShowDL(true)}>Get the App</button>
-            <a className="btn btn--ghost btn--portal" href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer">Vendor Portal</a>
-            <button className="btn h-menu-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu"><IcoMenu /></button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Mobile sheet */}
-      <div className={`h-sheet ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen} inert={!menuOpen}>
-        <div className="h-sheet__bar">
-          <img src={LOGO} alt="The ToolBox" className="h-logo" />
-          <button className="btn h-menu-btn" style={{ display: "inline-flex" }} onClick={() => setMenuOpen(false)} aria-label="Close menu"><IcoX /></button>
-        </div>
-        <div className="h-sheet__body">
-          <p className="h-sheet__q">Where do you want to go?</p>
-          <div className="h-sheet__grid">
-            {MOBILE_NAV_ITEMS.map((item, i) => {
-              const ItemIcon = item.icon;
-              const inner = (
-                <>
-                  <div className="h-tile__ico"><ItemIcon /></div>
-                  <strong>{item.label}</strong>
-                  <span>{item.sub}</span>
-                </>
-              );
-              return item.page ? (
-                <button key={item.label} className="h-tile" style={{ "--i": i }} onClick={() => { setMenuOpen(false); navigate(`/${item.page}`); }}>{inner}</button>
-              ) : (
-                <a key={item.label} className="h-tile" style={{ "--i": i }} href={item.href} onClick={() => setMenuOpen(false)}>{inner}</a>
-              );
-            })}
-          </div>
-        </div>
-        <div className="h-sheet__foot">
-          <button className="btn btn--yellow" onClick={() => { setMenuOpen(false); setShowDL(true); }}>Get the App</button>
-          <a className="btn" href={VENDOR_PORTAL_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>Vendor Portal</a>
-        </div>
-      </div>
+      <SiteNav onGetApp={() => setShowDL(true)} />
 
       {/* Hero */}
       <header className="h-hero">
@@ -1684,7 +1503,6 @@ function LandingPage() {
         </div>
       </section>
 
-      <div className="h-hazard" aria-hidden="true" />
       <Footer />
     </div>
   );
