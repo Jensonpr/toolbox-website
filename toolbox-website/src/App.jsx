@@ -175,7 +175,7 @@ const BLOG_POSTS = [
       { type: "h2", text: "What ToolBox Members Get" },
       { type: "p", text: "As a ToolBox member, you get an exclusive discount at Elite Supplements  -  in-store and online. Whether you're picking up your usual protein tub or trying something new for recovery, the savings add up across the year. For members who buy supps regularly, this deal alone covers the membership cost multiple times over." },
       { type: "h2", text: "Find Them in the App" },
-      { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 60+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
+      { type: "p", text: "Once you're a member, Elite Supplements appears in your partner deals alongside 70+ other brands. Show your digital card in-store or use the member code online. No hassle, no printing vouchers." },
       { type: "link", text: "View Elite Supplements on The ToolBox", to: "/vendors/elite-supplements" },
     ],
   },
@@ -187,12 +187,12 @@ const BLOG_POSTS = [
     date: "July 25, 2026",
     readTime: "3 min read",
     author: "The ToolBox Team",
-    excerpt: "After months of building, testing, and signing up 60+ partner brands  -  The ToolBox is officially live on the App Store and Google Play. Here's what that means for Australian tradies.",
+    excerpt: "After months of building, testing, and signing up 70+ partner brands  -  The ToolBox is officially live on the App Store and Google Play. Here's what that means for Australian tradies.",
     content: [
       { type: "p", text: "It's here. The ToolBox  -  Australia's first discount membership app built specifically for tradies  -  is now available to download on the App Store and Google Play. For $4.99 a month, members get instant access to exclusive deals across workwear, supplements, fitness, grooming, food, tech, and more." },
       { type: "h2", text: "What We Built and Why" },
       { type: "p", text: "The idea behind The ToolBox is simple: tradies spend serious money on the gear, food, and lifestyle that keeps them going  -  but they never get the bulk buying power that corporate memberships or big brands take for granted. We fixed that." },
-      { type: "p", text: "We went out and negotiated directly with 60+ Australian brands to lock in real discounts  -  not token offers, but genuine savings on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
+      { type: "p", text: "We went out and negotiated directly with 70+ Australian brands to lock in real discounts  -  not token offers, but genuine savings on the stuff you're already buying. Then we packaged it all into an app that lives in your pocket and pays for itself the first time you use it." },
       { type: "h2", text: "200 Founding Members Before We Even Launched" },
       { type: "p", text: "One of the things that made this launch special: over 200 people joined the waitlist before we went live. That's 200 tradies who saw the value before a single deal was redeemable. Those are our Founding Members  -  they're locked in at $4.99/mo for life, no matter where pricing goes." },
       { type: "p", text: "Founding Member spots are still available for the first people who download and subscribe, but they're limited to the first 500 - check the app for real-time availability. Once those are gone, they're gone." },
@@ -281,14 +281,14 @@ const BLOG_POSTS = [
   {
     id: 8,
     slug: "30-vendor-partners-toolbox-network",
-    title: "60+ Brand Partnerships: How The ToolBox Built Australia's Best Tradie Deal Network",
+    title: "70+ Brand Partnerships: How The ToolBox Built Australia's Best Tradie Deal Network",
     category: "Vendor Spotlight",
     date: "June 25, 2026",
     readTime: "5 min read",
     author: "The ToolBox Team",
-    excerpt: "Getting 60+ brands on board before launch wasn't easy. Here's how The ToolBox built a deal network that actually works for tradies  -  and what it means for members.",
+    excerpt: "Getting 70+ brands on board before launch wasn't easy. Here's how The ToolBox built a deal network that actually works for tradies  -  and what it means for members.",
     content: [
-      { type: "p", text: "Building a discount network that tradies would actually use meant doing two things most apps don't bother with: finding brands tradies already love, and negotiating deals that are genuinely worth redeeming. Here's how we got to 60+ partners before we even launched." },
+      { type: "p", text: "Building a discount network that tradies would actually use meant doing two things most apps don't bother with: finding brands tradies already love, and negotiating deals that are genuinely worth redeeming. Here's how we got to 70+ partners before we even launched." },
       { type: "h2", text: "Why Vendor Partnerships Matter" },
       { type: "p", text: "A discount app is only as good as its partners. Generic 5%-off vouchers at brands nobody uses don't save anyone money. From the start, we focused on building relationships with brands that already had tradie audiences  -  and negotiating minimums that made the membership worth carrying." },
       { type: "p", text: "The result: real deals across categories that cover the full tradie lifestyle  -  not token offers, but savings members actually notice." },
@@ -352,7 +352,7 @@ function setJsonLd(id, data) {
 
 // ─── Site chrome (shared by every page) ───────────────────────────────────────
 const MOBILE_NAV_ITEMS = [
-  { label: "Vendors", sub: "Browse 60+ partner brands", href: "/#vendors", icon: IcoTag },
+  { label: "Vendors", sub: "Browse 70+ partner brands", href: "/#vendors", icon: IcoTag },
   { label: "How it works", sub: "See the app step by step", href: "/#about", icon: IcoSmartphone },
   { label: "Pricing", sub: "Plans from $4.99/mo", href: "/#pricing", icon: IcoCreditCard },
   { label: "FAQ", sub: "Got a question?", href: "/#faq", icon: IcoInfo },
@@ -1046,14 +1046,14 @@ function BlogPostPage() {
 function VendorsPage() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   useEffect(() => {
-    setPageMeta("Vendor Directory | The ToolBox", "Browse 60+ partner brands on The ToolBox across workwear, supplements, fitness, recovery, golf and more.", "/vendors");
+    setPageMeta("Vendor Directory | The ToolBox", "Browse 70+ partner brands on The ToolBox across workwear, supplements, fitness, recovery, golf and more.", "/vendors");
   }, []);
   return (
     <PageShell>
       <PageHeader
         eyebrow="Our network"
         title={<>Partnered <span className="h-mark">vendors.</span></>}
-        lede="60+ brands across tools, workwear, supplements, fitness and more, growing every week. Every one is manually vetted before it goes live in the app."
+        lede="70+ brands across tools, workwear, supplements, fitness and more, growing every week. Every one is manually vetted before it goes live in the app."
       />
       <main className="pg-main">
         <div className="pg-grid pg-grid--sm">
@@ -1118,7 +1118,7 @@ function VendorProfilePage() {
 
 // ─── Homepage (light, hi-vis) ─────────────────────────────────────────────────
 // Styles live in home.css; tokens in index.css.
-const FOUNDING_CLAIMED = 325, FOUNDING_TOTAL = 500;
+const FOUNDING_CLAIMED = 400, FOUNDING_TOTAL = 500;
 
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -1174,11 +1174,10 @@ function useMediaQuery(query) {
 }
 
 // Auto-scrolling strip. Items are repeated so the loop is seamless; copies are hidden from screen readers.
-// Anyone who has asked their OS for reduced motion gets it paused (and manually scrollable) with a play button.
+// Always starts moving, even where the OS reports reduced motion (Android does for "Remove animations" and battery saver); those users get a Pause button.
 function Marquee({ copies = 2, speed = 60, label, children }) {
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const [userPaused, setUserPaused] = useState(null);
-  const paused = userPaused ?? reduced;
+  const [paused, setPaused] = useState(false);
   const items = Children.toArray(children);
   return (
     <div className="h-marquee-wrap">
@@ -1189,7 +1188,7 @@ function Marquee({ copies = 2, speed = 60, label, children }) {
         </div>
       </div>
       {reduced && (
-        <button className="btn h-marquee__ctl" onClick={() => setUserPaused(!paused)} aria-pressed={!paused} aria-label={paused ? `Play ${label}` : `Pause ${label}`}>
+        <button className="btn h-marquee__ctl" onClick={() => setPaused(!paused)} aria-pressed={!paused} aria-label={paused ? `Play ${label}` : `Pause ${label}`}>
           {paused
             ? <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8z" /></svg>
             : <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z" /></svg>}
@@ -1201,7 +1200,7 @@ function Marquee({ copies = 2, speed = 60, label, children }) {
 }
 
 const HOW_STEPS = [
-  { num: "01", title: "Browse the App", desc: "Search 60+ partner brands by category - workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/how-1.webp" },
+  { num: "01", title: "Browse the App", desc: "Search 70+ partner brands by category - workwear, supplements, fitness, food, golf, and more. New vendors added every month.", img: "/app-screens/how-1.webp" },
   { num: "02", title: "Find a Deal Near You", desc: "Locate partner stores near you on the map, or grab your online member code for stores you can't visit in person.", img: "/app-screens/how-2.webp" },
   { num: "03", title: "Redeem Your Discount", desc: "Tap to reveal your promo code. Show staff before payment, or paste it at checkout online. Done - savings in your pocket.", img: "/app-screens/how-3.webp" },
   { num: "04", title: "Track Every Dollar Saved", desc: "The app totals up every deal you redeem so you can see exactly what your membership is worth. Most members are ahead within their first week.", img: "/app-screens/how-4.webp" },
@@ -1360,18 +1359,18 @@ const FOUNDING_PERKS = [
 
 const PLANS = [
   { name: "Monthly Pro", price: "$4.99", period: "/ mo", desc: "Founding 500 Rate · Cancel Anytime", highlight: false, badge: null,
-    feats: ["Discounts across 60+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"] },
+    feats: ["Discounts across 70+ tradie-relevant brands", "Instant digital membership card on your phone", "Saves you more than it costs in the first redemption"] },
   { name: "Annual Gold Saver", price: "$49.99", period: "/ yr", desc: "Founding 500 Rate · Save $10/yr", highlight: true, badge: "BEST VALUE",
     feats: ["Everything in Monthly, plus 2 months completely free", "Priority access to new vendors and drops", "Members-only giveaways and exclusive deals"] },
 ];
 
 const FAQS = [
-  { q: "What is The ToolBox?", a: "The ToolBox is a trade lifestyle membership app for Australia. For $4.99/mo, members get real discounts at 60+ partner brands across workwear, supplements, fitness, recovery, food and tech." },
+  { q: "What is The ToolBox?", a: "The ToolBox is a trade lifestyle membership app for Australia. For $4.99/mo, members get real discounts at 70+ partner brands across workwear, supplements, fitness, recovery, food and tech." },
   { q: "How does membership work?", a: "Download the app, pick Monthly Pro ($4.99/mo) or Annual Gold Saver ($49.99/yr), and your digital membership card unlocks every partner deal straight away. No lock-in contract on the monthly plan." },
   { q: "How do vendors join?", a: "Fill out the partner application on our vendor page and our team will be in touch. We manually vet every partner to make sure the discount is worth a member's time before it goes live in the app." },
   { q: "How do I use my discount?", a: "Once you're a member, simply open the app and show your digital membership card in-store at any of our partner vendors, or use the provided promo code for online orders." },
   { q: "Is there a lock-in contract?", a: "No way. Our Monthly Pro plan is cancel-anytime. Our Annual plan offers the best value but you're never forced to stay if you don't want to." },
-  { q: "Which brands are included?", a: "We have 60+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
+  { q: "Which brands are included?", a: "We have 70+ vendors and growing across tools, workwear, supplements, recovery and more. You can see the full list of our partners directly inside the app." },
   { q: "Can I use it anywhere in Australia?", a: "We're actively scoping out vendors across every state in Australia. If there's a business near you that should be on The ToolBox, let us know - we'd love to add them!" },
   { q: "How do I know the discounts are legit?", a: "Every vendor on The ToolBox is personally vetted and onboarded by us. We only partner with brands that offer genuine, meaningful savings - not token 5% deals. If it's not worth your time, it doesn't make the cut." },
 ];
@@ -1420,7 +1419,7 @@ function LandingPage() {
           <div>
             <h1 className="h-rise" style={{ "--i": 1 }}>Stop paying <span className="h-mark">full price.</span></h1>
             <p className="h-lede h-rise" style={{ "--i": 2 }}>
-              Australia's trade lifestyle membership app. Join for $4.99/mo and save at 60+ partner brands across workwear, supplements, fitness and more.
+              Australia's trade lifestyle membership app. Join for $4.99/mo and save at 70+ partner brands across workwear, supplements, fitness and more.
             </p>
             <div className="h-hero__ctas h-rise" style={{ "--i": 3 }}>
               <a className="btn btn--yellow btn--lg" href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><IcoApple size={22} /> Download on iOS</a>
@@ -1482,8 +1481,8 @@ function LandingPage() {
               <h2 className="h-h2">Partnered vendors.</h2>
             </div>
             <div className="h-brands__side">
-              <p className="h-p">60+ brands across tools, workwear, supplements, fitness &amp; more. Growing every week.</p>
-              <button className="h-more" onClick={() => navigate("/vendors")}>See all 60+ partners <IcoChevRight /></button>
+              <p className="h-p">70+ brands across tools, workwear, supplements, fitness &amp; more. Growing every week.</p>
+              <button className="h-more" onClick={() => navigate("/vendors")}>See all 70+ partners <IcoChevRight /></button>
             </div>
           </div>
         </div>
@@ -1522,7 +1521,7 @@ function LandingPage() {
               <p className="h-p">Every deal in The ToolBox is available every single time you open the app. No draws, no waiting, no luck required - just guaranteed discounts on the brands you already buy, ready whenever you are.</p>
             </div>
             <ul className="h-checks">
-              {["Discounts guaranteed, every single use", "No draws, no waiting, no luck", "Save from the very first redemption", "Pays for the annual fee in 2–3 uses", "60+ brands growing every month"].map(perk => (
+              {["Discounts guaranteed, every single use", "No draws, no waiting, no luck", "Save from the very first redemption", "Pays for the annual fee in 2–3 uses", "70+ brands growing every month"].map(perk => (
                 <li key={perk}><span className="h-tick"><Tick /></span>{perk}</li>
               ))}
             </ul>
